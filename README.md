@@ -4,12 +4,14 @@
 <h2>Installing</h2>
 <span style="font-weight: bold;">Python 3.8 or higher is required</span>
 Install from pip
+
 ```
 python -m pip install -U ciberedev.py
 ```
 Install from github
-```
-python -m pip install -U https://github.com/cibere/ciberedev.py
+
+```bash
+python -m pip install -U https://github.com/cibere/ciberedev.py # requires git to be installed
 ```
 
 <h2>Examples</h2>
