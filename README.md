@@ -12,7 +12,7 @@ python -m pip install -U ciberedev.py
 Install from github
 
 ```bash
-python -m pip install -U https://github.com/cibere/ciberedev.py # requires git to be installed
+python -m pip install -U git+https://github.com/cibere/ciberedev.py # requires git to be installed
 ```
 
 <h2>Examples</h2>
