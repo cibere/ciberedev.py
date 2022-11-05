@@ -26,6 +26,6 @@ async def main():
     embed = await client.create_paste("my_paste_text")
     print(embed.url)
 
-if **name** == "**main**":
+if __name__ == "__main__":
 asyncio.run(main())
 ```
