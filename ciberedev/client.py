@@ -1,19 +1,29 @@
 from typing import Optional
 from urllib.parse import urlencode
 
+import validators
 from aiohttp import ClientSession
 from typing_extensions import Self
 
 from .embeds import Embed, EmbedData, EmbedFields
-from .errors import UnknownEmbedField
+from .errors import (
+    InvalidAuthorizationGiven,
+    InvalidURL,
+    NoAuthorizationGiven,
+    UnableToConnect,
+    UnknownEmbedField,
+    UnknownError,
+)
 from .pasting import Paste
+from .screenshot import Screenshot
 
 
 class Client:
     _session: ClientSession
+    _token: str
 
-    def __init__(self):
-        pass
+    def __init__(self, *, token: Optional[str] = None):
+        self._token = token or ""
 
     async def __aenter__(self) -> Self:
         await self.start()
@@ -40,18 +50,61 @@ class Client:
 
         await self._session.close()
 
+    async def take_screenshot(
+        self, url: str, /, *, delay: Optional[int] = 0
+    ) -> Screenshot:
+        """Takes a screenshot of the given url
+
+        :url: the url you want a screenshot of
+        :delay: the delay between opening the link and taking the actual picture
+        """
+
+        if not self._token:
+            raise NoAuthorizationGiven()
+
+        url = url.removeprefix("<").removesuffix(">")
+
+        if not url.startswith("http"):
+            url = f"http://{url}"
+
+        if not validators.url(url):  # type: ignore
+            raise InvalidURL(url)
+
+        raw_data = {"url": url, "delay": delay, "mode": "short"}
+        data = urlencode(raw_data)
+        headers = {"token": self._token}
+        res = await self._session.post(
+            f"https://api.cibere.dev/screenshot?{data}",
+            headers=headers,
+            verify_ssl=False,
+        )
+        data = await res.json()
+
+        if data["status_code"] == 200:
+            screenshot = Screenshot(data=data)
+            return screenshot
+        else:
+            if data["error"] == "I was unable to connect to the website.":
+                raise UnableToConnect(url)
+            elif data["error"] == "Invalid URL Given":
+                raise InvalidURL(url)
+            elif data["error"] == "Invalid Authorization":
+                raise InvalidAuthorizationGiven()
+            else:
+                raise UnknownError(data["error"])
+
     async def create_embed(self, data: EmbedData) -> Embed:
         """Creates an embed
 
         :data: the embeds data
         """
-
-        if ("thumbnail" in data.keys()) and ("image" in data.keys()):
+        data_keys = data.keys()
+        if ("thumbnail" in data_keys) and ("image" in data_keys):
             raise TypeError("Thumbnail and Image Fields given")
 
         params = {}
 
-        for param in data.keys():
+        for param in data_keys:
             if param == "description":
                 params["desc"] = data[param]  # type: ignore
 
