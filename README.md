@@ -1,6 +1,12 @@
 <h1>ciberedev.py</h1>
 <p>Python Wrapper for <a href="https://www.cibere.dev">cibere.dev</a></p>
 
+<h2>Key Features</h2>
+Support for the following endpoints
+- screenshot
+- create paste
+- create embed
+
 <h2>Installing</h2>
 <span style="font-weight: bold;">Python 3.8 or higher is required</span>
 Install from pip
