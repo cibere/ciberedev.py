@@ -8,6 +8,7 @@ Install from pip
 ```
 python -m pip install -U ciberedev.py
 ```
+
 Install from github
 
 ```bash
@@ -25,9 +26,11 @@ client = ciberedev.Client()
 
 async def main():
   async with client:
-    embed = await client.create_paste("my_paste_text")
-    print(embed.url)
+    paste = await client.create_paste("my_paste_text")
+    print(paste.url)
 
 if __name__ == "__main__":
   asyncio.run(main())
 ```
+
+See <a href="https://github.com/cibere/ciberedev.py/tree/main/examples">the examples folder</a> for a full list of examples
