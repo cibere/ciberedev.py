@@ -17,15 +17,14 @@ Create Paste Example
 
 ```py
 import asyncio
-
 import ciberedev
 
 client = ciberedev.Client()
 
 async def main():
-async with client:
-embed = await client.create_paste("my_paste_text")
-print(embed.url)
+  async with client:
+    embed = await client.create_paste("my_paste_text")
+    print(embed.url)
 
 if **name** == "**main**":
 asyncio.run(main())
