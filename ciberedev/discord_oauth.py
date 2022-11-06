@@ -1,3 +1,5 @@
+from typing import Union
+
 from aiohttp import ClientSession
 
 from .authorization import Authorization
@@ -30,16 +32,69 @@ class PartialGuild:
         self.permissions: int = raw_data["permissions"]
         self.features: list[str] = raw_data["features"]
 
+    def __str__(self):
+        return self.name
+
+
+class Email:
+    def __init__(self, *, verified: bool, email: str):
+        self.verified: bool = verified
+        self.email: str = email
+
+    def __str__(self):
+        return self.email
+
+
+class Flags:
+    def __init__(self, *, flag_value: int):
+        pass
+
+
+class Token:
+    def __init__(self, *, raw_data: dict):
+        self.token: str = raw_data["access_token"]
+        self.refresh_token: str = raw_data["refresh_token"]
+        self.expires: int = raw_data["expires_in"]
+        self.scopes: list[str] = raw_data["scope"].split(" ")
+
+    def __str__(self):
+        return self.token
+
 
 class PartialUser:
     def __init__(self, *, raw_data: dict):
         self.id: int = int(raw_data["id"])
         self.name: str = raw_data["username"]
         self.discriminator: int = int(raw_data["discriminator"])
+        self.locale: Union[str, None] = raw_data.get("locale")
 
         self.bot: bool = bool(raw_data.get("bot", False))
         self.system: bool = bool(raw_data.get("system", False))
         self.mfa_enabled: bool = bool(raw_data.get("mfa_enabled", False))
+
+        self._banner_id: str = raw_data.get("banner", None)
+        self._accent_color: Union[int, None] = raw_data.get("accent_color")
+        self._email_verified: Union[bool, None] = raw_data.get("verified")
+        self._email: Union[str, None] = raw_data.get("email")
+        if self._email:
+            self.email = Email(verified=self._email_verified, email=self.email)  # type: ignore
+        else:
+            self.email = None
+
+        self._flags: Union[int, None] = raw_data.get("flags")
+        self._premium_type: Union[int, None] = raw_data.get("premium_type")
+        self._public_flags: Union[int, None] = raw_data.get("public_flags")
+
+    @property
+    def banner_url(self):
+        return f"https://cdn.discordapp.com/avatars/{self.id}/{self._banner_id}.png"
+
+    @property
+    def accent_color(self):
+        if self._accent_color:
+            return int(self._accent_color)
+        else:
+            return None
 
     @property
     def username(self):
@@ -57,10 +112,10 @@ class DiscordOauth:
         self._session = session
         self._authorization = auth
 
-    async def refresh_token(self, token: str) -> str:
+    async def refresh_token(self, refresh_token: str) -> Token:
         """refreshes an oauth2 token
 
-        :token: the old token
+        :refresh_token: the refresh_token for the old token
         """
         if not self._authorization.discord_oauth.was_given:  # type: ignore
             raise NoAuthorizationGiven()
@@ -69,7 +124,7 @@ class DiscordOauth:
             "client_id": str(self._authorization.discord_oauth.client_id),  # type: ignore
             "client_secret": self._authorization.discord_oauth.client_secret,  # type: ignore
             "grant_type": "refresh_token",
-            "refresh_token": token,
+            "refresh_token": refresh_token,
             "redirect_uri": self._authorization.discord_oauth.redirect_url,  # type: ignore
         }
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
@@ -78,15 +133,15 @@ class DiscordOauth:
             self._authorization.discord_oauth.api_endpoint + "/oauth2/token", data=data, headers=headers  # type: ignore
         )
         try:
-            token = await res.json()
-            print(f"PAYLOAD RECIEVED: {token}")
-            token = token["access_token"]  # type: ignore
+            raw_data = await res.json()
+            token = raw_data["access_token"]  # type: ignore
         except KeyError:
-            raise InvalidTokenGiven(token)
+            raise InvalidTokenGiven(refresh_token)
 
+        token = Token(raw_data=raw_data)
         return token
 
-    async def exchange_code(self, code: str) -> str:
+    async def exchange_code(self, code: str) -> Token:
         """Exchanges an oauth2 code for a token
 
         :code: the code you got from oauth2
@@ -107,12 +162,12 @@ class DiscordOauth:
             self._authorization.discord_oauth.api_endpoint + "/oauth2/token", data=data, headers=headers  # type: ignore
         )
         try:
-            token = await res.json()
-            print(f"PAYLOAD RECIEVED: {token}")
-            token = token["access_token"]
+            raw_data = await res.json()
+            token = raw_data["access_token"]
         except KeyError:
             raise InvalidCodeGiven(code)
 
+        token = Token(raw_data=raw_data)
         return token
 
     async def get_user_connections(self, token: str) -> list[Connections]:
@@ -125,7 +180,6 @@ class DiscordOauth:
             headers={"Authorization": f"Bearer {token}"},
         )
         data = await res.json()
-        print(f"PAYLOAD RECIEVED: {data}")
         cons = []
         for con in data:
             cons.append(Connections(raw_data=con))
@@ -141,7 +195,6 @@ class DiscordOauth:
             headers={"Authorization": f"Bearer {token}"},
         )
         data = await res.json()
-        print(f"PAYLOAD RECIEVED: {data}")
         guilds = []
         for guild in data:
             guilds.append(PartialGuild(raw_data=guild))
