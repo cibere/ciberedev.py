@@ -64,3 +64,19 @@ class UnknownMimeType(FileUpoadError):
             f"I could not find the mimetype for the file extention: '{ext}' please provide your own."
         )
         self.ext = ext
+
+
+class DiscordOauthError(BaseError):
+    pass
+
+
+class InvalidCodeGiven(DiscordOauthError):
+    def __init__(self, code: str):
+        self.code = code
+        super().__init__(f"Invalid Code Given: '{self.code}'")
+
+
+class InvalidTokenGiven(DiscordOauthError):
+    def __init__(self, token: str):
+        self.token = token
+        super().__init__(f"Invalid Token Given: '{self.token}'")
