@@ -12,6 +12,7 @@ Support for the following endpoints<br>
 - create paste<br>
 - create embed<br>
 - upload file<br>
+- discord oauth<br>
 
 <h2>Installing</h2>
 <span style="font-weight: bold;">Python 3.8 or higher is required</span>
