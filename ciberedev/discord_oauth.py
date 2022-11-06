@@ -45,11 +45,6 @@ class Email:
         return self.email
 
 
-class Flags:
-    def __init__(self, *, flag_value: int):
-        pass
-
-
 class Token:
     def __init__(self, *, raw_data: dict):
         self.token: str = raw_data["access_token"]
