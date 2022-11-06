@@ -1,5 +1,10 @@
-<h1>ciberedev.py</h1>
-<p>Python Wrapper for <a href="https://www.cibere.dev">cibere.dev</a></p>
+<h1 align="center">ciberedev.py</h1>
+<p align="center">
+<img src="https://discord.com/api/guilds/986344051110473769/embed.png" target="https://discord.gg/pP4mKKbRvk" alt="discord">
+<img src="https://img.shields.io/pypi/v/ciberedev.py.svg" target="https://pypi.org/project/ciberedev.py/" alt="pypi">
+<img src="https://img.shields.io/github/license/cibere/ciberedev.py" target="https://github.com/cibere/ciberedev.py/blob/main/LICENSE" alt="license">
+</p>
+<p align="center">Python Wrapper for <a href="https://www.cibere.dev">cibere.dev</a></p>
 
 <h2>Key Features</h2>
 Support for the following endpoints<br>
