@@ -73,6 +73,7 @@ class PartialUser:
         self.mfa_enabled: bool = bool(raw_data.get("mfa_enabled", False))
 
         self._banner_id: str = raw_data.get("banner", None)
+        self._avatar_id: str = raw_data.get("avatar", None)
         self._accent_color: Union[int, None] = raw_data.get("accent_color")
         self._email_verified: Union[bool, None] = raw_data.get("verified")
         self._email: Union[str, None] = raw_data.get("email")
@@ -87,7 +88,7 @@ class PartialUser:
 
     @property
     def banner_url(self):
-        return f"https://cdn.discordapp.com/avatars/{self.id}/{self._banner_id}.png"
+        return f"https://cdn.discordapp.com/banners/{self.id}/{self._banner_id}.png"
 
     @property
     def accent_color(self):
@@ -95,6 +96,10 @@ class PartialUser:
             return int(self._accent_color)
         else:
             return None
+
+    @property
+    def avatar_url(self):
+        return f"https://cdn.discordapp.com/avatars/{self.id}/{self._avatar_id}.png"
 
     @property
     def username(self):
