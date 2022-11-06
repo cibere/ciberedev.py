@@ -60,6 +60,10 @@ class Client:
     async def upload_file(
         self, file_path: str, *, mimetype: Optional[str] = None
     ) -> File:
+        """Lets you upload a file to the cloud
+
+        :file_path: the path of the file you want to upload
+        :mimetype: the mimetype of the file"""
         if not self._authorization.file.token:  # type: ignore
             raise NoAuthorizationGiven()
 
