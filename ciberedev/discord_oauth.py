@@ -83,8 +83,15 @@ class PartialUser:
             self.email = None
 
         self._flags: Union[int, None] = raw_data.get("flags")
-        self._premium_type: Union[int, None] = raw_data.get("premium_type")
+        self._premium_type: int = raw_data.get("premium_type", 0)
         self._public_flags: Union[int, None] = raw_data.get("public_flags")
+
+        self.nitro_type = self.premium_type
+
+    @property
+    def premium_type(self):
+        x = {0: None, 1: "Classic", 2: "Regular", 3: "Basic"}
+        return x[self._premium_type]
 
     @property
     def banner_url(self):
