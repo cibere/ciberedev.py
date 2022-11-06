@@ -9,7 +9,6 @@ from aiohttp import ClientSession
 from typing_extensions import Self
 
 from .authorization import Authorization
-from .discord_oauth import DiscordOauth
 from .embeds import Embed, EmbedData, EmbedFields
 from .errors import (
     InvalidAuthorizationGiven,
@@ -29,7 +28,6 @@ from .upload_file import MIMETYPES, File
 class Client:
     _session: ClientSession
     _authorization: Authorization
-    discord_oauth: DiscordOauth
 
     def __init__(self, *, authorization: Optional[Authorization] = None):
         """Lets you create a client instance
@@ -54,9 +52,6 @@ class Client:
         """
 
         self._session = session or ClientSession()
-        self.discord_oauth = DiscordOauth(
-            auth=self._authorization, session=self._session
-        )
 
     async def close(self) -> None:
         """Closes the client
