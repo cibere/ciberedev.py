@@ -1,8 +1,8 @@
 <h1 align="center">ciberedev.py</h1>
 <p align="center">
-<img src="https://discord.com/api/guilds/986344051110473769/embed.png" target="https://discord.gg/pP4mKKbRvk" alt="discord">
-<img src="https://img.shields.io/pypi/v/ciberedev.py.svg" target="https://pypi.org/project/ciberedev.py/" alt="pypi">
-<img src="https://img.shields.io/github/license/cibere/ciberedev.py" target="https://github.com/cibere/ciberedev.py/blob/main/LICENSE" alt="license">
+<a href="https://discord.gg/pP4mKKbRvk"><img src="https://discord.com/api/guilds/986344051110473769/embed.png" alt="discord"></a>
+<a href="https://pypi.org/project/ciberedev.py"><img src="https://img.shields.io/pypi/v/ciberedev.py.svg" alt="pypi"></a>
+<a href="https://github.com/cibere/ciberedev.py/blob/main/LICENSE"><img src="https://img.shields.io/github/license/cibere/ciberedev.py" alt="license"></a>
 </p>
 <p align="center">Python Wrapper for <a href="https://www.cibere.dev">cibere.dev</a></p>
 
