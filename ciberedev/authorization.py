@@ -28,7 +28,7 @@ class DiscordOauthAuthorization:
 
     @property
     def was_given(self) -> bool:
-        return (
+        return not (
             self.client_id is None
             and self.client_secret is None
             and self.redirect_url is None
