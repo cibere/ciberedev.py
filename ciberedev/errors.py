@@ -46,3 +46,21 @@ class UnableToConnect(ScreenshotError):
     def __init__(self, url: str):
         self.url = url
         super().__init__(f"Unable to Connect to '{self.url}'")
+
+
+class FileUpoadError(BaseError):
+    pass
+
+
+class InvalidFilePath(FileUpoadError):
+    def __init__(self, path: str):
+        self.path = path
+        super().__init__(f"Invalid File Path Given: '{path}'")
+
+
+class UnknownMimeType(FileUpoadError):
+    def __init__(self, ext: str):
+        super().__init__(
+            f"I could not find the mimetype for the file extention: '{ext}' please provide your own."
+        )
+        self.ext = ext

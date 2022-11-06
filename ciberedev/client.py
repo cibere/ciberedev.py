@@ -1,29 +1,36 @@
+import io
+import os
 from typing import Optional
 from urllib.parse import urlencode
 
+import aiofiles
 import validators
 from aiohttp import ClientSession
 from typing_extensions import Self
 
+from .authorization import Authorization
 from .embeds import Embed, EmbedData, EmbedFields
 from .errors import (
     InvalidAuthorizationGiven,
+    InvalidFilePath,
     InvalidURL,
     NoAuthorizationGiven,
     UnableToConnect,
     UnknownEmbedField,
     UnknownError,
+    UnknownMimeType,
 )
 from .pasting import Paste
 from .screenshot import Screenshot
+from .upload_file import MIMETYPES, File
 
 
 class Client:
     _session: ClientSession
-    _token: str
+    _authorization: Authorization
 
-    def __init__(self, *, token: Optional[str] = None):
-        self._token = token or ""
+    def __init__(self, *, authorization: Optional[Authorization] = None):
+        self._authorization = authorization or Authorization()
 
     async def __aenter__(self) -> Self:
         await self.start()
@@ -50,6 +57,45 @@ class Client:
 
         await self._session.close()
 
+    async def upload_file(
+        self, file_path: str, *, mimetype: Optional[str] = None
+    ) -> File:
+        if not self._authorization.file.token:  # type: ignore
+            raise NoAuthorizationGiven()
+
+        if not os.path.exists(file_path):
+            raise InvalidFilePath(file_path)
+        elif not mimetype:
+            ext = file_path.split(".")[-1]
+            mimetype = MIMETYPES.get(ext)
+            if mimetype is None:
+                raise UnknownMimeType(ext)
+        async with aiofiles.open(file_path, "rb") as f:
+            red = await f.read()
+
+        buffer = io.BytesIO(red)
+        res = await self._session.post(
+            "https://i.cibere.dev/upload",
+            data={"data": buffer},
+            headers={
+                "token": self._authorization.file.token,  # type: ignore
+                "username": self._authorization.file.username,  # type: ignore
+                "mime": mimetype,
+            },
+        )
+        raw_data = await res.json()
+        if raw_data["status_code"] == 200:
+            file = File(data=raw_data)
+            return file
+        else:
+            if raw_data["error"] in (
+                "Invalid 'username' given",
+                "Invalid 'token' given",
+            ):
+                raise InvalidAuthorizationGiven()
+            else:
+                raise UnknownError(raw_data["message"])
+
     async def take_screenshot(
         self, url: str, /, *, delay: Optional[int] = 0
     ) -> Screenshot:
@@ -59,7 +105,7 @@ class Client:
         :delay: the delay between opening the link and taking the actual picture
         """
 
-        if not self._token:
+        if not self._authorization.screenshot.token:  # type: ignore
             raise NoAuthorizationGiven()
 
         url = url.removeprefix("<").removesuffix(">")
@@ -72,7 +118,7 @@ class Client:
 
         raw_data = {"url": url, "delay": delay, "mode": "short"}
         data = urlencode(raw_data)
-        headers = {"token": self._token}
+        headers = {"token": self._authorization.screenshot.token}  # type: ignore
         res = await self._session.post(
             f"https://api.cibere.dev/screenshot?{data}",
             headers=headers,
