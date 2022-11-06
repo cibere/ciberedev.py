@@ -1,9 +1,16 @@
 import asyncio
 
 import ciberedev
+from ciberedev.authorization import Authorization, ScreenshotAuthorization
 
-# creating our client instance, and passing a token
-client = ciberedev.Client(token="...")
+# creating an authorization object
+auth = Authorization(
+    # adding our screenshot authorization
+    screenshot=ScreenshotAuthorization(token="...")
+)
+
+# creating our client instance, and passing our authorization
+client = ciberedev.Client(authorization=auth)
 
 
 async def main():
