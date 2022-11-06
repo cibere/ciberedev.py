@@ -24,7 +24,9 @@ async def main():
         token = await client.discord_oauth.exchange_code("...")
 
         # getting the users connections
-        guilds = await client.discord_oauth.get_user_guilds(token)
+        guilds = await client.discord_oauth.get_user_guilds(
+            token.token
+        )  # 'token' is a ciberedev.discord_oauth.Token object
 
         # printing the first guilds name
         print(guilds[0].name)

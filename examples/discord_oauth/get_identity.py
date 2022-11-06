@@ -24,7 +24,9 @@ async def main():
         token = await client.discord_oauth.exchange_code("...")
 
         # getting the users info
-        user = await client.discord_oauth.get_user_info(token)
+        user = await client.discord_oauth.get_user_info(
+            token.token
+        )  # 'token' is a ciberedev.discord_oauth.Token object
 
         # printing the users nmae
         print(user.name)
