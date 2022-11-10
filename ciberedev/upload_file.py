@@ -20,5 +20,5 @@ MIMETYPES = {
 
 class File:
     def __init__(self, *, data: RawFileUploadData):
-        self.url = data.get("link")
+        self.url = data.get("url")
         self.code = data.get("file_id")
