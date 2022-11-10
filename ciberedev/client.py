@@ -87,7 +87,6 @@ class Client:
             data={"data": buffer},
             headers={
                 "token": self._authorization.file.token,  # type: ignore
-                "username": self._authorization.file.username,  # type: ignore
                 "mime": mimetype,
             },
         )
@@ -96,10 +95,7 @@ class Client:
             file = File(data=raw_data)
             return file
         else:
-            if raw_data["error"] in (
-                "Invalid 'username' given",
-                "Invalid 'token' given",
-            ):
+            if raw_data["error"] == "Invalid 'token' given":
                 raise InvalidAuthorizationGiven()
             else:
                 raise UnknownError(raw_data["message"])

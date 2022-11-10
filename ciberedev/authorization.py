@@ -2,8 +2,7 @@ from typing import Optional
 
 
 class FileUploaderAuthorization:
-    def __init__(self, *, username: Optional[str] = None, token: Optional[str] = None):
-        self.username = username
+    def __init__(self, *, token: Optional[str] = None):
         self.token = token
 
 
