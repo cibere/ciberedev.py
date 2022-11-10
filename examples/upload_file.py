@@ -6,7 +6,7 @@ from ciberedev.authorization import Authorization, FileUploaderAuthorization
 # creating an authorization object
 auth = Authorization(
     # adding our file uploader authorization
-    file_uploader=FileUploaderAuthorization(username="...", token="...")
+    file_uploader=FileUploaderAuthorization(token="...")
 )
 
 # creating our client instance, and passing our authorization
