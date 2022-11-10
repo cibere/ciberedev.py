@@ -3,7 +3,6 @@ import os
 from typing import Optional
 from urllib.parse import urlencode
 
-import aiofiles
 import validators
 from aiohttp import ClientSession
 from typing_extensions import Self
@@ -23,6 +22,7 @@ from .errors import (
 from .pasting import Paste
 from .screenshot import Screenshot
 from .upload_file import MIMETYPES, File
+from .utils import read_file
 
 
 class Client:
@@ -78,10 +78,9 @@ class Client:
             mimetype = MIMETYPES.get(ext)
             if mimetype is None:
                 raise UnknownMimeType(ext)
-        async with aiofiles.open(file_path, "rb") as f:
-            red = await f.read()
+        red = await read_file(file_path, "rb")
 
-        buffer = io.BytesIO(red)
+        buffer = io.BytesIO(red)  # type: ignore
         res = await self._session.post(
             "https://i.cibere.dev/upload",
             data={"data": buffer},
