@@ -23,6 +23,7 @@ from .errors import (
 )
 from .pasting import Paste
 from .screenshot import Screenshot
+from .searching import SearchResult
 from .upload_file import MIMETYPES, File
 from .utils import read_file
 
@@ -173,7 +174,7 @@ class Client:
                 params[param] = data[param]
         params = urlencode(params)
         request = await self._session.post(
-            f"https://www.cibere.dev/embed/upload?{params}", verify_ssl=False
+            f"https://www.cibere.dev/embed/upload?{params}", ssl=False
         )
         json = await request.json()
         embed = Embed(data=json)
@@ -194,8 +195,32 @@ class Client:
         data = {"text": text}
 
         request = await self._session.post(
-            "https://paste.cibere.dev/upload", data=data, verify_ssl=False
+            "https://paste.cibere.dev/upload", data=data, ssl=False
         )
         json = await request.json()
         paste = Paste(data=json)
         return paste
+
+    async def search(self, query: str, amount: int = 5) -> list[SearchResult]:
+        """Searches the web with the given query
+
+        :query: what you want to search
+        :amount: the amount of results you want
+
+        :returns: [ciberedev.searching.SearchResult, ...]
+        """
+
+        if not self._started:
+            raise ClientNotStarted()
+
+        data = {"query": query, "amount": amount}
+
+        request = await self._session.get(
+            f"https://api.cibere.dev/search?{urlencode(data)}", ssl=False
+        )
+        json = await request.json()
+        results = []
+        for result in json["results"]:
+            search_result = SearchResult(data=result)
+            results.append(search_result)
+        return results
