@@ -18,7 +18,7 @@ setuptools.setup(
         "Issue tracker": "https://github.com/cibere/ciberedev.py/issues",
         "Discord/Support Server": "https://discord.gg/2MRrJvP42N",
     },
-    version=ciberedev._get_version(),
+    version=ciberedev.__version__,
     python_requires=">=3.8",
     install_requires=REQUIREMENTS,
     packages=["ciberedev"],
