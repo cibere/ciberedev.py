@@ -1,3 +1,4 @@
+import asyncio
 import io
 import os
 from typing import Optional
@@ -10,6 +11,7 @@ from typing_extensions import Self
 from .authorization import Authorization
 from .embeds import Embed, EmbedData, EmbedFields
 from .errors import (
+    ClientNotStarted,
     InvalidAuthorizationGiven,
     InvalidFilePath,
     InvalidURL,
@@ -35,6 +37,7 @@ class Client:
         :authorization: an authorization object
         """
         self._authorization = authorization or Authorization()
+        self._started = False
 
     async def __aenter__(self) -> Self:
         await self.start()
@@ -45,19 +48,14 @@ class Client:
     ) -> None:
         await self.close()
 
-    async def start(self, session: Optional[ClientSession] = None) -> None:
-        """Starts the client
+    async def start(self) -> None:
+        """Starts the client"""
 
-        :session: if you already have an aiohttp session that you would like to be used, you can pass it here
-        """
-
-        self._session = session or ClientSession()
+        self._session = ClientSession()
+        self._started = True
 
     async def close(self) -> None:
-        """Closes the client
-
-        IF YOU PROVIDED A SESSION, THIS WILL CLOSE IT
-        """
+        """Closes the client"""
 
         await self._session.close()
 
@@ -67,8 +65,14 @@ class Client:
         """Lets you upload a file to the cloud
 
         :file_path: the path of the file you want to upload
-        :mimetype: the mimetype of the file"""
-        if not self._authorization.file.token:  # type: ignore
+        :mimetype: the mimetype of the file
+
+        :returns: ciberedev.upload_file.File
+        """
+
+        if not self._started:
+            raise ClientNotStarted()
+        elif not self._authorization.file.token:
             raise NoAuthorizationGiven()
 
         if not os.path.exists(file_path):
@@ -85,7 +89,7 @@ class Client:
             "https://i.cibere.dev/upload",
             data={"data": buffer},
             headers={
-                "token": self._authorization.file.token,  # type: ignore
+                "token": self._authorization.file.token,
                 "mime": mimetype,
             },
         )
@@ -106,10 +110,12 @@ class Client:
 
         :url: the url you want a screenshot of
         :delay: the delay between opening the link and taking the actual picture
+
+        :returns: ciberedev.screenshot.Screenshot
         """
 
-        if not self._authorization.screenshot.token:  # type: ignore
-            raise NoAuthorizationGiven()
+        if not self._started:
+            raise ClientNotStarted()
 
         url = url.removeprefix("<").removesuffix(">")
 
@@ -121,11 +127,9 @@ class Client:
 
         raw_data = {"url": url, "delay": delay, "mode": "short"}
         data = urlencode(raw_data)
-        headers = {"token": self._authorization.screenshot.token}  # type: ignore
         res = await self._session.post(
             f"https://api.cibere.dev/screenshot?{data}",
-            headers=headers,
-            verify_ssl=False,
+            ssl=False,
         )
         data = await res.json()
 
@@ -146,7 +150,12 @@ class Client:
         """Creates an embed
 
         :data: the embeds data
+
+        :returns: ciberedev.embeds.Embed
         """
+        if not self._started:
+            raise ClientNotStarted()
+
         data_keys = data.keys()
         if ("thumbnail" in data_keys) and ("image" in data_keys):
             raise TypeError("Thumbnail and Image Fields given")
@@ -175,7 +184,12 @@ class Client:
 
         :text: the text you want sent to the paste
         :session: if you already have an aiohttp session that you would like to be used, you can pass it here
+
+        :returns: ciberedev.pasting.Paste
         """
+
+        if not self._started:
+            raise ClientNotStarted()
 
         data = {"text": text}
 
