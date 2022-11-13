@@ -32,17 +32,26 @@ Create Paste Example
 
 ```py
 import asyncio
+
 import ciberedev
 
+# creating our client instance
 client = ciberedev.Client()
 
-async def main():
-  async with client:
-    paste = await client.create_paste("my_paste_text")
-    print(paste.url)
 
+async def main():
+    # starting our client with a context manager
+    async with client:
+        # creating our pasge
+        paste = await client.create_paste("my_paste_text")
+        # printing the pastes url
+        print(paste.url)
+
+
+# checking if this file is the one that was run
 if __name__ == "__main__":
-  asyncio.run(main())
+    # if so, run the main function
+    asyncio.run(main())
 ```
 
 See <a href="https://github.com/cibere/ciberedev.py/tree/main/examples">the examples folder</a> for a full list of examples
