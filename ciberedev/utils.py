@@ -3,7 +3,13 @@ from functools import partial
 
 
 async def read_file(filename: str, mode: str) -> str:
-    """Reads the given file"""
+    """Reads the given file
+
+    :filename: the filepath
+    :mode: the mode you want to open it in
+
+    :returns: the bytes/text/whatever file.read returns
+    """
 
     def sync_func(fn: str, mode: str):
         with open(fn, mode=mode) as f:
