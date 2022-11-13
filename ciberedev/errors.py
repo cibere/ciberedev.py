@@ -2,6 +2,13 @@ class BaseError(Exception):
     pass
 
 
+class ClientNotStarted(BaseError):
+    def __init__(self):
+        super().__init__(
+            "Client has not been started. You can start it with 'client.run' or 'client.start'"
+        )
+
+
 class UnknownError(BaseError):
     def __init__(self, error: str):
         self.error = error
