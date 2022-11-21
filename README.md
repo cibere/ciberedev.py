@@ -13,7 +13,7 @@ Support for the following endpoints<br>
 - create embed<br>
 - upload file<br>
 - search the internet<br>
-- on_password_change, on_token_reset, on_file_upload, and on_embed_update through `ciberedev.stream_client.StreamClient`
+- on_password_change, on_token_reset, on_file_upload, and on_embed_update through 'ciberedev.stream_client.StreamClient'
 
 <h2>Installing</h2>
 <span style="font-weight: bold;">Python 3.8 or higher is required</span>
