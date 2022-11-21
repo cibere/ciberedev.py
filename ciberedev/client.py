@@ -39,25 +39,16 @@ class Client:
         """
 
         self._authorization = authorization or Authorization()
-        self._started = False
+        self._session = ClientSession()
+        self._started = True
 
     async def __aenter__(self) -> Self:
-        await self.start()
         return self
 
     async def __aexit__(
         self, exception_type, exception_value, exception_traceback
     ) -> None:
         await self.close()
-
-    async def start(self) -> None:
-        """Starts the client"""
-
-        if self._started:
-            raise ClientAlreadyStarted()
-
-        self._session = ClientSession()
-        self._started = True
 
     async def close(self) -> None:
         """Closes the client"""
@@ -78,9 +69,7 @@ class Client:
         :returns: ciberedev.upload_file.File
         """
 
-        if not self._started:
-            raise ClientNotStarted()
-        elif not self._authorization.file.token:
+        if not self._authorization.file.token:
             raise NoAuthorizationGiven()
 
         if not os.path.exists(file_path):
@@ -122,9 +111,6 @@ class Client:
         :returns: ciberedev.screenshot.Screenshot
         """
 
-        if not self._started:
-            raise ClientNotStarted()
-
         url = url.removeprefix("<").removesuffix(">")
 
         if not url.startswith("http"):
@@ -162,9 +148,6 @@ class Client:
         :returns: ciberedev.embeds.Embed
         """
 
-        if not self._started:
-            raise ClientNotStarted()
-
         data_keys = data.keys()
         if ("thumbnail" in data_keys) and ("image" in data_keys):
             raise TypeError("Thumbnail and Image Fields given")
@@ -197,9 +180,6 @@ class Client:
         :returns: ciberedev.pasting.Paste
         """
 
-        if not self._started:
-            raise ClientNotStarted()
-
         data = {"text": text}
 
         request = await self._session.post(
@@ -217,9 +197,6 @@ class Client:
 
         :returns: [ciberedev.searching.SearchResult, ...]
         """
-
-        if not self._started:
-            raise ClientNotStarted()
 
         data = {"query": query, "amount": amount}
 
