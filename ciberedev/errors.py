@@ -9,6 +9,11 @@ class ClientNotStarted(BaseError):
         )
 
 
+class ClientAlreadyStarted(BaseError):
+    def __init__(self):
+        super().__init__("Client has already been started")
+
+
 class UnknownError(BaseError):
     def __init__(self, error: str):
         self.error = error
