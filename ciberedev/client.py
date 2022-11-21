@@ -10,6 +10,7 @@ from typing_extensions import Self
 from .authorization import Authorization
 from .embeds import Embed, EmbedData, EmbedFields
 from .errors import (
+    ClientAlreadyStarted,
     ClientNotStarted,
     InvalidAuthorizationGiven,
     InvalidFilePath,
@@ -36,7 +37,7 @@ class Client:
 
         :authorization: an authorization object
         """
-        
+
         self._authorization = authorization or Authorization()
         self._started = False
 
@@ -50,15 +51,19 @@ class Client:
         await self.close()
 
     async def start(self) -> None:
-        """Starts the client
-        """
+        """Starts the client"""
+
+        if self._started:
+            raise ClientAlreadyStarted()
 
         self._session = ClientSession()
         self._started = True
 
     async def close(self) -> None:
-        """Closes the client
-        """
+        """Closes the client"""
+
+        if not self._started:
+            raise ClientNotStarted()
 
         await self._session.close()
 
@@ -156,7 +161,7 @@ class Client:
 
         :returns: ciberedev.embeds.Embed
         """
-        
+
         if not self._started:
             raise ClientNotStarted()
 
