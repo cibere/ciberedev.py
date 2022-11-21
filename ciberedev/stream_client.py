@@ -9,7 +9,12 @@ from typing_extensions import Self
 from .authorization import Authorization
 from .errors import ClientAlreadyStarted, ClientNotStarted, InvalidAuthorizationGiven
 
-_supported_logs = {"update embed": "embed_update", "upload file": "file_upload"}
+_supported_logs = {
+    "update embed": "embed_update",
+    "upload file": "file_upload",
+    "change password": "password_change",
+    "change token": "token_reset",
+}
 
 
 class StreamClient:
@@ -97,6 +102,12 @@ class StreamClient:
         pass
 
     async def on_embed_update(self) -> None:
+        pass
+
+    async def on_password_change(self) -> None:
+        pass
+
+    async def on_token_reset(self) -> None:
         pass
 
     def event(self, coro):
