@@ -44,7 +44,7 @@ client = ciberedev.Client()
 async def main():
     # starting our client with a context manager
     async with client:
-        # creating our pasge
+        # creating our paste
         paste = await client.create_paste("my_paste_text")
         # printing the pastes url
         print(paste.url)
