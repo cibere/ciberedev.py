@@ -36,6 +36,7 @@ class Client:
 
         :authorization: an authorization object
         """
+        
         self._authorization = authorization or Authorization()
         self._started = False
 
@@ -49,13 +50,15 @@ class Client:
         await self.close()
 
     async def start(self) -> None:
-        """Starts the client"""
+        """Starts the client
+        """
 
         self._session = ClientSession()
         self._started = True
 
     async def close(self) -> None:
-        """Closes the client"""
+        """Closes the client
+        """
 
         await self._session.close()
 
@@ -153,6 +156,7 @@ class Client:
 
         :returns: ciberedev.embeds.Embed
         """
+        
         if not self._started:
             raise ClientNotStarted()
 
