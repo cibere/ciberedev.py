@@ -20,7 +20,7 @@ class Client:
         :session: an optional aiohttp session
         """
 
-        self._http = HTTPClient(session=session or ClientSession())
+        self._http = HTTPClient(session=session)
         self._started = True
 
     async def __aenter__(self) -> Self:
@@ -37,7 +37,8 @@ class Client:
         if not self._started:
             raise ClientNotStarted()
 
-        await self._http._session.close()
+        if self._http._session:
+            await self._http._session.close()
 
     async def take_screenshot(self, url: str, /, *, delay: int = 0) -> Screenshot:
         """Takes a screenshot of the given url

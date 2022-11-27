@@ -53,21 +53,26 @@ class Response:
 
 
 class HTTPClient:
-    def __init__(self, *, session: ClientSession):
+    def __init__(self, *, session: Optional[ClientSession]):
         self._session = session
 
     async def request(self, route: Route) -> Response:
+        if self._session is None:
+            self._session = ClientSession()
+
         headers = route.headers.unpack()
-        query_params = route.headers.unpack()
+        query_params = route.query_params.unpack()
         url = route.endpoint
 
         if query_params:
             url += f"?{urlencode(query_params)}"
 
-        res = await self._session.request(route.method, url, headers=headers)
+        async with self._session.request(
+            route.method, url, headers=headers, ssl=False
+        ) as res:
+            data = await res.json()
+            response = Response(json=data, status_code=res.status)
 
-        data = await res.json()
-        response = Response(json=data, status_code=res.status)
         return response
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
