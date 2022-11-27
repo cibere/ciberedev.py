@@ -9,4 +9,3 @@ __version__ = "0.3.0"
 
 from .authorization import Authorization, FileUploaderAuthorization
 from .client import Client
-from .stream_client import StreamClient
