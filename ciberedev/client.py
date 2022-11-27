@@ -5,13 +5,7 @@ import validators
 from aiohttp import ClientSession
 from typing_extensions import Self
 
-from .errors import (
-    ClientNotStarted,
-    InvalidAuthorizationGiven,
-    InvalidURL,
-    UnableToConnect,
-    UnknownError,
-)
+from .errors import ClientNotStarted
 from .http import HTTPClient
 from .screenshot import Screenshot
 from .searching import SearchResult
