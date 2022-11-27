@@ -7,8 +7,6 @@ import validators
 from aiohttp import ClientSession
 from typing_extensions import Self
 
-from .authorization import Authorization
-from .embeds import Embed, EmbedData, EmbedFields
 from .errors import (
     ClientAlreadyStarted,
     ClientNotStarted,
@@ -23,22 +21,19 @@ from .errors import (
 )
 from .screenshot import Screenshot
 from .searching import SearchResult
-from .upload_file import MIMETYPES, File
 from .utils import read_file
 
 
 class Client:
     _session: ClientSession
-    _authorization: Authorization
 
-    def __init__(self, *, authorization: Optional[Authorization] = None):
+    def __init__(self, *, session: Optional[ClientSession] = None):
         """Lets you create a client instance
 
-        :authorization: an authorization object
+        :session: an optional aiohttp session
         """
 
-        self._authorization = authorization or Authorization()
-        self._session = ClientSession()
+        self._session = session or ClientSession()
         self._started = True
 
     async def __aenter__(self) -> Self:
@@ -50,54 +45,12 @@ class Client:
         await self.close()
 
     async def close(self) -> None:
-        """Closes the client"""
+        """Closes the client session"""
 
         if not self._started:
             raise ClientNotStarted()
 
         await self._session.close()
-
-    async def upload_file(
-        self, file_path: str, *, mimetype: Optional[str] = None
-    ) -> File:
-        """Lets you upload a file to the cloud
-
-        :file_path: the path of the file you want to upload
-        :mimetype: the mimetype of the file
-
-        :returns: ciberedev.upload_file.File
-        """
-
-        if not self._authorization.file.token:
-            raise NoAuthorizationGiven()
-
-        if not os.path.exists(file_path):
-            raise InvalidFilePath(file_path)
-        elif not mimetype:
-            ext = file_path.split(".")[-1]
-            mimetype = MIMETYPES.get(ext)
-            if mimetype is None:
-                raise UnknownMimeType(ext)
-        red = await read_file(file_path, "rb")
-
-        buffer = io.BytesIO(red)  # type: ignore
-        res = await self._session.post(
-            "https://i.cibere.dev/upload",
-            data={"data": buffer},
-            headers={
-                "token": self._authorization.file.token,
-                "mime": mimetype,
-            },
-        )
-        raw_data = await res.json()
-        if raw_data["status_code"] == 200:
-            file = File(data=raw_data)
-            return file
-        else:
-            if raw_data["error"] == "Invalid 'token' given":
-                raise InvalidAuthorizationGiven()
-            else:
-                raise UnknownError(raw_data["message"])
 
     async def take_screenshot(
         self, url: str, /, *, delay: Optional[int] = 0
@@ -138,37 +91,6 @@ class Client:
                 raise InvalidAuthorizationGiven()
             else:
                 raise UnknownError(data["error"])
-
-    async def create_embed(self, data: EmbedData) -> Embed:
-        """Creates an embed
-
-        :data: the embeds data
-
-        :returns: ciberedev.embeds.Embed
-        """
-
-        data_keys = data.keys()
-        if ("thumbnail" in data_keys) and ("image" in data_keys):
-            raise TypeError("Thumbnail and Image Fields given")
-
-        params = {}
-
-        for param in data_keys:
-            if param == "description":
-                params["desc"] = data[param]  # type: ignore
-
-            elif param not in EmbedFields:
-                raise UnknownEmbedField(param)
-
-            else:
-                params[param] = data[param]
-        params = urlencode(params)
-        request = await self._session.post(
-            f"https://www.cibere.dev/embed/upload?{params}", ssl=False
-        )
-        json = await request.json()
-        embed = Embed(data=json)
-        return embed
 
     async def search(self, query: str, amount: int = 5) -> list[SearchResult]:
         """Searches the web with the given query
