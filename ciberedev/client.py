@@ -21,7 +21,6 @@ from .errors import (
     UnknownError,
     UnknownMimeType,
 )
-from .pasting import Paste
 from .screenshot import Screenshot
 from .searching import SearchResult
 from .upload_file import MIMETYPES, File
@@ -170,24 +169,6 @@ class Client:
         json = await request.json()
         embed = Embed(data=json)
         return embed
-
-    async def create_paste(self, text: str) -> Paste:
-        """Creates a paste
-
-        :text: the text you want sent to the paste
-        :session: if you already have an aiohttp session that you would like to be used, you can pass it here
-
-        :returns: ciberedev.pasting.Paste
-        """
-
-        data = {"text": text}
-
-        request = await self._session.post(
-            "https://paste.cibere.dev/upload", data=data, ssl=False
-        )
-        json = await request.json()
-        paste = Paste(data=json)
-        return paste
 
     async def search(self, query: str, amount: int = 5) -> list[SearchResult]:
         """Searches the web with the given query
