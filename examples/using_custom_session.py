@@ -4,14 +4,14 @@ from aiohttp import ClientSession
 
 import ciberedev
 
-# creating our custom session
-session = ClientSession()
-
-# creating our client instance, and passing a custom session
-client = ciberedev.Client(session=session)
-
 
 async def main():
+    # creating our custom session
+    session = ClientSession()
+
+    # creating our client instance, and passing a custom session
+    client = ciberedev.Client(session=session)
+
     # do stuff with client here.
 
     # Because we are using a custom session, using a context manager or calling client.close will close our custom session.
