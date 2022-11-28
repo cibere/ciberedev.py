@@ -56,7 +56,9 @@ class Client:
 
         return await self._http.take_screenshot(url, delay)
 
-    async def search(self, query: str, amount: int = 5) -> list[SearchResult]:
+    async def get_search_results(
+        self, query: str, /, *, amount: int = 5
+    ) -> list[SearchResult]:
         """Searches the web with the given query
 
         :query: what you want to search
