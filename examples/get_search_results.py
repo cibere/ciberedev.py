@@ -10,7 +10,7 @@ async def main():
     # starting our client with a context manager
     async with client:
         # getting our search results
-        results = await client.search("cibere.dev")
+        results = await client.get_search_results("cibere.dev")
 
         # printing the first results title, url, and description
         print(results[0].title)
