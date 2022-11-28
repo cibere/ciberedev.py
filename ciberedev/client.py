@@ -1,7 +1,5 @@
 from typing import Optional
-from urllib.parse import urlencode
 
-import validators
 from aiohttp import ClientSession
 from typing_extensions import Self
 

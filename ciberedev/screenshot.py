@@ -1,5 +1,4 @@
 from io import BytesIO
-from typing import TypedDict
 
 
 class Screenshot:
