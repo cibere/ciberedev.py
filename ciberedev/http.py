@@ -1,13 +1,22 @@
+import re
 from io import BytesIO
 from typing import Literal, Optional
 from urllib.parse import urlencode
 
-import validators
 from aiohttp import ClientResponse, ClientSession
 
 from .errors import InvalidURL, UnableToConnect, UnknownError
 from .screenshot import Screenshot
 from .searching import SearchResult
+
+URL_REGEX = re.compile(
+    r"^(?:http|ftp)s?://"
+    r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"
+    r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+    r"(?::\d+)?"
+    r"(?:/?|[/?]\S+)$",
+    re.IGNORECASE,
+)
 
 
 class Parameters:
@@ -66,7 +75,7 @@ class HTTPClient:
         return res
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
-        if not validators.url(url):  # type: ignore
+        if not re.match(URL_REGEX, "http://www.example.com") is not None:
             raise InvalidURL(url)
 
         query_params = QueryParams()
