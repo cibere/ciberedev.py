@@ -1,8 +1,9 @@
+from io import BytesIO
 from typing import Literal, Optional
 from urllib.parse import urlencode
 
 import validators
-from aiohttp import ClientSession
+from aiohttp import ClientResponse, ClientSession
 
 from .errors import InvalidURL, UnableToConnect, UnknownError
 from .screenshot import Screenshot
@@ -46,17 +47,11 @@ class Route:
         self.query_params = query_params or QueryParams()
 
 
-class Response:
-    def __init__(self, *, json: dict, status_code: int):
-        self.data = json
-        self.status = status_code
-
-
 class HTTPClient:
     def __init__(self, *, session: Optional[ClientSession]):
         self._session = session
 
-    async def request(self, route: Route) -> Response:
+    async def request(self, route: Route) -> ClientResponse:
         if self._session is None:
             self._session = ClientSession()
 
@@ -67,13 +62,8 @@ class HTTPClient:
         if query_params:
             url += f"?{urlencode(query_params)}"
 
-        async with self._session.request(
-            route.method, url, headers=headers, ssl=False
-        ) as res:
-            data = await res.json()
-            response = Response(json=data, status_code=res.status)
-
-        return response
+        res = await self._session.request(route.method, url, headers=headers, ssl=False)
+        return res
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
         if not validators.url(url):  # type: ignore
@@ -89,10 +79,13 @@ class HTTPClient:
         )
 
         response = await self.request(route)
-        data = response.data
+        data = await response.json()
 
         if data["status_code"] == 200:
-            screenshot = Screenshot(data=data)  # type: ignore
+            image_route = Route(method="GET", endpoint=data["link"])
+            res = await self.request(image_route)
+            _bytes = BytesIO(await res.read())
+            screenshot = Screenshot(_bytes=_bytes, url=data["link"])
             return screenshot
         else:
             if data["error"] == "I was unable to connect to the website.":
@@ -113,9 +106,10 @@ class HTTPClient:
         )
 
         response = await self.request(route)
+        data = await response.json()
 
         results = []
-        for result in response.data["results"]:
+        for result in data["results"]:
             search_result = SearchResult(data=result)
             results.append(search_result)
         return results
