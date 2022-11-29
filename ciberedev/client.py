@@ -8,6 +8,8 @@ from .http import HTTPClient
 from .screenshot import Screenshot
 from .searching import SearchResult
 
+__all__ = ["Client"]
+
 
 class Client:
     _http: HTTPClient
@@ -20,6 +22,12 @@ class Client:
 
         self._http = HTTPClient(session=session)
         self._started = True
+
+    @property
+    def closed(self) -> bool:
+        """Returns a bool depending on if the client has been closed or not"""
+
+        return not self._started
 
     async def __aenter__(self) -> Self:
         return self
