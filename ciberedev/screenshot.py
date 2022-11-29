@@ -1,11 +1,7 @@
-from typing import TypedDict
-
-
-class RawScreenshotData(TypedDict):
-    link: str
-    status_code: int
+from io import BytesIO
 
 
 class Screenshot:
-    def __init__(self, *, data: RawScreenshotData):
-        self.url = data.get("link")
+    def __init__(self, *, _bytes: BytesIO, url: str):
+        self.url: str = url
+        self.bytes: BytesIO = _bytes

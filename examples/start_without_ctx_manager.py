@@ -7,9 +7,6 @@ client = ciberedev.Client()
 
 
 async def main():
-    # starting our client without a context manager
-    await client.start()
-
     # do stuff with the client here
 
     # closing/stopping the client
