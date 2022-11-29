@@ -1,3 +1,6 @@
+__all__ = ["ClientNotStarted", "UnknownError", "InvalidURL", "UnableToConnect"]
+
+
 class BaseError(Exception):
     pass
 
@@ -26,11 +29,23 @@ class ScreenshotError(BaseError):
 
 class InvalidURL(ScreenshotError):
     def __init__(self, url: str):
-        self.url = url
+        self._url: str = url
         super().__init__(f"Invalid URL Given: '{self.url}'")
+
+    @property
+    def url(self) -> str:
+        """the url that has been marked as invalid"""
+
+        return self._url
 
 
 class UnableToConnect(ScreenshotError):
     def __init__(self, url: str):
-        self.url = url
+        self._url: str = url
         super().__init__(f"Unable to Connect to '{self.url}'")
+
+    @property
+    def url(self) -> str:
+        """The url that the API is unable to connect to"""
+
+        return self._url
