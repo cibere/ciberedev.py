@@ -4,7 +4,8 @@
 <a href="https://pypi.org/project/ciberedev.py"><img src="https://img.shields.io/pypi/v/ciberedev.py.svg" alt="pypi"></a>
 <a href="https://github.com/cibere/ciberedev.py/blob/main/LICENSE"><img src="https://img.shields.io/github/license/cibere/ciberedev.py" alt="license"></a>
 </p>
-<p align="center">Python Wrapper for <a href="https://www.cibere.dev">cibere.dev</a></p>
+<p align="center">Python Wrapper for <a href="https://www.cibere.dev">cibere.dev</a><br>
+You can view and read the docs <a href="https://docs.cibere.dev">here</a></p><br>
 
 <h2>Key Features</h2>
 Support for the following endpoints<br>
@@ -12,7 +13,7 @@ Support for the following endpoints<br>
 - search the internet<br>
 
 <h2>Installing</h2>
-<span style="font-weight: bold;">Python 3.8 or higher is required</span>
+<span style="font-weight: bold;">Python 3.8 or higher is required</span><br>
 Install from pip
 
 ```
