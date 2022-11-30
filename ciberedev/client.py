@@ -23,8 +23,7 @@ class Client:
         self._http = HTTPClient(session=session)
         self._started = True
 
-    @property
-    def closed(self) -> bool:
+    def is_closed(self) -> bool:
         """Returns a bool depending on if the client has been closed or not"""
 
         return not self._started
