@@ -1,6 +1,8 @@
+import asyncio
+import logging
 import re
 from io import BytesIO
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 from urllib.parse import urlencode
 
 from aiohttp import ClientResponse, ClientSession
@@ -9,7 +11,11 @@ from .errors import InvalidURL, UnableToConnect, UnknownError
 from .screenshot import Screenshot
 from .searching import SearchResult
 
+HTTP_LOGGER = logging.getLogger("ciberedev.http")
+LOGGER = logging.getLogger("ciberedev")
+
 __all__ = []
+
 
 URL_REGEX = re.compile(
     r"^(?:http|ftp)s?://"
@@ -73,8 +79,24 @@ class HTTPClient:
         if query_params:
             url += f"?{urlencode(query_params)}"
 
+        HTTP_LOGGER.debug("Request URL: %s", url)
+        HTTP_LOGGER.debug("Request Headers: %s", headers)
+        HTTP_LOGGER.debug("Request Query Params: %s", query_params)
+
         res = await self._session.request(route.method, url, headers=headers, ssl=False)
-        return res
+
+        HTTP_LOGGER.debug("Recieved Status Code: %s", res.status)
+        HTTP_LOGGER.debug("Recieved Headers: %s", dict(res.headers))
+
+        if res.status != 429:
+            return res
+        else:
+            endpoint = f"/{route.method.split('/')[-1]}"
+            LOGGER.warning(
+                f"We are being ratelimited at '{endpoint}'. Trying again in 5 seconds"
+            )
+            await asyncio.sleep(5)
+            return await self.request(route)
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
         if not re.match(URL_REGEX, "http://www.example.com") is not None:
@@ -91,6 +113,7 @@ class HTTPClient:
 
         response = await self.request(route)
         data = await response.json()
+        HTTP_LOGGER.debug("Recieved Data: %s", data)
 
         if data["status_code"] == 200:
             image_route = Route(method="GET", endpoint=data["link"])
@@ -118,6 +141,7 @@ class HTTPClient:
 
         response = await self.request(route)
         data = await response.json()
+        HTTP_LOGGER.debug("Recieved Data: %s", data)
 
         results = []
         for result in data["results"]:
