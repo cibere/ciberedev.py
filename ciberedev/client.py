@@ -20,8 +20,15 @@ class Client:
         :session: an optional aiohttp session
         """
 
-        self._http = HTTPClient(session=session)
+        self._http = HTTPClient(session=session, client=self)
         self._started = True
+        self._requests = 0
+
+    @property
+    def requests(self) -> int:
+        """The amount of requests sent to the api during the programs lifetime"""
+
+        return self._requests
 
     def is_closed(self) -> bool:
         """Returns a bool depending on if the client has been closed or not"""

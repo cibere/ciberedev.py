@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import asyncio
 import logging
 import re
 from io import BytesIO
-from typing import Literal, Optional, Union
+from typing import TYPE_CHECKING, Literal, Optional, Union
 from urllib.parse import urlencode
 
 from aiohttp import ClientResponse, ClientSession
@@ -10,6 +12,9 @@ from aiohttp import ClientResponse, ClientSession
 from .errors import InvalidURL, UnableToConnect, UnknownError
 from .screenshot import Screenshot
 from .searching import SearchResult
+
+if TYPE_CHECKING:
+    from .client import Client
 
 HTTP_LOGGER = logging.getLogger("ciberedev.http")
 LOGGER = logging.getLogger("ciberedev")
@@ -65,12 +70,14 @@ class Route:
 
 
 class HTTPClient:
-    def __init__(self, *, session: Optional[ClientSession]):
+    def __init__(self, *, session: Optional[ClientSession], client: Client):
         self._session = session
+        self._client = client
 
     async def request(self, route: Route) -> ClientResponse:
         if self._session is None:
             self._session = ClientSession()
+        self._client._requests += 1
 
         headers = route.headers.unpack()
         query_params = route.query_params.unpack()
