@@ -26,5 +26,3 @@ class SearchResult:
 
         self.url = data["url"]
         "The search results url"
-["url"]
-        "The search results url"
