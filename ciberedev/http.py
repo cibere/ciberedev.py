@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
+from asyncio import AbstractEventLoop
 from io import BytesIO
 from typing import TYPE_CHECKING, Literal, Optional, Union
 from urllib.parse import urlencode
@@ -32,6 +33,8 @@ URL_REGEX = re.compile(
 
 
 class Parameters:
+    __slots__ = ["_internal"]
+
     def __init__(self):
         self._internal = {}
 
@@ -54,6 +57,8 @@ class Headers(Parameters):
 
 
 class Route:
+    __slots__ = ["method", "endpoint", "headers", "query_params"]
+
     def __init__(
         self,
         *,
@@ -69,10 +74,15 @@ class Route:
 
 
 class HTTPClient:
+    _session: Optional[ClientSession]
+    _client: Client
+    _loop: Optional[AbstractEventLoop]
+    __slots__ = ["_session", "_client", "_loop"]
+
     def __init__(self, *, session: Optional[ClientSession], client: Client):
         self._session = session
         self._client = client
-        self._loop: Optional[asyncio.AbstractEventLoop] = None
+        self._loop: Optional[AbstractEventLoop] = None
 
     async def request(self, route: Route) -> ClientResponse:
         if self._session is None:

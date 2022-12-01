@@ -1,40 +1,30 @@
-from typing_extensions import TypedDict
-
 __all__ = ["SearchResult"]
 
 
-class RawSearchResult(TypedDict):
+class SearchResult:
     title: str
     description: str
+    desc: str
     url: str
 
+    __slots__ = ["title", "description", "desc", "url"]
 
-class SearchResult:
     def __init__(self, *, data: dict):
-        self._raw_data: RawSearchResult = RawSearchResult(
-            title=data["title"], description=data["description"], url=data["url"]
-        )
+        """Creates a SearchResult object.
 
-    @property
-    def title(self) -> str:
-        """The search results title"""
+        THIS SHOULD NOT BE CREATED MANUALLY, LET CIBEREDEV'S INTERNALS CREATE THEM
+        """
 
-        return self._raw_data["title"]
+        self.title = data["title"]
+        "The search results title"
 
-    @property
-    def description(self) -> str:
-        """The search results description"""
+        self.description = data["description"]
+        "The search results description"
 
-        return self._raw_data["description"]
+        self.desc = self.description
+        "Alias for `ciberedev.searching.SearchResult.description`"
 
-    @property
-    def desc(self) -> str:
-        """Alias for description"""
-
-        return self.description
-
-    @property
-    def url(self) -> str:
-        """The search results url"""
-
-        return self._raw_data["url"]
+        self.url = data["url"]
+        "The search results url"
+["url"]
+        "The search results url"

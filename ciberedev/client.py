@@ -16,6 +16,9 @@ LOGGER = logging.getLogger("ciberedev")
 
 class Client:
     _http: HTTPClient
+    _started: bool
+    _requests: int
+
     __slots__ = ["_http", "_started", "_requests"]
 
     def __init__(self, *, session: Optional[ClientSession] = None):
@@ -48,14 +51,16 @@ class Client:
         await self.close()
 
     async def on_ratelimit(self, endpoint: str) -> None:
-        """This function is auto triggered when it hits a rate limit."""
+        """This function is auto triggered when it hits a rate limit.
+
+        When overriding this, you can call the super init if you still want the library to send the logs"""
 
         LOGGER.warning(
             f"We are being ratelimited at '{endpoint}'. Trying again in 5 seconds"
         )
 
     async def close(self) -> None:
-        """Closes the client session"""
+        """Closes the aiohttp session"""
 
         if not self._started:
             raise ClientNotStarted()
@@ -69,7 +74,7 @@ class Client:
         :url: the url you want a screenshot of
         :delay: the delay between opening the link and taking the actual picture
 
-        :returns: ciberedev.screenshot.Screenshot
+        :returns: `ciberedev.screenshot.Screenshot`
         """
 
         url = url.removeprefix("<").removesuffix(">")
@@ -87,7 +92,7 @@ class Client:
         :query: what you want to search
         :amount: the amount of results you want
 
-        :returns: [ciberedev.searching.SearchResult, ...]
+        :returns: list[`ciberedev.searching.SearchResult`]
         """
 
         return await self._http.get_search_results(query, amount)
