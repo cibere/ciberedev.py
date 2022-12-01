@@ -5,7 +5,7 @@ import logging
 import re
 from asyncio import AbstractEventLoop
 from io import BytesIO
-from typing import TYPE_CHECKING, Literal, Optional, Union
+from typing import TYPE_CHECKING, Literal, Optional
 from urllib.parse import urlencode
 
 from aiohttp import ClientResponse, ClientSession
