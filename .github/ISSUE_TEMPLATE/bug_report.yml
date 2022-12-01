@@ -3,94 +3,94 @@ description: File a bug report
 title: "[Bug]: "
 labels: ["bug"]
 body:
-    - type: markdown
-        attributes:
-            value: >
-                Thanks for taking the time to fill this bug report. For real time support, consider joining our discord: https://discord.gg/pP4mKKbRvk
+  - type: markdown
+    attributes:
+      value: >
+        Thanks for taking the time to fill this bug report. For real time support, consider joining our discord: https://discord.gg/pP4mKKbRvk
 
-    - type: textarea
-        id: summary
-        attributes:
-            label: Summary
-            description: a summary of the bug you are reporting
-        validations:
-            required: true
-    
-    - type: textarea
-        id: reproduction-steps
-        attributes:
-            label: Reproduction Steps
-            description: What are the steps for anyone to be able to recreate this bug?
-        validations:
-            required: true
-    
-    - type: textarea
-        id: code
-        attributes:
-            label: Minimal Reproducible Code
-            description: A short snippet of code that showcases the bug.
-        validations:
-            required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: a summary of the bug you are reporting
+    validations:
+      required: true
 
-    - type: textarea
-        id: expected-result
-        attributes:
-            label: Expected Result
-            description: What you expected the code to do
-        validations:
-            required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Reproduction Steps
+      description: What are the steps for anyone to be able to recreate this bug?
+    validations:
+      required: true
 
-    - type: textarea
-        id: actual-result
-        attributes:
-            label: Actual Result
-            description: What actually happens with your code
-        validations:
-            required: true
-    
-    - type: textarea
-        id: tb
-        attributes:
-            label: Traceback
-            description: Please provide a full traceback (if applicable)
-        validations:
-            required: false
+  - type: textarea
+    id: code
+    attributes:
+      label: Minimal Reproducible Code
+      description: A short snippet of code that showcases the bug.
+    validations:
+      required: true
 
-    - type: dropdown
-        id: os-system
-        attributes:
-            label: Operating System
-            description: What operating system are you running?
-            options:
-                - Windows
-                - Linux
-                - MacOS
-        validations:
-            required: true
-    
-    - type: input
-        id: contact
-        attributes:
-            label: ciberedev.py version
-            description: The version of ciberedev.py you are running. (if you do not know how to find out, print `ciberedev.__version__`)
-        validations:
-            required: true
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected Result
+      description: What you expected the code to do
+    validations:
+      required: true
 
-    - type: checkboxes
-        id: terms
-        attributes:
-            label: Checklis t
-            description: Please make sure you have done all this before opening this report
-            options:
-                - label: I searched the currently open issues for duplicates
-                    required: true
-                - label: I have given a full traceback (if applicable)
-                    required: true
+  - type: textarea
+    id: actual-result
+    attributes:
+      label: Actual Result
+      description: What actually happens with your code
+    validations:
+      required: true
 
-    - type: textarea
-        id: additional-info
-        attributes:
-            label: Additional Information
-            description: is there anything else you want to share?
-        validations:
-            required: false
+  - type: textarea
+    id: tb
+    attributes:
+      label: Traceback
+      description: Please provide a full traceback (if applicable)
+    validations:
+      required: false
+
+  - type: dropdown
+    id: os-system
+    attributes:
+      label: Operating System
+      description: What operating system are you running?
+      options:
+        - Windows
+        - Linux
+        - MacOS
+    validations:
+      required: true
+
+  - type: input
+    id: contact
+    attributes:
+      label: ciberedev.py version
+      description: The version of ciberedev.py you are running. (if you do not know how to find out, print `ciberedev.__version__`)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Checklis t
+      description: Please make sure you have done all this before opening this report
+      options:
+        - label: I searched the currently open issues for duplicates
+          required: true
+        - label: I have given a full traceback (if applicable)
+          required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      description: is there anything else you want to share?
+    validations:
+      required: false
