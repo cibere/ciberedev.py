@@ -1,3 +1,5 @@
+import asyncio
+import logging
 from typing import Optional
 
 from aiohttp import ClientSession
@@ -9,10 +11,12 @@ from .screenshot import Screenshot
 from .searching import SearchResult
 
 __all__ = ["Client"]
+LOGGER = logging.getLogger("ciberedev")
 
 
 class Client:
     _http: HTTPClient
+    __slots__ = ["_http", "_started", "_requests"]
 
     def __init__(self, *, session: Optional[ClientSession] = None):
         """Lets you create a client instance
@@ -42,6 +46,13 @@ class Client:
         self, exception_type, exception_value, exception_traceback
     ) -> None:
         await self.close()
+
+    async def on_ratelimit(self, endpoint: str) -> None:
+        """This function is auto triggered when it hits a rate limit."""
+
+        LOGGER.warning(
+            f"We are being ratelimited at '{endpoint}'. Trying again in 5 seconds"
+        )
 
     async def close(self) -> None:
         """Closes the client session"""

@@ -16,8 +16,7 @@ from .searching import SearchResult
 if TYPE_CHECKING:
     from .client import Client
 
-HTTP_LOGGER = logging.getLogger("ciberedev.http")
-LOGGER = logging.getLogger("ciberedev")
+LOGGER = logging.getLogger("ciberedev.http")
 
 __all__ = []
 
@@ -73,10 +72,14 @@ class HTTPClient:
     def __init__(self, *, session: Optional[ClientSession], client: Client):
         self._session = session
         self._client = client
+        self._loop: Optional[asyncio.AbstractEventLoop] = None
 
     async def request(self, route: Route) -> ClientResponse:
         if self._session is None:
             self._session = ClientSession()
+        if self._loop is None:
+            self._loop = asyncio.get_running_loop()
+
         self._client._requests += 1
 
         headers = route.headers.unpack()
@@ -86,22 +89,20 @@ class HTTPClient:
         if query_params:
             url += f"?{urlencode(query_params)}"
 
-        HTTP_LOGGER.debug("Request URL: %s", url)
-        HTTP_LOGGER.debug("Request Headers: %s", headers)
-        HTTP_LOGGER.debug("Request Query Params: %s", query_params)
+        LOGGER.debug("Request URL: %s", url)
+        LOGGER.debug("Request Headers: %s", headers)
+        LOGGER.debug("Request Query Params: %s", query_params)
 
         res = await self._session.request(route.method, url, headers=headers, ssl=False)
 
-        HTTP_LOGGER.debug("Recieved Status Code: %s", res.status)
-        HTTP_LOGGER.debug("Recieved Headers: %s", dict(res.headers))
+        LOGGER.debug("Recieved Status Code: %s", res.status)
+        LOGGER.debug("Recieved Headers: %s", dict(res.headers))
 
         if res.status != 429:
             return res
         else:
             endpoint = f"/{route.method.split('/')[-1]}"
-            LOGGER.warning(
-                f"We are being ratelimited at '{endpoint}'. Trying again in 5 seconds"
-            )
+            self._loop.create_task(self._client.on_ratelimit(endpoint))
             await asyncio.sleep(5)
             return await self.request(route)
 
@@ -120,7 +121,7 @@ class HTTPClient:
 
         response = await self.request(route)
         data = await response.json()
-        HTTP_LOGGER.debug("Recieved Data: %s", data)
+        LOGGER.debug("Recieved Data: %s", data)
 
         if data["status_code"] == 200:
             image_route = Route(method="GET", endpoint=data["link"])
@@ -148,7 +149,7 @@ class HTTPClient:
 
         response = await self.request(route)
         data = await response.json()
-        HTTP_LOGGER.debug("Recieved Data: %s", data)
+        LOGGER.debug("Recieved Data: %s", data)
 
         results = []
         for result in data["results"]:
