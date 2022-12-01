@@ -56,30 +56,18 @@ body:
     validations:
       required: false
 
-  - type: dropdown
-    id: os-system
+  - type: textarea
+    id: os
     attributes:
-      label: Operating System
-      description: What operating system are you running?
-      options:
-        - Windows
-        - Linux
-        - MacOS
-    validations:
-      required: true
-
-  - type: input
-    id: contact
-    attributes:
-      label: ciberedev.py version
-      description: The version of ciberedev.py you are running. (if you do not know how to find out, print `ciberedev.__version__`)
+      label: System Information
+      description: Please provide your system information here. an easy way to obtain this, is by runnning `py -m ciberedev -s`.
     validations:
       required: true
 
   - type: checkboxes
     id: terms
     attributes:
-      label: Checklis t
+      label: Checklist
       description: Please make sure you have done all this before opening this report
       options:
         - label: I searched the currently open issues for duplicates
