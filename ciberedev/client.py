@@ -17,8 +17,9 @@ class Client:
     _http: HTTPClient
     _started: bool
     _requests: int
+    _latency: float
 
-    __slots__ = ["_http", "_started", "_requests"]
+    __slots__ = ["_http", "_started", "_requests", "_latency"]
 
     def __init__(self, *, session: Optional[ClientSession] = None):
         """Lets you create a client instance
@@ -29,6 +30,17 @@ class Client:
         self._http = HTTPClient(session=session, client=self)
         self._started = True
         self._requests = 0
+        self._latency = 0.0
+
+    @property
+    def latency(self) -> float:
+        """The latency between the client and the api.
+
+        This will be '0.0' until the first API call.
+        This will be updated after every APIc call.
+        """
+
+        return self._latency
 
     @property
     def requests(self) -> int:

@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
+import time
 from asyncio import AbstractEventLoop
 from io import BytesIO
 from typing import TYPE_CHECKING, Literal, Optional
@@ -106,11 +107,15 @@ class HTTPClient:
         LOGGER.debug("Request Query Params: %s", query_params)
 
         try:
+            before = time.perf_counter()
             res = await self._session.request(
                 route.method, url, headers=headers, ssl=False
             )
+            after = time.perf_counter()
         except ClientConnectionError:
             raise APIOffline(endpoint)
+
+        self._client._latency = after - before
 
         LOGGER.debug("Recieved Status Code: %s", res.status)
         LOGGER.debug("Recieved Headers: %s", dict(res.headers))
