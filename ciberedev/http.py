@@ -9,8 +9,9 @@ from typing import TYPE_CHECKING, Literal, Optional, Union
 from urllib.parse import urlencode
 
 from aiohttp import ClientResponse, ClientSession
+from aiohttp.client_exceptions import ClientConnectionError
 
-from .errors import InvalidURL, UnableToConnect, UnknownError
+from .errors import APIOffline, InvalidURL, UnableToConnect, UnknownError
 from .screenshot import Screenshot
 from .searching import SearchResult
 
@@ -95,6 +96,7 @@ class HTTPClient:
         headers = route.headers.unpack()
         query_params = route.query_params.unpack()
         url = route.endpoint
+        endpoint = f"/{route.method.split('/')[-1]}"
 
         if query_params:
             url += f"?{urlencode(query_params)}"
@@ -103,18 +105,29 @@ class HTTPClient:
         LOGGER.debug("Request Headers: %s", headers)
         LOGGER.debug("Request Query Params: %s", query_params)
 
-        res = await self._session.request(route.method, url, headers=headers, ssl=False)
+        try:
+            res = await self._session.request(
+                route.method, url, headers=headers, ssl=False
+            )
+        except ClientConnectionError:
+            raise APIOffline(endpoint)
 
         LOGGER.debug("Recieved Status Code: %s", res.status)
         LOGGER.debug("Recieved Headers: %s", dict(res.headers))
 
-        if res.status != 429:
-            return res
-        else:
-            endpoint = f"/{route.method.split('/')[-1]}"
+        if res.status == 500:
+            LOGGER.warning(
+                "API returned a 500 status code at '%s'. Retrying in 5 seconds",
+                endpoint,
+            )
+            await asyncio.sleep(5)
+            return await self.request(route)
+        elif res.status == 429:
             self._loop.create_task(self._client.on_ratelimit(endpoint))
             await asyncio.sleep(5)
             return await self.request(route)
+        else:
+            return res
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
         if not re.match(URL_REGEX, "http://www.example.com") is not None:
@@ -125,7 +138,7 @@ class HTTPClient:
         query_params["delay"] = str(delay)
         route = Route(
             method="POST",
-            endpoint="https://api.cibere.dev/screenshot",
+            endpoint="https://api2.cibere.dev/screenshot",
             query_params=query_params,
         )
 

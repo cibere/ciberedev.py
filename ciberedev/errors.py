@@ -5,6 +5,23 @@ class BaseError(Exception):
     pass
 
 
+class APIError(BaseError):
+    pass
+
+
+class APIOffline(APIError):
+    def __init__(self, endpoint: str):
+        """Creates an APIOffline error instance.
+        This is raised when the client can not connect to the api
+
+        It is not recommended to raise this yourself
+
+        :endpoint: the endpoint the client is trying to make a request to
+        """
+
+        super().__init__(f"API is down. Aborting API request to '{endpoint}'")
+
+
 class ClientNotStarted(BaseError):
     def __init__(self):
         """Creates a ClientNotStarted error instance.
