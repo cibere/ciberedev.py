@@ -77,13 +77,14 @@ class Route:
 
 
 class Response:
-    __slots__ = ["original", "read", "json", "get_json"]
+    __slots__ = ["original", "read", "json", "get_json", "status"]
 
     def __init__(self, *, aiohttp_response: ClientResponse):
         self.original: ClientResponse = aiohttp_response
         self.read = aiohttp_response.read
         self.get_json = aiohttp_response.json
         self.json: dict = {}
+        self.status: int = aiohttp_response.status
 
     @classmethod
     async def create(cls, *, aiohttp_response: ClientResponse) -> Self:
@@ -112,6 +113,11 @@ class HTTPClient:
         self._session = session
         self._client = client
         self._loop: Optional[AbstractEventLoop] = None
+
+    async def ping(self) -> int:
+        route = Route(method="GET", endpoint="https://api.cibere.dev/ping")
+        res = await self.request(route)
+        return res.status
 
     async def request(self, route: Route) -> Response:
         if self._session is None:
