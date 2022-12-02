@@ -38,38 +38,124 @@
 </code></dt>
 <dd>
 <div class="desc"><p>Lets you create a client instance</p>
-<p>:session: an optional aiohttp session</p></div>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>session</code></strong> :&ensp;<code>Optional[</code>aiohttp.ClientSession<code>]</code></dt>
+<dd>an optional aiohttp client session that the internals will use for API calls</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>latency</code></strong> :&ensp;<code>float</code></dt>
+<dd>The latency between the client and the api.</dd>
+<dt><strong><code>requests</code></strong> :&ensp;<code>int</code></dt>
+<dd>The amount of requests sent to the api during the programs lifetime</dd>
+</dl></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="ciberedev.client.Client.latency"><code class="name">var <span class="ident">latency</span> : float</code></dt>
+<dd>
+<div class="desc"><p>The latency between the client and the api.</p>
+<p>This will be '0.0' until the first API call.
+This will be updated after every API call.</p></div>
+</dd>
+<dt id="ciberedev.client.Client.requests"><code class="name">var <span class="ident">requests</span> : int</code></dt>
+<dd>
+<div class="desc"><p>The amount of requests sent to the api during the programs lifetime</p></div>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="ciberedev.client.Client.close"><code class="name flex">
 <span>async def <span class="ident">close</span></span>(<span>self) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Closes the client session</p></div>
+<div class="desc"><p>|coro|</p>
+<p>Closes the aiohttp session</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ClientNotStarted</code></dt>
+<dd>This is raised when you already closed the client</dd>
+</dl></div>
 </dd>
 <dt id="ciberedev.client.Client.get_search_results"><code class="name flex">
 <span>async def <span class="ident">get_search_results</span></span>(<span>self, query: str, /, *, amount: int = 5) ‑> list[<a title="ciberedev.searching.SearchResult" href="searching.html#ciberedev.searching.SearchResult">SearchResult</a>]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Searches the web with the given query</p>
-<p>:query: what you want to search
-:amount: the amount of results you want</p>
-<p>:returns: [ciberedev.searching.SearchResult, &hellip;]</p></div>
+<div class="desc"><p>|coro|</p>
+<p>Searches the web with the given query</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>query</code></strong> :&ensp;<code>str</code></dt>
+<dd>The query of your search</dd>
+<dt><strong><code>amount</code></strong> :&ensp;<code>Optional[</code>int<code>]</code></dt>
+<dd>The amount of results you want. Defaults to 5</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>List[<a title="ciberedev.searching.SearchResult" href="searching.html#ciberedev.searching.SearchResult">SearchResult</a>]</code></dt>
+<dd>A list of your search results</dd>
+</dl></div>
 </dd>
 <dt id="ciberedev.client.Client.is_closed"><code class="name flex">
 <span>def <span class="ident">is_closed</span></span>(<span>self) ‑> bool</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns a bool depending on if the client has been closed or not</p></div>
+<div class="desc"><p>Returns a bool depending on if the client has been closed or not</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if the client is closed, False if its not been closed</dd>
+</dl></div>
+</dd>
+<dt id="ciberedev.client.Client.on_ratelimit"><code class="name flex">
+<span>async def <span class="ident">on_ratelimit</span></span>(<span>self, endpoint: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>This function is auto triggered when it hits a rate limit.</p>
+<p>When overriding this, you can call the super init if you still want the library to send the logs</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
+<dd>the endpoint the ratelimit was hit at. Ex: '/screenshot'</dd>
+</dl></div>
 </dd>
 <dt id="ciberedev.client.Client.take_screenshot"><code class="name flex">
 <span>async def <span class="ident">take_screenshot</span></span>(<span>self, url: str, /, *, delay: int = 0) ‑> <a title="ciberedev.screenshot.Screenshot" href="screenshot.html#ciberedev.screenshot.Screenshot">Screenshot</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Takes a screenshot of the given url</p>
-<p>:url: the url you want a screenshot of
-:delay: the delay between opening the link and taking the actual picture</p>
-<p>:returns: ciberedev.screenshot.Screenshot</p></div>
+<div class="desc"><p>|coro|</p>
+<p>Takes a screenshot of the given url</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url you want to be screenshotted</dd>
+<dt><strong><code>delay</code></strong> :&ensp;<code>Optional[</code>int<code>]</code></dt>
+<dd>The delay between going to the website, and taking the screenshot</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnableToConnect</code></dt>
+<dd>If the api is unable to connect to the provided website</dd>
+<dt><code>InvalidURL</code></dt>
+<dd>If the url given is invalid</dd>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ciberedev.searching.Screenshot</code></dt>
+<dd>Your screenshot</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
@@ -91,10 +177,13 @@
 <ul>
 <li>
 <h4><code><a title="ciberedev.client.Client" href="#ciberedev.client.Client">Client</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="ciberedev.client.Client.close" href="#ciberedev.client.Client.close">close</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_search_results" href="#ciberedev.client.Client.get_search_results">get_search_results</a></code></li>
 <li><code><a title="ciberedev.client.Client.is_closed" href="#ciberedev.client.Client.is_closed">is_closed</a></code></li>
+<li><code><a title="ciberedev.client.Client.latency" href="#ciberedev.client.Client.latency">latency</a></code></li>
+<li><code><a title="ciberedev.client.Client.on_ratelimit" href="#ciberedev.client.Client.on_ratelimit">on_ratelimit</a></code></li>
+<li><code><a title="ciberedev.client.Client.requests" href="#ciberedev.client.Client.requests">requests</a></code></li>
 <li><code><a title="ciberedev.client.Client.take_screenshot" href="#ciberedev.client.Client.take_screenshot">take_screenshot</a></code></li>
 </ul>
 </li>

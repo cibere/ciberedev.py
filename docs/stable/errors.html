@@ -32,11 +32,40 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="ciberedev.errors.APIOffline"><code class="flex name class">
+<span>class <span class="ident">APIOffline</span></span>
+<span>(</span><span>endpoint: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates an APIOffline error instance.</p>
+<p>This is raised when the client can not connect to the api
+It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
+<dd>the endpoint the client is trying to make a request to</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
+<dd>the endpoint the client is trying to make a request to</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>ciberedev.errors.APIError</li>
+<li>ciberedev.errors.BaseError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="ciberedev.errors.ClientNotStarted"><code class="flex name class">
 <span>class <span class="ident">ClientNotStarted</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates a ClientNotStarted error instance.</p>
+<p>It is not recommended to raise this yourself</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>ciberedev.errors.BaseError</li>
@@ -49,7 +78,19 @@
 <span>(</span><span>url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates a InvalidURL error instance.</p>
+<p>It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>the url that is invalid</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>the url that is invalid</dd>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>ciberedev.errors.ScreenshotError</li>
@@ -57,20 +98,25 @@
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
 </ul>
-<h3>Instance variables</h3>
-<dl>
-<dt id="ciberedev.errors.InvalidURL.url"><code class="name">var <span class="ident">url</span> : str</code></dt>
-<dd>
-<div class="desc"><p>the url that has been marked as invalid</p></div>
-</dd>
-</dl>
 </dd>
 <dt id="ciberedev.errors.UnableToConnect"><code class="flex name class">
 <span>class <span class="ident">UnableToConnect</span></span>
 <span>(</span><span>url: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates a UnableToConnect error instance.</p>
+<p>It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url that the API is unable to connect to</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url that the API is unable to connect to</dd>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>ciberedev.errors.ScreenshotError</li>
@@ -78,20 +124,25 @@
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
 </ul>
-<h3>Instance variables</h3>
-<dl>
-<dt id="ciberedev.errors.UnableToConnect.url"><code class="name">var <span class="ident">url</span> : str</code></dt>
-<dd>
-<div class="desc"><p>The url that the API is unable to connect to</p></div>
-</dd>
-</dl>
 </dd>
 <dt id="ciberedev.errors.UnknownError"><code class="flex name class">
 <span>class <span class="ident">UnknownError</span></span>
 <span>(</span><span>error: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates a UnknownError error instance.</p>
+<p>It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>error</code></strong> :&ensp;<code>str</code></dt>
+<dd>The unknown error that occured</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>error</code></strong> :&ensp;<code>str</code></dt>
+<dd>The unknown error that occured</dd>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>ciberedev.errors.BaseError</li>
@@ -116,19 +167,16 @@
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
+<h4><code><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></code></h4>
+</li>
+<li>
 <h4><code><a title="ciberedev.errors.ClientNotStarted" href="#ciberedev.errors.ClientNotStarted">ClientNotStarted</a></code></h4>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.InvalidURL" href="#ciberedev.errors.InvalidURL">InvalidURL</a></code></h4>
-<ul class="">
-<li><code><a title="ciberedev.errors.InvalidURL.url" href="#ciberedev.errors.InvalidURL.url">url</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.UnableToConnect" href="#ciberedev.errors.UnableToConnect">UnableToConnect</a></code></h4>
-<ul class="">
-<li><code><a title="ciberedev.errors.UnableToConnect.url" href="#ciberedev.errors.UnableToConnect.url">url</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.UnknownError" href="#ciberedev.errors.UnknownError">UnknownError</a></code></h4>
