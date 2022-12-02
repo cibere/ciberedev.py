@@ -27,3 +27,9 @@ There are currently two versions of the documentation being hosted.
 - <a href="https://docs.cibere.dev/latest/index">Latest</a>
 
 Stable is the version that is on PYPI, while latest is the alpha/beta version on github
+
+# Examples
+
+This library's github repository has a wide collection of examples.
+I try to have an example for basically everything inside the library.
+The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/examples">found here</a>
