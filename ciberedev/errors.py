@@ -1,4 +1,10 @@
-__all__ = ["ClientNotStarted", "UnknownError", "InvalidURL", "UnableToConnect"]
+__all__ = [
+    "ClientNotStarted",
+    "UnknownError",
+    "InvalidURL",
+    "UnableToConnect",
+    "APIOffline",
+]
 
 
 class BaseError(Exception):
