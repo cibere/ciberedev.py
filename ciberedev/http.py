@@ -144,8 +144,8 @@ class HTTPClient:
             res = await self._session.request(
                 route.method, url, headers=headers, ssl=False
             )
-            response = await Response.create(aiohttp_response=res)
             after = time.perf_counter()
+            response = await Response.create(aiohttp_response=res)
         except ClientConnectionError:
             raise APIOffline(endpoint)
 
@@ -166,7 +166,7 @@ class HTTPClient:
             return response
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
-        if not re.match(URL_REGEX, "http://www.example.com") is not None:
+        if not re.match(URL_REGEX, url) is not None:
             raise InvalidURL(url)
 
         query_params = QueryParams()
