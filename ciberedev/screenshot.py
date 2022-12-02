@@ -30,7 +30,4 @@ class Screenshot:
         """
 
         self.url: str = url
-        "the screenshots url"
-
         self.bytes: BytesIO = _bytes
-        "the screenshots BytesIO object"
