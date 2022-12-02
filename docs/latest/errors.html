@@ -32,6 +32,33 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="ciberedev.errors.APIOffline"><code class="flex name class">
+<span>class <span class="ident">APIOffline</span></span>
+<span>(</span><span>endpoint: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates an APIOffline error instance.</p>
+<p>This is raised when the client can not connect to the api
+It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
+<dd>the endpoint the client is trying to make a request to</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
+<dd>the endpoint the client is trying to make a request to</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>ciberedev.errors.APIError</li>
+<li>ciberedev.errors.BaseError</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="ciberedev.errors.ClientNotStarted"><code class="flex name class">
 <span>class <span class="ident">ClientNotStarted</span></span>
 </code></dt>
@@ -139,6 +166,9 @@
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></code></h4>
+</li>
 <li>
 <h4><code><a title="ciberedev.errors.ClientNotStarted" href="#ciberedev.errors.ClientNotStarted">ClientNotStarted</a></code></h4>
 </li>
