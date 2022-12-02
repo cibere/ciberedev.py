@@ -2,6 +2,8 @@
 cibere.dev python wrapper
 ~~~~~~~~~~~~~~~~~~~
 A basic wrapper cibere.dev
+
+.. include:: ../extras/index_page.md
 """
 
 __description__ = "A basic wrapper cibere.dev"

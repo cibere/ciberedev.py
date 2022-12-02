@@ -6,11 +6,12 @@ import re
 import time
 from asyncio import AbstractEventLoop
 from io import BytesIO
-from typing import TYPE_CHECKING, Literal, Optional
+from typing import TYPE_CHECKING, Literal, Optional, Union
 from urllib.parse import urlencode
 
 from aiohttp import ClientResponse, ClientSession
 from aiohttp.client_exceptions import ClientConnectionError
+from typing_extensions import Self
 
 from .errors import APIOffline, InvalidURL, UnableToConnect, UnknownError
 from .screenshot import Screenshot
@@ -75,10 +76,36 @@ class Route:
         self.query_params = query_params or QueryParams()
 
 
+class Response:
+    __slots__ = ["original", "read", "json", "get_json"]
+
+    def __init__(self, *, aiohttp_response: ClientResponse):
+        self.original: ClientResponse = aiohttp_response
+        self.read = aiohttp_response.read
+        self.get_json = aiohttp_response.json
+        self.json: dict = {}
+
+    @classmethod
+    async def create(cls, *, aiohttp_response: ClientResponse) -> Self:
+        self = cls(aiohttp_response=aiohttp_response)
+
+        LOGGER.debug("Recieved Status Code: %s", aiohttp_response.status)
+        LOGGER.debug("Recieved Headers: %s", dict(aiohttp_response.headers))
+
+        try:
+            self.json = await aiohttp_response.json()
+        except:
+            LOGGER.debug("Recieved Data: Not Json")
+        finally:
+            LOGGER.debug("Recieved Data: %s", self.json)
+        return self
+
+
 class HTTPClient:
     _session: Optional[ClientSession]
     _client: Client
     _loop: Optional[AbstractEventLoop]
+
     __slots__ = ["_session", "_client", "_loop"]
 
     def __init__(self, *, session: Optional[ClientSession], client: Client):
@@ -86,7 +113,7 @@ class HTTPClient:
         self._client = client
         self._loop: Optional[AbstractEventLoop] = None
 
-    async def request(self, route: Route) -> ClientResponse:
+    async def request(self, route: Route) -> Response:
         if self._session is None:
             self._session = ClientSession()
         if self._loop is None:
@@ -111,14 +138,12 @@ class HTTPClient:
             res = await self._session.request(
                 route.method, url, headers=headers, ssl=False
             )
+            response = await Response.create(aiohttp_response=res)
             after = time.perf_counter()
         except ClientConnectionError:
             raise APIOffline(endpoint)
 
         self._client._latency = after - before
-
-        LOGGER.debug("Recieved Status Code: %s", res.status)
-        LOGGER.debug("Recieved Headers: %s", dict(res.headers))
 
         if res.status == 500:
             LOGGER.warning(
@@ -132,7 +157,7 @@ class HTTPClient:
             await asyncio.sleep(5)
             return await self.request(route)
         else:
-            return res
+            return response
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
         if not re.match(URL_REGEX, "http://www.example.com") is not None:
@@ -143,13 +168,12 @@ class HTTPClient:
         query_params["delay"] = str(delay)
         route = Route(
             method="POST",
-            endpoint="https://api2.cibere.dev/screenshot",
+            endpoint="https://api.cibere.dev/screenshot",
             query_params=query_params,
         )
 
         response = await self.request(route)
-        data = await response.json()
-        LOGGER.debug("Recieved Data: %s", data)
+        data = response.json
 
         if data["status_code"] == 200:
             image_route = Route(method="GET", endpoint=data["link"])
@@ -176,8 +200,7 @@ class HTTPClient:
         )
 
         response = await self.request(route)
-        data = await response.json()
-        LOGGER.debug("Recieved Data: %s", data)
+        data = response.json
 
         results = []
         for result in data["results"]:

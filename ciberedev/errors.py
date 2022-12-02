@@ -12,13 +12,22 @@ class APIError(BaseError):
 class APIOffline(APIError):
     def __init__(self, endpoint: str):
         """Creates an APIOffline error instance.
-        This is raised when the client can not connect to the api
 
+        This is raised when the client can not connect to the api
         It is not recommended to raise this yourself
 
-        :endpoint: the endpoint the client is trying to make a request to
+        Parameters
+        ----------
+        endpoint: `str`
+            the endpoint the client is trying to make a request to
+
+        Attributes
+        ----------
+        endpoint: `str`
+            the endpoint the client is trying to make a request to
         """
 
+        self.endpoint = endpoint
         super().__init__(f"API is down. Aborting API request to '{endpoint}'")
 
 
@@ -50,7 +59,15 @@ class UnknownError(BaseError):
 
         It is not recommended to raise this yourself
 
-        :error: The unknown error
+        Parameters
+        ----------
+        error: `str`
+            The unknown error that occured
+
+        Attributes
+        ----------
+        error: `str`
+            The unknown error that occured
         """
 
         self.error = error
@@ -67,13 +84,19 @@ class InvalidURL(ScreenshotError):
 
         It is not recommended to raise this yourself
 
-        :url: the url that is invalid
+        Parameters
+        ----------
+        url: `str`
+            the url that is invalid
+
+        Attributes
+        ----------
+        url: `str`
+            the url that is invalid
         """
 
-        super().__init__(f"Invalid URL Given: '{self.url}'")
-
         self.url: str = url
-        "the url that has been marked as invalid"
+        super().__init__(f"Invalid URL Given: '{self.url}'")
 
 
 class UnableToConnect(ScreenshotError):
@@ -82,10 +105,16 @@ class UnableToConnect(ScreenshotError):
 
         It is not recommended to raise this yourself
 
-        :url: the url that the api is unable to connect to
+        Parameters
+        ----------
+        url: `str`
+            The url that the API is unable to connect to
+
+        Attributes
+        ----------
+        url: `str`
+            The url that the API is unable to connect to
         """
 
-        super().__init__(f"Unable to Connect to '{self.url}'")
-
         self.url: str = url
-        "The url that the API is unable to connect to"
+        super().__init__(f"Unable to Connect to '{self.url}'")

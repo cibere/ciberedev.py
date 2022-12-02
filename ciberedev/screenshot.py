@@ -13,6 +13,20 @@ class Screenshot:
         """Creates a Screenshot object.
 
         THIS SHOULD NOT BE CREATED MANUALLY, LET CIBEREDEV'S INTERNALS CREATE THEM
+
+        Parameters
+        ----------
+        _bytes: io.BytesIO
+            The image's bytes
+        url: `str`
+            The screenshots url
+
+        Attributes
+        ----------
+        bytes: `io.BytesIO`
+            The image's bytes
+        url: str
+            The screenshots url
         """
 
         self.url: str = url
