@@ -14,6 +14,9 @@ async def main():
         # printing the screenshots url
         print(screnshot.url)
 
+        # saving the screenshot to a file
+        await screnshot.save("test.png")
+
 
 # checking if this file is the one that was run
 if __name__ == "__main__":
