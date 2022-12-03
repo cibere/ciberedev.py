@@ -30,6 +30,10 @@ class PlayingPiece:
     ):
         """Creates a playing piece object
 
+        Notes
+        ----------
+        Keep in mind, that this DOES NOT validate moves, promoting a piece, etc. You have to do that yourself. If someone wants to PR a version with that, go ahead.
+
         Parameters
         ----------
         _type: `str`
@@ -63,6 +67,10 @@ class PlayingPiece:
     def move(self, new_location: int, /):
         """Moves the piece to the given location
 
+        Notes
+        ----------
+        Keep in mind, that this DOES NOT validate moves, promoting a piece, etc. You have to do that yourself. If someone wants to PR a version with that, go ahead.
+
         Parameters
         ----------
         new_location: `int`
@@ -88,6 +96,10 @@ class PlayingPiece:
     def promote(self) -> None:
         """Promotes the piece to a queen
 
+        Notes
+        ----------
+        Keep in mind, that this DOES NOT validate moves, promoting a piece, etc. You have to do that yourself. If someone wants to PR a version with that, go ahead.
+
         Raises
         ----------
         UnableToPromote
@@ -102,8 +114,16 @@ class PlayingPiece:
         )
         self._board.pieces[self._location] = new_piece
 
+
+class QueenPiece(PlayingPiece):
+    _raw_conversion = {"black": "q", "red": "k"}
+
     def demote(self) -> None:
         """Demotes a piece from a queen
+
+        Notes
+        ----------
+        Keep in mind, that this DOES NOT validate moves, promoting a piece, etc. You have to do that yourself. If someone wants to PR a version with that, go ahead.
 
         Raises
         ----------
@@ -120,10 +140,6 @@ class PlayingPiece:
         self._board.pieces[self._location] = new_piece
 
 
-class QueenPiece(PlayingPiece):
-    _raw_conversion = {"black": "q", "red": "k"}
-
-
 class EmptySpace:
     raw = "_"
 
@@ -138,7 +154,11 @@ class CheckersGame:
     def __init__(self, *, http_client: HTTPClient):
         """Starts a checkers game
 
-        It is not recommended to start this yourself
+        It is not recommended to start this yourself. Instead, use `ciberedev.client.Client.create_checkers_game`
+
+        Notes
+        ----------
+        Keep in mind, that this DOES NOT validate moves, promoting a piece, etc. You have to do that yourself. If someone wants to PR a version with that, go ahead.
 
         Parameters
         ----------
@@ -186,7 +206,7 @@ class CheckersGame:
     def from_pattern(cls, pattern: str, /, *, http_client: HTTPClient) -> Self:
         """Starts a chess game from a given pattern
 
-        It is not recommended to start this yourself
+        It is not recommended to start this yourself. Instead, use `ciberedev.client.Client.create_checkers_game`
 
         Parameters
         ----------
