@@ -13,6 +13,7 @@ from typing import Literal, NamedTuple
 
 from .client import Client
 from .errors import *
+from .file import File
 from .screenshot import Screenshot
 from .searching import SearchResult
 
