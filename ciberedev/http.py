@@ -14,7 +14,7 @@ from aiohttp.client_exceptions import ClientConnectionError
 from typing_extensions import Self
 
 from .errors import APIOffline, InvalidURL, UnableToConnect, UnknownError
-from .screenshot import Screenshot
+from .file import File
 from .searching import SearchResult
 
 if TYPE_CHECKING:
@@ -180,7 +180,7 @@ class HTTPClient:
         response = await self.request(route)
         return await response.read()
 
-    async def take_screenshot(self, url: str, delay: int) -> Screenshot:
+    async def take_screenshot(self, url: str, delay: int) -> File:
         if not re.match(URL_REGEX, url) is not None:
             raise InvalidURL(url)
 
@@ -200,8 +200,8 @@ class HTTPClient:
             image_route = Route(method="GET", endpoint=data["link"])
             res = await self.request(image_route)
             _bytes = BytesIO(await res.read())
-            screenshot = Screenshot(_bytes=_bytes, url=data["link"])
-            return screenshot
+            file = File(raw_bytes=_bytes.read(), url=data["link"])
+            return file
         else:
             if data["error"] == "I was unable to connect to the website.":
                 raise UnableToConnect(url)

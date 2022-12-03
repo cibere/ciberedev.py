@@ -6,8 +6,8 @@ from typing_extensions import Self
 
 from .checkers import CheckersGame
 from .errors import ClientNotStarted
+from .file import File
 from .http import HTTPClient
-from .screenshot import Screenshot
 from .searching import SearchResult
 
 __all__ = ["Client"]
@@ -136,7 +136,7 @@ class Client:
         if self._http._session:
             await self._http._session.close()
 
-    async def take_screenshot(self, url: str, /, *, delay: int = 0) -> Screenshot:
+    async def take_screenshot(self, url: str, /, *, delay: int = 0) -> File:
         """|coro|
 
         Takes a screenshot of the given url
@@ -162,8 +162,8 @@ class Client:
 
         Returns
         ----------
-        ciberedev.searching.Screenshot
-            Your screenshot
+        ciberedev.file.File
+            A file object of your screenshot
         """
 
         url = url.removeprefix("<").removesuffix(">")
