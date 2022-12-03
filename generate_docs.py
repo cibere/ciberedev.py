@@ -57,6 +57,20 @@ def format_page(page):
     with open(fp, "r") as file:
         html = file.read()
 
+    html = html.replace(
+        """<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="ciberedev.checkers.QueenPiece" href="#ciberedev.checkers.QueenPiece">QueenPiece</a></li>
+</ul>""",
+        "",
+    )
+    html = html.replace(
+        """<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ciberedev.checkers.PlayingPiece" href="#ciberedev.checkers.PlayingPiece">PlayingPiece</a></li>
+</ul>""",
+        "",
+    )
     html = html.replace('<meta name="generator" content="pdoc 0.10.0" />', "")
     html = html.replace(
         """cibere.dev python wrapper
