@@ -15,6 +15,8 @@ from .file import File
 if TYPE_CHECKING:
     from .http import HTTPClient
 
+__all__ = ["PlayingPiece", "QueenPiece", "EmptySpace", "CheckersGame"]
+
 
 class PlayingPiece:
     _raw_conversion = {"black": "b", "red": "r"}
@@ -124,6 +126,10 @@ class QueenPiece(PlayingPiece):
 
 class EmptySpace:
     raw = "_"
+
+    def __init__(self):
+        """Used to denote an empty space in a checkers board"""
+        pass
 
 
 class CheckersGame:

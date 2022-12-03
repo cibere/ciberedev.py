@@ -4,6 +4,10 @@ __all__ = [
     "InvalidURL",
     "UnableToConnect",
     "APIOffline",
+    "InvalidPattern",
+    "UnableToDemote",
+    "UnableToPromote",
+    "LocationAlreadyTaken",
 ]
 
 
