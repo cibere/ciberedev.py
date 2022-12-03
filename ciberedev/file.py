@@ -1,6 +1,6 @@
 import asyncio
 from functools import partial as partial_func
-from typing import Any, Optional, Union
+from typing import Any, Optional
 
 __all__ = ["File"]
 
@@ -21,9 +21,9 @@ class File:
         url: Optional[`url`]
             the files url (if it has one)
 
-        Parameters
+        Attributes
         ----------
-        raw_bytes: `bytes`
+        bytes: `bytes`
             The bytes of the file
         url: Optional[`url`]
             the files url (if it has one)
