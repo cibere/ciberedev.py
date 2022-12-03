@@ -4,6 +4,10 @@ __all__ = [
     "InvalidURL",
     "UnableToConnect",
     "APIOffline",
+    "InvalidPattern",
+    "UnableToDemote",
+    "UnableToPromote",
+    "LocationAlreadyTaken",
 ]
 
 
@@ -124,3 +128,71 @@ class UnableToConnect(ScreenshotError):
 
         self.url: str = url
         super().__init__(f"Unable to Connect to '{self.url}'")
+
+
+class CheckersError(BaseError):
+    pass
+
+
+class LocationAlreadyTaken(CheckersError):
+    def __init__(self, location: int):
+        """Creates a LocationAlreadyTaken error instance
+
+        It is not recommended to raise this yourself
+
+        Parameters
+        ----------
+        loaction: int
+            the location you are trying to move a piece to
+
+        Attributes
+        ----------
+        loaction: int
+            the location you are trying to move a piece to
+        """
+
+        self.location = location
+        super().__init__(f"There is already a piece at '{location}'")
+
+
+class UnableToPromote(CheckersError):
+    def __init__(self):
+        """Creates a UnableToPromote error instance
+
+        It is not recommended to raise this yourself
+        """
+
+        super().__init__("This piece can not be promoted anymore")
+
+
+class UnableToDemote(CheckersError):
+    def __init__(self):
+        """Creates a UnableToDemote error instance
+
+        It is not recommended to raise this yourself
+        """
+
+        super().__init__("This piece can not be demoted anymore")
+
+
+class InvalidPattern(CheckersError):
+    def __init__(self, error: str, pattern: str):
+        """Creates a InvalidPattern error instance
+
+        It is not recommended to raise this yourself
+
+        Parameters
+        ----------
+        pattern: `str`
+            the invalid pattern
+        error: `str`
+            How the pattern is invalid
+
+        Attributes
+        ----------
+        pattern: `str`
+            the invalid pattern
+        """
+
+        self.pattern = pattern
+        super().__init__(error)

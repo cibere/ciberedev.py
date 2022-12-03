@@ -6,7 +6,7 @@ import re
 import time
 from asyncio import AbstractEventLoop
 from io import BytesIO
-from typing import TYPE_CHECKING, Literal, Optional, Union
+from typing import TYPE_CHECKING, Literal, Optional
 from urllib.parse import urlencode
 
 from aiohttp import ClientResponse, ClientSession
@@ -164,6 +164,21 @@ class HTTPClient:
             return await self.request(route)
         else:
             return response
+
+    async def get_checkers_board(self, pattern: str) -> bytes:
+        API_accepted_pattern = []
+        for index, char in enumerate(pattern):
+            if index in [0, 1, 2, 3, 8, 9, 10, 11, 16, 17, 18, 19, 24, 25, 26, 27]:
+                API_accepted_pattern.extend(["_", char])
+            else:
+                API_accepted_pattern.extend([char, "_"])
+
+        route = Route(
+            method="GET",
+            endpoint=f"https://api.cibere.dev/boardgame/checkers/{''.join(API_accepted_pattern)}",
+        )
+        response = await self.request(route)
+        return await response.read()
 
     async def take_screenshot(self, url: str, delay: int) -> Screenshot:
         if not re.match(URL_REGEX, url) is not None:
