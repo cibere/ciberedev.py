@@ -169,3 +169,26 @@ class UnableToDemote(CheckersError):
         """
 
         super().__init__("This piece can not be demoted anymore")
+
+
+class InvalidPattern(CheckersError):
+    def __init__(self, error: str, pattern: str):
+        """Creates a InvalidPattern error instance
+
+        It is not recommended to raise this yourself
+
+        Parameters
+        ----------
+        pattern: `str`
+            the invalid pattern
+        error: `str`
+            How the pattern is invalid
+
+        Attributes
+        ----------
+        pattern: `str`
+            the invalid pattern
+        """
+
+        self.pattern = pattern
+        super().__init__(error)
