@@ -4,7 +4,12 @@ from typing import TYPE_CHECKING, Literal, Optional, Union
 
 from typing_extensions import Self
 
-from .errors import LocationAlreadyTaken, UnableToDemote, UnableToPromote
+from .errors import (
+    InvalidPattern,
+    LocationAlreadyTaken,
+    UnableToDemote,
+    UnableToPromote,
+)
 from .file import File
 
 if TYPE_CHECKING:
@@ -172,7 +177,7 @@ class CheckersGame:
             return piece
 
     @classmethod
-    def from_pattern(cls, *, pattern: str, http_client: HTTPClient) -> Self:
+    def from_pattern(cls, pattern: str, /, *, http_client: HTTPClient) -> Self:
         """Starts a chess game from a given pattern
 
         It is not recommended to start this yourself
@@ -188,11 +193,17 @@ class CheckersGame:
         ----------
         pieces: list[Union[`PlayingPiece`, `EmptySpace`, `QueenPiece`]]
             A list of all the pieces in order
+
+        Raises
+        ----------
+        InvalidPattern
+            The given pattern is invalid
         """
+
         if len(pattern) != 32:
-            raise TypeError("Pattern must be 32 characters long")
+            raise InvalidPattern("Pattern must be 32 characters long", pattern)
         if not all(char in ["b", "_", "r", "q", "k"] for char in pattern):
-            raise TypeError("Invalid Character in pattern")
+            raise InvalidPattern("Invalid Character in pattern", pattern)
 
         self = cls.__new__(cls)
 
