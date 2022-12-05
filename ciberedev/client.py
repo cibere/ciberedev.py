@@ -5,7 +5,7 @@ from aiohttp import ClientSession
 from typing_extensions import Self
 
 from .checkers import CheckersGame
-from .errors import ClientNotStarted
+from .errors import ClientAlreadyClosed
 from .file import File
 from .http import HTTPClient
 from .searching import SearchResult
@@ -126,12 +126,12 @@ class Client:
 
         Raises
         ----------
-        ClientNotStarted
+        ClientAlreadyClosed
             This is raised when you already closed the client
         """
 
         if not self._started:
-            raise ClientNotStarted()
+            raise ClientAlreadyClosed()
 
         if self._http._session:
             await self._http._session.close()
