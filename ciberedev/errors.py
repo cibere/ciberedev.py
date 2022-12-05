@@ -65,16 +65,6 @@ class ClientNotStarted(APIException):
         )
 
 
-class ClientAlreadyStarted(APIException):
-    def __init__(self):
-        """Creates a ClientAlreadyStarted error instance.
-
-        It is not recommended to raise this yourself
-        """
-
-        super().__init__("Client has already been started")
-
-
 class UnknownError(CiberedevException):
     def __init__(self, error: str):
         """Creates a UnknownError error instance.
