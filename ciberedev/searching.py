@@ -1,3 +1,5 @@
+from .types.searching import SearchResultData
+
 __all__ = ["SearchResult"]
 
 
@@ -9,7 +11,7 @@ class SearchResult:
 
     __slots__ = ["title", "description", "desc", "url"]
 
-    def __init__(self, *, data: dict):
+    def __init__(self, *, data: SearchResultData):
         """Creates a SearchResult object.
 
         THIS SHOULD NOT BE CREATED MANUALLY, LET THE INTERNALS CREATE THEM
