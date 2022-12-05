@@ -11,15 +11,27 @@ __all__ = [
 ]
 
 
-class BaseError(Exception):
+class CiberedevException(Exception):
     pass
 
 
-class APIError(BaseError):
+class APIException(CiberedevException):
     pass
 
 
-class APIOffline(APIError):
+class ScreenshotException(CiberedevException):
+    pass
+
+
+class BoardgameException(CiberedevException):
+    pass
+
+
+class CheckersException(BoardgameException):
+    pass
+
+
+class APIOffline(APIException):
     def __init__(self, endpoint: str):
         """Creates an APIOffline error instance.
 
@@ -41,7 +53,7 @@ class APIOffline(APIError):
         super().__init__(f"API is down. Aborting API request to '{endpoint}'")
 
 
-class ClientNotStarted(BaseError):
+class ClientNotStarted(APIException):
     def __init__(self):
         """Creates a ClientNotStarted error instance.
 
@@ -53,7 +65,7 @@ class ClientNotStarted(BaseError):
         )
 
 
-class ClientAlreadyStarted(BaseError):
+class ClientAlreadyStarted(APIException):
     def __init__(self):
         """Creates a ClientAlreadyStarted error instance.
 
@@ -63,7 +75,7 @@ class ClientAlreadyStarted(BaseError):
         super().__init__("Client has already been started")
 
 
-class UnknownError(BaseError):
+class UnknownError(CiberedevException):
     def __init__(self, error: str):
         """Creates a UnknownError error instance.
 
@@ -84,11 +96,7 @@ class UnknownError(BaseError):
         super().__init__(f"An unknown error has occured: {error}")
 
 
-class ScreenshotError(BaseError):
-    pass
-
-
-class InvalidURL(ScreenshotError):
+class InvalidURL(ScreenshotException):
     def __init__(self, url: str):
         """Creates a InvalidURL error instance.
 
@@ -109,7 +117,7 @@ class InvalidURL(ScreenshotError):
         super().__init__(f"Invalid URL Given: '{self.url}'")
 
 
-class UnableToConnect(ScreenshotError):
+class UnableToConnect(ScreenshotException):
     def __init__(self, url: str):
         """Creates a UnableToConnect error instance.
 
@@ -130,11 +138,7 @@ class UnableToConnect(ScreenshotError):
         super().__init__(f"Unable to Connect to '{self.url}'")
 
 
-class CheckersError(BaseError):
-    pass
-
-
-class LocationAlreadyTaken(CheckersError):
+class LocationAlreadyTaken(CheckersException):
     def __init__(self, location: int):
         """Creates a LocationAlreadyTaken error instance
 
@@ -155,7 +159,7 @@ class LocationAlreadyTaken(CheckersError):
         super().__init__(f"There is already a piece at '{location}'")
 
 
-class UnableToPromote(CheckersError):
+class UnableToPromote(CheckersException):
     def __init__(self):
         """Creates a UnableToPromote error instance
 
@@ -165,7 +169,7 @@ class UnableToPromote(CheckersError):
         super().__init__("This piece can not be promoted anymore")
 
 
-class UnableToDemote(CheckersError):
+class UnableToDemote(CheckersException):
     def __init__(self):
         """Creates a UnableToDemote error instance
 
@@ -175,7 +179,7 @@ class UnableToDemote(CheckersError):
         super().__init__("This piece can not be demoted anymore")
 
 
-class InvalidPattern(CheckersError):
+class InvalidPattern(CheckersException):
     def __init__(self, error: str, pattern: str):
         """Creates a InvalidPattern error instance
 
