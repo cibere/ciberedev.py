@@ -1,5 +1,5 @@
 __all__ = [
-    "ClientNotStarted",
+    "ClientAlreadyClosed",
     "UnknownError",
     "InvalidURL",
     "UnableToConnect",
@@ -53,9 +53,9 @@ class APIOffline(APIException):
         super().__init__(f"API is down. Aborting API request to '{endpoint}'")
 
 
-class ClientNotStarted(APIException):
+class ClientAlreadyClosed(APIException):
     def __init__(self):
-        """Creates a ClientNotStarted error instance.
+        """Creates a ClientAlreadyClosed error instance.
 
         It is not recommended to raise this yourself
         """
