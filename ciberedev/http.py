@@ -13,9 +13,19 @@ from aiohttp import ClientResponse, ClientSession
 from aiohttp.client_exceptions import ClientConnectionError
 from typing_extensions import Self
 
-from .errors import APIOffline, InvalidURL, UnableToConnect, UnknownError
+from .errors import (
+    APIException,
+    APIOffline,
+    InvalidURL,
+    UnableToConnect,
+    UnknownDataReturned,
+    UnknownError,
+    UnknownStatusCode,
+)
 from .file import File
 from .searching import SearchResult
+from .types.screenshot import ScreenshotData
+from .types.searching import GetSearchResultData, SearchResultData
 
 if TYPE_CHECKING:
     from .client import Client
@@ -77,10 +87,11 @@ class Route:
 
 
 class Response:
-    __slots__ = ["original", "read", "json", "get_json", "status"]
+    __slots__ = ["original", "read", "json", "get_json", "status", "text"]
 
     def __init__(self, *, aiohttp_response: ClientResponse):
         self.original: ClientResponse = aiohttp_response
+        self.text = aiohttp_response.text
         self.read = aiohttp_response.read
         self.get_json = aiohttp_response.json
         self.json: dict = {}
@@ -162,6 +173,8 @@ class HTTPClient:
             self._loop.create_task(self._client.on_ratelimit(endpoint))
             await asyncio.sleep(5)
             return await self.request(route)
+        elif res.status == 502:
+            raise APIOffline(endpoint)
         else:
             return response
 
@@ -178,7 +191,12 @@ class HTTPClient:
             endpoint=f"https://api.cibere.dev/boardgame/checkers/{''.join(API_accepted_pattern)}",
         )
         response = await self.request(route)
-        return await response.read()
+        if response.status == 200:
+            return await response.read()
+        elif response.status == 400:
+            raise APIException(response.json["error"])
+        else:
+            raise UnknownStatusCode(response.status)
 
     async def take_screenshot(self, url: str, delay: int) -> File:
         if not re.match(URL_REGEX, url) is not None:
@@ -194,21 +212,29 @@ class HTTPClient:
         )
 
         response = await self.request(route)
-        data = response.json
-
-        if data["status_code"] == 200:
-            image_route = Route(method="GET", endpoint=data["link"])
-            res = await self.request(image_route)
-            _bytes = BytesIO(await res.read())
-            file = File(raw_bytes=_bytes.read(), url=data["link"])
-            return file
-        else:
-            if data["error"] == "I was unable to connect to the website.":
-                raise UnableToConnect(url)
-            elif data["error"] == "Invalid URL Given":
+        if response.status == 200:
+            try:
+                data = ScreenshotData(
+                    link=response.json["link"], status_code=response.json["status_code"]
+                )
+            except KeyError:
+                raise UnknownDataReturned("/screenshot")
+        elif response.status == 400:
+            if response.json["error"] == "Invalid URL Given":
                 raise InvalidURL(url)
+            elif response.json["error"] == "I was unable to connect to the website.":
+                raise UnableToConnect(url)
             else:
-                raise UnknownError(data["error"])
+                raise APIException(response.json["error"])
+        else:
+            raise UnknownStatusCode(response.status)
+
+        link = data["link"]
+        image_route = Route(method="GET", endpoint=link)
+        res = await self.request(image_route)
+        _bytes = BytesIO(await res.read())
+        file = File(raw_bytes=_bytes.read(), url=link)
+        return file
 
     async def get_search_results(self, query: str, amount: int) -> list[SearchResult]:
         query_params = QueryParams()
@@ -221,10 +247,39 @@ class HTTPClient:
         )
 
         response = await self.request(route)
-        data = response.json
+        if response.status == 200:
+            try:
+                data = GetSearchResultData(
+                    results=response.json["results"],
+                    status_code=response.json["status_code"],
+                )
+            except KeyError:
+                raise UnknownDataReturned("/search")
+        elif response.status == 200:
+            if response.json["error"] == "Invalid 'amount' given, it must be an int":
+                raise TypeError("'amount' must be an int")
+            elif (
+                response.json["error"]
+                == "Invalid 'amount' given, can not be more than 10"
+            ):
+                raise TypeError("'amount' must be => 10")
+            else:
+                raise APIException(response.json["error"])
+        else:
+            raise UnknownStatusCode(response.status)
 
         results = []
-        for result in data["results"]:
+        raw_results = data["results"]
+        for result in raw_results:
+            try:
+                result = SearchResultData(
+                    title=result["title"],
+                    description=result["description"],
+                    url=result["url"],
+                )
+            except KeyError:
+                raise UnknownDataReturned("/search")
+
             search_result = SearchResult(data=result)
             results.append(search_result)
         return results
