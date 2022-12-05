@@ -1,3 +1,4 @@
+import os
 import platform
 import sys
 import webbrowser
@@ -17,6 +18,23 @@ class Command:
 
     def callback(self):
         pass
+
+
+class UpdateCmd(Command):
+    def __init__(self):
+        super().__init__(
+            name="u",
+            description="updates your installation of ciberedev.py",
+            full_name="update",
+        )
+
+    def callback(self):
+        if ciberedev.version_info.releaselevel == "final":
+            lib = "ciberedev.py"
+        else:
+            lib = "git+https://github.com/cibere/ciberedev.py"
+
+        os.system(sys.executable + f" -m pip install {lib}")
 
 
 class OpenDocs(Command):
@@ -91,6 +109,7 @@ ciberedev.py arguments
 commands.append(GetSystemInfoCmd())
 commands.append(GetVersionCmd())
 commands.append(HelpCmd())
+commands.append(UpdateCmd())
 commands.append(OpenDocs())
 
 
