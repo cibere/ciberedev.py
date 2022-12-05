@@ -1,5 +1,6 @@
 import platform
 import sys
+import webbrowser
 
 import aiohttp
 
@@ -16,6 +17,23 @@ class Command:
 
     def callback(self):
         pass
+
+
+class OpenDocs(Command):
+    def __init__(self):
+        super().__init__(
+            name="d",
+            description="Opens the documentation in your browser",
+            full_name="open-docs",
+        )
+
+    def callback(self):
+        version = (
+            "stable" if ciberedev.version_info.releaselevel == "final" else "latest"
+        )
+
+        print(f"Opening the {version} docs in your browser")
+        webbrowser.open(f"https://docs.cibere.dev/{version}/index")
 
 
 class GetVersionCmd(Command):
@@ -73,6 +91,7 @@ ciberedev.py arguments
 commands.append(GetSystemInfoCmd())
 commands.append(GetVersionCmd())
 commands.append(HelpCmd())
+commands.append(OpenDocs())
 
 
 def main():
