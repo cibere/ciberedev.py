@@ -33,3 +33,15 @@ Stable is the version that is on PYPI, while latest is the alpha/beta version on
 This library's github repository has a wide collection of examples.
 I try to have an example for basically everything inside the library.
 The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/examples">found here</a>
+
+# CLI Commands
+
+The library contains some CLI commands.
+
+- -s | system-info: gives you info about your system
+- -v | version: gives you the version of ciberedev.py you are running
+- -h | help: the help menu
+- -u | update: updates your installation of ciberedev.py
+- -d | open-docs: Opens the documentation in your browser
+
+To use a command, simply run `py -m ciberedev <command>`
