@@ -37,3 +37,6 @@ class SearchResult:
         self.description = data["description"]
         self.desc = self.description
         self.url = data["url"]
+
+    def __repr__(self):
+        return f"<SearchResult title={self.title} url={self.url}>"

@@ -102,7 +102,6 @@ class Response:
         self = cls(aiohttp_response=aiohttp_response)
 
         LOGGER.debug("Recieved Status Code: %s", aiohttp_response.status)
-        LOGGER.debug("Recieved Headers: %s", dict(aiohttp_response.headers))
 
         try:
             self.json = await aiohttp_response.json()
