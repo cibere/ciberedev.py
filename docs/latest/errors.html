@@ -32,6 +32,29 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="ciberedev.errors.APIException"><code class="flex name class">
+<span>class <span class="ident">APIException</span></span>
+<span>(</span><span>error: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates an APIException error stinace</p>
+<p>This is raised when the api returns an error
+It is not recommended to raise this yourself</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>ciberedev.errors.CiberedevException</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></li>
+<li><a title="ciberedev.errors.ClientAlreadyClosed" href="#ciberedev.errors.ClientAlreadyClosed">ClientAlreadyClosed</a></li>
+<li><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></li>
+<li><a title="ciberedev.errors.UnknownStatusCode" href="#ciberedev.errors.UnknownStatusCode">UnknownStatusCode</a></li>
+</ul>
+</dd>
 <dt id="ciberedev.errors.APIOffline"><code class="flex name class">
 <span>class <span class="ident">APIOffline</span></span>
 <span>(</span><span>endpoint: str)</span>
@@ -53,7 +76,7 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li>ciberedev.errors.APIException</li>
+<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -68,7 +91,7 @@ It is not recommended to raise this yourself</p>
 <p>It is not recommended to raise this yourself</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li>ciberedev.errors.APIException</li>
+<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -214,6 +237,33 @@ It is not recommended to raise this yourself</p>
 <li>builtins.BaseException</li>
 </ul>
 </dd>
+<dt id="ciberedev.errors.UnknownDataReturned"><code class="flex name class">
+<span>class <span class="ident">UnknownDataReturned</span></span>
+<span>(</span><span>endpoint: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates an UnknownDataReturned error stinace</p>
+<p>This is raised when the data the api returns does not match what the client believes it should return
+It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
+<dd>The endpoint the client is making a request to when this happend</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
+<dd>The endpoint the client is making a request to when this happend</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
+<li>ciberedev.errors.CiberedevException</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="ciberedev.errors.UnknownError"><code class="flex name class">
 <span>class <span class="ident">UnknownError</span></span>
 <span>(</span><span>error: str)</span>
@@ -239,6 +289,33 @@ It is not recommended to raise this yourself</p>
 <li>builtins.BaseException</li>
 </ul>
 </dd>
+<dt id="ciberedev.errors.UnknownStatusCode"><code class="flex name class">
+<span>class <span class="ident">UnknownStatusCode</span></span>
+<span>(</span><span>code: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates an UnknownStatusCode error stinace</p>
+<p>This is raised when the api returns an unknown status code
+It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>code</code></strong> :&ensp;<code>int</code></dt>
+<dd>the status code that was returned</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>code</code></strong> :&ensp;<code>int</code></dt>
+<dd>the status code that was returned</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
+<li>ciberedev.errors.CiberedevException</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 </dl>
 </section>
 </article>
@@ -255,6 +332,9 @@ It is not recommended to raise this yourself</p>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></code></h4>
+</li>
 <li>
 <h4><code><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></code></h4>
 </li>
@@ -280,7 +360,13 @@ It is not recommended to raise this yourself</p>
 <h4><code><a title="ciberedev.errors.UnableToPromote" href="#ciberedev.errors.UnableToPromote">UnableToPromote</a></code></h4>
 </li>
 <li>
+<h4><code><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></code></h4>
+</li>
+<li>
 <h4><code><a title="ciberedev.errors.UnknownError" href="#ciberedev.errors.UnknownError">UnknownError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="ciberedev.errors.UnknownStatusCode" href="#ciberedev.errors.UnknownStatusCode">UnknownStatusCode</a></code></h4>
 </li>
 </ul>
 </li>
