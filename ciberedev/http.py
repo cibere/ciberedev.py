@@ -24,6 +24,7 @@ from .errors import (
 )
 from .file import File
 from .searching import SearchResult
+from .types.random import RandomWordData
 from .types.screenshot import ScreenshotData
 from .types.searching import GetSearchResultData, SearchResultData
 
@@ -282,3 +283,25 @@ class HTTPClient:
             search_result = SearchResult(data=result)
             results.append(search_result)
         return results
+
+    async def get_random_words(self, amount: int) -> list[str]:
+        query_params = QueryParams()
+        query_params["amount"] = str(amount)
+        route = Route(
+            method="GET",
+            endpoint="https://api.cibere.dev/random/word",
+            query_params=query_params,
+        )
+        response = await self.request(route)
+        if response.status == 200:
+            try:
+                data = RandomWordData(
+                    words=response.json["words"],
+                    status_code=response.json["status_code"],
+                )
+            except KeyError:
+                raise UnknownDataReturned("/random/word")
+        else:
+            raise UnknownStatusCode(response.status)
+
+        return data["words"]

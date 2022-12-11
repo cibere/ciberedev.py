@@ -201,3 +201,28 @@ class Client:
         """
 
         return await self._http.get_search_results(query, amount)
+
+    async def get_random_words(self, amount: int, /) -> list[str]:
+        """|coro|
+
+        Gives you random words
+
+        Parameters
+        ----------
+        amount: `int`
+            the amount of random words you want
+
+        Raises
+        ----------
+        UnknownError
+            The api has returned an unknown error
+        APIOffline
+            I could not connect to the api
+
+        Returns
+        ----------
+        List[`str`]
+            the random words that have been generated
+        """
+
+        return await self._http.get_random_words(amount)
