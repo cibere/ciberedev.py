@@ -11,6 +11,7 @@
 - Added support for checkers endpoint at `ciberedev.checkers`
 - `update` and `open-docs` CLI commands
 - Added `ciberedev.file.File`
+- Added support for `random/word` endpoint at `ciberedev.client.Client.get_random_words`
 
 **Bug Fixes**
 
