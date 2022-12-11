@@ -75,6 +75,7 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <p><strong>Bug Fixes</strong></p>
 <ul>
 <li>Miss-leading name for <code>ClientNotStarted</code>, and it has been renamed to <code>ClientAlreadyClosed</code></li>
+<li>Fixed bug where <code>get_search_results</code> would check for status code 200 twice instead of 200 then 400</li>
 </ul>
 <h2 id="041">0.4.1</h2>
 <p><strong>Breaking Changes</strong></p>
