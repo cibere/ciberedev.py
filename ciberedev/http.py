@@ -255,7 +255,7 @@ class HTTPClient:
                 )
             except KeyError:
                 raise UnknownDataReturned("/search")
-        elif response.status == 200:
+        elif response.status == 400:
             if response.json["error"] == "Invalid 'amount' given, it must be an int":
                 raise TypeError("'amount' must be an int")
             elif (
