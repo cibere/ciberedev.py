@@ -77,27 +77,6 @@ This will be updated after every API call.</p></div>
 <dd>This is raised when you already closed the client</dd>
 </dl></div>
 </dd>
-<dt id="ciberedev.client.Client.create_checkers_game"><code class="name flex">
-<span>async def <span class="ident">create_checkers_game</span></span>(<span>self, pattern: Optional[str] = None) ‑> <a title="ciberedev.checkers.CheckersGame" href="checkers.html#ciberedev.checkers.CheckersGame">CheckersGame</a></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Creates a checkers game instance</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>pattern</code></strong> :&ensp;<code>Optional[</code>str<code>]</code></dt>
-<dd>A pattern that is used to generate the board. By default it is the default board setup</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>InvalidPattern</code></dt>
-<dd>The given pattern is invalid</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="ciberedev.checkers.CheckersGame" href="checkers.html#ciberedev.checkers.CheckersGame">CheckersGame</a></code></dt>
-<dd>&nbsp;</dd>
-</dl></div>
-</dd>
 <dt id="ciberedev.client.Client.get_random_words"><code class="name flex">
 <span>async def <span class="ident">get_random_words</span></span>(<span>self, amount: int, /) ‑> list[str]</span>
 </code></dt>
@@ -220,9 +199,8 @@ the random words that have been generated</p></div>
 <ul>
 <li>
 <h4><code><a title="ciberedev.client.Client" href="#ciberedev.client.Client">Client</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="ciberedev.client.Client.close" href="#ciberedev.client.Client.close">close</a></code></li>
-<li><code><a title="ciberedev.client.Client.create_checkers_game" href="#ciberedev.client.Client.create_checkers_game">create_checkers_game</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_random_words" href="#ciberedev.client.Client.get_random_words">get_random_words</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_search_results" href="#ciberedev.client.Client.get_search_results">get_search_results</a></code></li>
 <li><code><a title="ciberedev.client.Client.is_closed" href="#ciberedev.client.Client.is_closed">is_closed</a></code></li>

@@ -178,26 +178,6 @@ class HTTPClient:
         else:
             return response
 
-    async def get_checkers_board(self, pattern: str) -> bytes:
-        API_accepted_pattern = []
-        for index, char in enumerate(pattern):
-            if index in [0, 1, 2, 3, 8, 9, 10, 11, 16, 17, 18, 19, 24, 25, 26, 27]:
-                API_accepted_pattern.extend(["_", char])
-            else:
-                API_accepted_pattern.extend([char, "_"])
-
-        route = Route(
-            method="GET",
-            endpoint=f"https://api.cibere.dev/boardgame/checkers/{''.join(API_accepted_pattern)}",
-        )
-        response = await self.request(route)
-        if response.status == 200:
-            return await response.read()
-        elif response.status == 400:
-            raise APIException(response.json["error"])
-        else:
-            raise UnknownStatusCode(response.status)
-
     async def take_screenshot(self, url: str, delay: int) -> File:
         if not re.match(URL_REGEX, url) is not None:
             raise InvalidURL(url)

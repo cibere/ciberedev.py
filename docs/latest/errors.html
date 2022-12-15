@@ -97,35 +97,6 @@ It is not recommended to raise this yourself</p>
 <li>builtins.BaseException</li>
 </ul>
 </dd>
-<dt id="ciberedev.errors.InvalidPattern"><code class="flex name class">
-<span>class <span class="ident">InvalidPattern</span></span>
-<span>(</span><span>error: str, pattern: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a InvalidPattern error instance</p>
-<p>It is not recommended to raise this yourself</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>pattern</code></strong> :&ensp;<code>str</code></dt>
-<dd>the invalid pattern</dd>
-<dt><strong><code>error</code></strong> :&ensp;<code>str</code></dt>
-<dd>How the pattern is invalid</dd>
-</dl>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>pattern</code></strong> :&ensp;<code>str</code></dt>
-<dd>the invalid pattern</dd>
-</dl></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>ciberedev.errors.CheckersException</li>
-<li>ciberedev.errors.BoardgameException</li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
 <dt id="ciberedev.errors.InvalidURL"><code class="flex name class">
 <span>class <span class="ident">InvalidURL</span></span>
 <span>(</span><span>url: str)</span>
@@ -152,33 +123,6 @@ It is not recommended to raise this yourself</p>
 <li>builtins.BaseException</li>
 </ul>
 </dd>
-<dt id="ciberedev.errors.LocationAlreadyTaken"><code class="flex name class">
-<span>class <span class="ident">LocationAlreadyTaken</span></span>
-<span>(</span><span>location: int)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a LocationAlreadyTaken error instance</p>
-<p>It is not recommended to raise this yourself</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>loaction</code></strong> :&ensp;<code>int</code></dt>
-<dd>the location you are trying to move a piece to</dd>
-</dl>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>loaction</code></strong> :&ensp;<code>int</code></dt>
-<dd>the location you are trying to move a piece to</dd>
-</dl></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>ciberedev.errors.CheckersException</li>
-<li>ciberedev.errors.BoardgameException</li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
 <dt id="ciberedev.errors.UnableToConnect"><code class="flex name class">
 <span>class <span class="ident">UnableToConnect</span></span>
 <span>(</span><span>url: str)</span>
@@ -200,38 +144,6 @@ It is not recommended to raise this yourself</p>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>ciberedev.errors.ScreenshotException</li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="ciberedev.errors.UnableToDemote"><code class="flex name class">
-<span>class <span class="ident">UnableToDemote</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a UnableToDemote error instance</p>
-<p>It is not recommended to raise this yourself</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>ciberedev.errors.CheckersException</li>
-<li>ciberedev.errors.BoardgameException</li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="ciberedev.errors.UnableToPromote"><code class="flex name class">
-<span>class <span class="ident">UnableToPromote</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a UnableToPromote error instance</p>
-<p>It is not recommended to raise this yourself</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>ciberedev.errors.CheckersException</li>
-<li>ciberedev.errors.BoardgameException</li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -342,22 +254,10 @@ It is not recommended to raise this yourself</p>
 <h4><code><a title="ciberedev.errors.ClientAlreadyClosed" href="#ciberedev.errors.ClientAlreadyClosed">ClientAlreadyClosed</a></code></h4>
 </li>
 <li>
-<h4><code><a title="ciberedev.errors.InvalidPattern" href="#ciberedev.errors.InvalidPattern">InvalidPattern</a></code></h4>
-</li>
-<li>
 <h4><code><a title="ciberedev.errors.InvalidURL" href="#ciberedev.errors.InvalidURL">InvalidURL</a></code></h4>
 </li>
 <li>
-<h4><code><a title="ciberedev.errors.LocationAlreadyTaken" href="#ciberedev.errors.LocationAlreadyTaken">LocationAlreadyTaken</a></code></h4>
-</li>
-<li>
 <h4><code><a title="ciberedev.errors.UnableToConnect" href="#ciberedev.errors.UnableToConnect">UnableToConnect</a></code></h4>
-</li>
-<li>
-<h4><code><a title="ciberedev.errors.UnableToDemote" href="#ciberedev.errors.UnableToDemote">UnableToDemote</a></code></h4>
-</li>
-<li>
-<h4><code><a title="ciberedev.errors.UnableToPromote" href="#ciberedev.errors.UnableToPromote">UnableToPromote</a></code></h4>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></code></h4>

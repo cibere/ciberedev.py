@@ -4,10 +4,6 @@ __all__ = [
     "InvalidURL",
     "UnableToConnect",
     "APIOffline",
-    "InvalidPattern",
-    "UnableToDemote",
-    "UnableToPromote",
-    "LocationAlreadyTaken",
     "UnknownDataReturned",
     "APIException",
     "UnknownStatusCode",
@@ -19,14 +15,6 @@ class CiberedevException(Exception):
 
 
 class ScreenshotException(CiberedevException):
-    pass
-
-
-class BoardgameException(CiberedevException):
-    pass
-
-
-class CheckersException(BoardgameException):
     pass
 
 
@@ -183,67 +171,3 @@ class UnableToConnect(ScreenshotException):
 
         self.url: str = url
         super().__init__(f"Unable to Connect to '{self.url}'")
-
-
-class LocationAlreadyTaken(CheckersException):
-    def __init__(self, location: int):
-        """Creates a LocationAlreadyTaken error instance
-
-        It is not recommended to raise this yourself
-
-        Parameters
-        ----------
-        loaction: int
-            the location you are trying to move a piece to
-
-        Attributes
-        ----------
-        loaction: int
-            the location you are trying to move a piece to
-        """
-
-        self.location = location
-        super().__init__(f"There is already a piece at '{location}'")
-
-
-class UnableToPromote(CheckersException):
-    def __init__(self):
-        """Creates a UnableToPromote error instance
-
-        It is not recommended to raise this yourself
-        """
-
-        super().__init__("This piece can not be promoted anymore")
-
-
-class UnableToDemote(CheckersException):
-    def __init__(self):
-        """Creates a UnableToDemote error instance
-
-        It is not recommended to raise this yourself
-        """
-
-        super().__init__("This piece can not be demoted anymore")
-
-
-class InvalidPattern(CheckersException):
-    def __init__(self, error: str, pattern: str):
-        """Creates a InvalidPattern error instance
-
-        It is not recommended to raise this yourself
-
-        Parameters
-        ----------
-        pattern: `str`
-            the invalid pattern
-        error: `str`
-            How the pattern is invalid
-
-        Attributes
-        ----------
-        pattern: `str`
-            the invalid pattern
-        """
-
-        self.pattern = pattern
-        super().__init__(error)

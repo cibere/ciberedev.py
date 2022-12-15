@@ -4,7 +4,6 @@ from typing import Optional
 from aiohttp import ClientSession
 from typing_extensions import Self
 
-from .checkers import CheckersGame
 from .errors import ClientAlreadyClosed
 from .file import File
 from .http import HTTPClient
@@ -77,30 +76,6 @@ class Client:
         self, exception_type, exception_value, exception_traceback
     ) -> None:
         await self.close()
-
-    async def create_checkers_game(self, pattern: Optional[str] = None) -> CheckersGame:
-        """Creates a checkers game instance
-
-        Parameters
-        ----------
-        pattern: Optional[`str`]
-            A pattern that is used to generate the board. By default it is the default board setup
-
-        Raises
-        ----------
-        InvalidPattern
-            The given pattern is invalid
-
-        Returns
-        ----------
-        ciberedev.checkers.CheckersGame
-        """
-
-        if pattern:
-            game = CheckersGame.from_pattern(pattern, http_client=self._http)
-        else:
-            game = CheckersGame(http_client=self._http)
-        return game
 
     async def on_ratelimit(self, endpoint: str) -> None:
         """|coro|

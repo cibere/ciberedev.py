@@ -52,14 +52,6 @@ if not os.path.exists(LATEST_DOCS_PATH):
     os.makedirs(LATEST_DOCS_PATH)
 
 TO_REMOVE = [
-    """<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="ciberedev.checkers.QueenPiece" href="#ciberedev.checkers.QueenPiece">QueenPiece</a></li>
-</ul>""",
-    """<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="ciberedev.checkers.PlayingPiece" href="#ciberedev.checkers.PlayingPiece">PlayingPiece</a></li>
-</ul>""",
     '<meta name="generator" content="pdoc 0.10.0" />',
     """cibere.dev python wrapper
 ~~~~~~~~~~~~~~~~~~~""",

@@ -5,10 +5,11 @@
 **Breaking Changes**
 
 - `ciberedev.client.Client.take_screenshot` now returns a `ciberedev.file.File` object, and `ciberedev.Screenshot` has been removed
+- In the same update it was added, it's removed. `ciberedev.checkers` is removed in preparation for future api changes
 
 **Additions**
 
-- Added support for checkers endpoint at `ciberedev.checkers`
+- _Added support for checkers endpoint at `ciberedev.checkers`_
 - `update` and `open-docs` CLI commands
 - Added `ciberedev.file.File`
 - Added support for `random/word` endpoint at `ciberedev.client.Client.get_random_words`
