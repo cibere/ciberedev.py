@@ -77,9 +77,13 @@ class GetSystemInfoCmd(Command):
     def callback(self):
         info = {}
 
-        info["ciberedev.py"] = ciberedev.__version__
+        info["python"] = "v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}".format(
+            sys.version_info
+        )
+        info["ciberedev.py"] = "v{0.major}.{0.minor}.{0.micro}-{0.releaselevel}".format(
+            ciberedev.version_info
+        )
         info["aiohttp"] = aiohttp.__version__
-        info["python"] = sys.version.split(" ")[0]
         info["OS"] = platform.platform()
 
         nl = "\n"
