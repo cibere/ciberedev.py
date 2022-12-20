@@ -1,6 +1,6 @@
 # Update Log
 
-## 0.4.2 (so far)
+## 0.4.2
 
 **Breaking Changes**
 
