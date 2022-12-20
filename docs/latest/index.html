@@ -60,7 +60,7 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 </ul>
 <p>To use a command, simply run <code>py -m ciberedev &lt;command&gt;</code></p>
 <h1 id="update-log">Update Log</h1>
-<h2 id="042-so-far">0.4.2 (so far)</h2>
+<h2 id="042">0.4.2</h2>
 <p><strong>Breaking Changes</strong></p>
 <ul>
 <li><code><a title="ciberedev.client.Client.take_screenshot" href="client.html#ciberedev.client.Client.take_screenshot">Client.take_screenshot()</a></code> now returns a <code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code> object, and <code>ciberedev.Screenshot</code> has been removed</li>
@@ -77,6 +77,7 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <ul>
 <li>Miss-leading name for <code>ClientNotStarted</code>, and it has been renamed to <code>ClientAlreadyClosed</code></li>
 <li>Fixed bug where <code>get_search_results</code> would check for status code 200 twice instead of 200 then 400</li>
+<li>Fixed bug where importing ciberedev will always error due to it not finding <code><a title="ciberedev.types" href="types/index.html">ciberedev.types</a></code></li>
 </ul>
 <h2 id="041">0.4.1</h2>
 <p><strong>Breaking Changes</strong></p>
@@ -138,7 +139,7 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <li><a href="#examples">Examples</a></li>
 <li><a href="#cli-commands">CLI Commands</a></li>
 <li><a href="#update-log">Update Log</a><ul>
-<li><a href="#042-so-far">0.4.2 (so far)</a></li>
+<li><a href="#042">0.4.2</a></li>
 <li><a href="#041">0.4.1</a></li>
 <li><a href="#040">0.4.0</a></li>
 </ul>

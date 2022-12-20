@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
-<title>ciberedev.screenshot API documentation</title>
+<title>ciberedev.file API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>ciberedev.screenshot</code></h1>
+<h1 class="title">Module <code>ciberedev.file</code></h1>
 </header>
 <section id="section-intro">
 </section>
@@ -32,36 +32,36 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="ciberedev.screenshot.Screenshot"><code class="flex name class">
-<span>class <span class="ident">Screenshot</span></span>
-<span>(</span><span>*, _bytes: _io.BytesIO, url: str)</span>
+<dt id="ciberedev.file.File"><code class="flex name class">
+<span>class <span class="ident">File</span></span>
+<span>(</span><span>*, raw_bytes: bytes, url: Optional[str] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Creates a Screenshot object.</p>
-<p>THIS SHOULD NOT BE CREATED MANUALLY, LET CIBEREDEV'S INTERNALS CREATE THEM</p>
+<div class="desc"><p>Creates a file object</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>_bytes</code></strong> :&ensp;<code>io.BytesIO</code></dt>
-<dd>The image's bytes</dd>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>The screenshots url</dd>
+<dt><strong><code>raw_bytes</code></strong> :&ensp;<code>bytes</code></dt>
+<dd>The bytes of the file</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>Optional[</code>url<code>]</code></dt>
+<dd>the files url (if it has one)</dd>
 </dl>
 <h2 id="attributes">Attributes</h2>
 <dl>
-<dt><strong><code>bytes</code></strong> :&ensp;<code>io.BytesIO</code></dt>
-<dd>The image's bytes</dd>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>The screenshots url</dd>
+<dt><strong><code>bytes</code></strong> :&ensp;<code>bytes</code></dt>
+<dd>The bytes of the file</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>Optional[</code>url<code>]</code></dt>
+<dd>the files url (if it has one)</dd>
 </dl></div>
-<h3>Instance variables</h3>
+<h3>Methods</h3>
 <dl>
-<dt id="ciberedev.screenshot.Screenshot.bytes"><code class="name">var <span class="ident">bytes</span> : _io.BytesIO</code></dt>
+<dt id="ciberedev.file.File.save"><code class="name flex">
+<span>async def <span class="ident">save</span></span>(<span>self, fp: str, /) ‑> None</span>
+</code></dt>
 <dd>
-<div class="desc"><p>Return an attribute of instance, which is of type owner.</p></div>
-</dd>
-<dt id="ciberedev.screenshot.Screenshot.url"><code class="name">var <span class="ident">url</span> : str</code></dt>
-<dd>
-<div class="desc"><p>Return an attribute of instance, which is of type owner.</p></div>
+<div class="desc"><p>Saves the file</p>
+<h2 id="paramters">Paramters</h2>
+<p>fp: <code>str</code>
+The filepath/filename the file should be saved to</p></div>
 </dd>
 </dl>
 </dd>
@@ -82,10 +82,9 @@
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="ciberedev.screenshot.Screenshot" href="#ciberedev.screenshot.Screenshot">Screenshot</a></code></h4>
+<h4><code><a title="ciberedev.file.File" href="#ciberedev.file.File">File</a></code></h4>
 <ul class="">
-<li><code><a title="ciberedev.screenshot.Screenshot.bytes" href="#ciberedev.screenshot.Screenshot.bytes">bytes</a></code></li>
-<li><code><a title="ciberedev.screenshot.Screenshot.url" href="#ciberedev.screenshot.Screenshot.url">url</a></code></li>
+<li><code><a title="ciberedev.file.File.save" href="#ciberedev.file.File.save">save</a></code></li>
 </ul>
 </li>
 </ul>
