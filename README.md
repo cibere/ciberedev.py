@@ -11,6 +11,7 @@ You can view and read the docs <a href="https://docs.cibere.dev">here</a></p><br
 Support for the following endpoints<br>
 - screenshot<br>
 - search the internet<br>
+- get_random_words<br>
 
 <h2>Installing</h2>
 <span style="font-weight: bold;">Python 3.8 or higher is required</span><br>
