@@ -18,6 +18,7 @@
 
 - Miss-leading name for `ClientNotStarted`, and it has been renamed to `ClientAlreadyClosed`
 - Fixed bug where `get_search_results` would check for status code 200 twice instead of 200 then 400
+- Fixed bug where importing ciberedev will always error due to it not finding `ciberedev.types`
 
 ## 0.4.1
 

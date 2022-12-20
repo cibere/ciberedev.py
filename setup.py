@@ -8,6 +8,8 @@ with open("README.md", "r") as f:
 with open("requirements.txt", "r") as f:
     REQUIREMENTS = f.read().splitlines()
 
+packages = ["ciberedev", "ciberedev.types"]
+
 setuptools.setup(
     name="ciberedev.py",
     author="cibere",
@@ -21,7 +23,7 @@ setuptools.setup(
     version=ciberedev.__version__,
     python_requires=">=3.8",
     install_requires=REQUIREMENTS,
-    packages=["ciberedev"],
+    packages=packages,
     description=ciberedev.__description__,
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",
