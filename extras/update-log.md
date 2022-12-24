@@ -13,6 +13,7 @@
 - `update` and `open-docs` CLI commands
 - Added `ciberedev.file.File`
 - Added support for `random/word` endpoint at `ciberedev.client.Client.get_random_words`
+- Added support for `image/ascii` endpoint at `ciberedev.client.Client.convert_image_to_ascii`
 
 **Bug Fixes**
 

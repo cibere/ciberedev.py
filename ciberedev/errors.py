@@ -7,14 +7,11 @@ __all__ = [
     "UnknownDataReturned",
     "APIException",
     "UnknownStatusCode",
+    "UnableToConvertToImage",
 ]
 
 
 class CiberedevException(Exception):
-    pass
-
-
-class ScreenshotException(CiberedevException):
     pass
 
 
@@ -131,7 +128,7 @@ class UnknownError(CiberedevException):
         super().__init__(f"An unknown error has occured: {error}")
 
 
-class InvalidURL(ScreenshotException):
+class InvalidURL(CiberedevException):
     def __init__(self, url: str):
         """Creates a InvalidURL error instance.
 
@@ -152,7 +149,7 @@ class InvalidURL(ScreenshotException):
         super().__init__(f"Invalid URL Given: '{self.url}'")
 
 
-class UnableToConnect(ScreenshotException):
+class UnableToConnect(CiberedevException):
     def __init__(self, url: str):
         """Creates a UnableToConnect error instance.
 
@@ -171,3 +168,24 @@ class UnableToConnect(ScreenshotException):
 
         self.url: str = url
         super().__init__(f"Unable to Connect to '{self.url}'")
+
+
+class UnableToConvertToImage(CiberedevException):
+    def __init__(self, url: str):
+        """Creates a UnableToConvertToImage error instance.
+
+        It is not recommended to raise this yourself
+
+        Parameters
+        ----------
+        url: `str`
+            The url that the API is unable to convert into an image
+
+        Attributes
+        ----------
+        url: `str`
+            The url that the API is unable to convert into an image
+        """
+
+        self.url = url
+        super().__init__(f"The API is unable to convert '{self.url}' into an image")

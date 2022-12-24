@@ -117,7 +117,6 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li>ciberedev.errors.ScreenshotException</li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -143,7 +142,31 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li>ciberedev.errors.ScreenshotException</li>
+<li>ciberedev.errors.CiberedevException</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="ciberedev.errors.UnableToConvertToImage"><code class="flex name class">
+<span>class <span class="ident">UnableToConvertToImage</span></span>
+<span>(</span><span>url: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates a UnableToConvertToImage error instance.</p>
+<p>It is not recommended to raise this yourself</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url that the API is unable to convert into an image</dd>
+</dl>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url that the API is unable to convert into an image</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -258,6 +281,9 @@ It is not recommended to raise this yourself</p>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.UnableToConnect" href="#ciberedev.errors.UnableToConnect">UnableToConnect</a></code></h4>
+</li>
+<li>
+<h4><code><a title="ciberedev.errors.UnableToConvertToImage" href="#ciberedev.errors.UnableToConvertToImage">UnableToConvertToImage</a></code></h4>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></code></h4>

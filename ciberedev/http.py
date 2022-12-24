@@ -18,12 +18,14 @@ from .errors import (
     APIOffline,
     InvalidURL,
     UnableToConnect,
+    UnableToConvertToImage,
     UnknownDataReturned,
     UnknownError,
     UnknownStatusCode,
 )
 from .file import File
 from .searching import SearchResult
+from .types.image import ImageToAscii
 from .types.random import RandomWordData
 from .types.screenshot import ScreenshotData
 from .types.searching import GetSearchResultData, SearchResultData
@@ -285,3 +287,39 @@ class HTTPClient:
             raise UnknownStatusCode(response.status)
 
         return data["words"]
+
+    async def convert_image_to_ascii(
+        self, url: str, width: Optional[int] = None
+    ) -> str:
+        query_params = QueryParams()
+        query_params["url"] = url
+        if width:
+            query_params["width"] = str(width)
+
+        route = Route(
+            method="GET",
+            endpoint="https://api.cibere.dev/image/ascii",
+            query_params=query_params,
+        )
+        response = await self.request(route)
+        if response.status == 200:
+            try:
+                data = ImageToAscii(
+                    msg=response.json["msg"],
+                    status_code=response.json["status_code"],
+                )
+            except KeyError:
+                raise UnknownDataReturned("/image/ascii")
+        elif response.status == 400:
+            if response.json["error"] == "Invalid width given":
+                raise TypeError(response.json["error"])
+            elif response.json["error"] == "Invalid URL Given":
+                raise InvalidURL(url)
+            elif response.json["error"] == "Could not convert to image":
+                raise UnableToConvertToImage(url)
+            else:
+                raise APIException(response.json["error"])
+        else:
+            raise UnknownStatusCode(response.status)
+
+        return data["msg"]

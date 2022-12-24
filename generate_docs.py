@@ -45,6 +45,7 @@ MODULES_TO_REMOVE = [
     "types/searching.html",
     "types/index.html",
     "types/random.html",
+    "types/image.html",
 ]
 LATEST_DOCS_PATH = "docs/latest"
 

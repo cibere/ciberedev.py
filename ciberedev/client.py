@@ -201,3 +201,31 @@ class Client:
         """
 
         return await self._http.get_random_words(amount)
+
+    async def convert_image_to_ascii(
+        self, url: str, /, *, width: Optional[int] = None
+    ) -> str:
+        """|coro|
+
+        Converts the given image to ascii art
+
+        Parameters
+        ----------
+        url: `str`
+            the images url
+        width: Optional[`int`]
+            the ascii arts width
+
+        Raises
+        ----------
+        UnknownError
+            The api has returned an unknown error
+        APIOffline
+            I could not connect to the api
+
+        Returns
+        ----------
+        str
+            the ascii art"""
+
+        return await self._http.convert_image_to_ascii(url, width)
