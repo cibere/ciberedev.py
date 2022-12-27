@@ -3,16 +3,19 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
+import sys
 import time
 from asyncio import AbstractEventLoop
 from io import BytesIO
 from typing import TYPE_CHECKING, Literal, Optional
 from urllib.parse import urlencode
 
+import aiohttp
 from aiohttp import ClientResponse, ClientSession
 from aiohttp.client_exceptions import ClientConnectionError
 from typing_extensions import Self
 
+from . import __version__
 from .errors import (
     APIException,
     APIOffline,
@@ -20,7 +23,6 @@ from .errors import (
     UnableToConnect,
     UnableToConvertToImage,
     UnknownDataReturned,
-    UnknownError,
     UnknownStatusCode,
 )
 from .file import File
@@ -120,12 +122,16 @@ class HTTPClient:
     _client: Client
     _loop: Optional[AbstractEventLoop]
 
-    __slots__ = ["_session", "_client", "_loop"]
+    __slots__ = ["_session", "_client", "_loop", "user_agent"]
 
     def __init__(self, *, session: Optional[ClientSession], client: Client):
         self._session = session
         self._client = client
         self._loop: Optional[AbstractEventLoop] = None
+        user_agent = "ciberedev.py (https://github.com/cibere/ciberedev.py {0}) Python/{1[0]}.{1[1]} aiohttp/{2}"
+        self.user_agent = user_agent.format(
+            __version__, sys.version_info, aiohttp.__version__
+        )
 
     async def ping(self) -> int:
         route = Route(method="GET", endpoint="https://api.cibere.dev/ping")
@@ -141,6 +147,7 @@ class HTTPClient:
         self._client._requests += 1
 
         headers = route.headers.unpack()
+        headers["User-Agent"] = self.user_agent
         query_params = route.query_params.unpack()
         url = route.endpoint
         endpoint = f"/{route.method.split('/')[-1]}"
