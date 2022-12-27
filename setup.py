@@ -14,7 +14,7 @@ setuptools.setup(
     name="ciberedev.py",
     author="cibere",
     author_email="cibere.dev@gmail.com",
-    url="https://github.com/cibere/cibere-dev.py",
+    url="https://github.com/cibere/ciberedev.py",
     project_urls={
         "Code": "https://github.com/cibere/ciberedev.py",
         "Issue tracker": "https://github.com/cibere/ciberedev.py/issues",
