@@ -46,8 +46,7 @@ class Client:
     def latency(self) -> float:
         """The latency between the client and the api.
 
-        This will be '0.0' until the first API call.
-        This will be updated after every API call.
+        This variable stores the result of the last time `ciberedev.client.Client.ping` was called. By default it is `0.0`
         """
 
         return self._latency
@@ -229,3 +228,23 @@ class Client:
             the ascii art"""
 
         return await self._http.convert_image_to_ascii(url, width)
+
+    async def ping(self) -> float:
+        """|coro|
+
+        Pings the api
+
+        Raises
+        ----------
+        UnknownError
+            The api has returned an unknown error
+        APIOffline
+            I could not connect to the api
+
+        Returns
+        ----------
+        float
+            the latency. Multiply by 1000 to convert to ms
+        """
+
+        return await self._http.ping()
