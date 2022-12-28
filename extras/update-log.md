@@ -7,6 +7,11 @@
 - `ciberedev.client.Client.take_screenshot` now returns a `ciberedev.file.File` object, and `ciberedev.Screenshot` has been removed
 - In the same update it was added, it's removed. `ciberedev.checkers` is removed in preparation for future api changes
 
+**Minor Changes**
+
+- Added `minor changes` to update log
+- `ciberedev.client.Client.latency` now only gets updated when `ciberedev.client.Client.ping` gets called
+
 **Additions**
 
 - _Added support for checkers endpoint at `ciberedev.checkers`_
@@ -14,6 +19,7 @@
 - Added `ciberedev.file.File`
 - Added support for `random/word` endpoint at `ciberedev.client.Client.get_random_words`
 - Added support for `image/ascii` endpoint at `ciberedev.client.Client.convert_image_to_ascii`
+- made `HTTPClient.ping` public via `ciberedev.client.Client.ping`
 
 **Bug Fixes**
 
@@ -25,7 +31,11 @@
 
 **Breaking Changes**
 
-None
+- None
+
+**Minor Changes**
+
+- None
 
 **Additions**
 
@@ -42,6 +52,14 @@ None
 
 - `Client.search` got renamed to `ciberedev.client.Client.get_search_results`
 
+**Minor Changes**
+
+- None
+
 **Additions**
 
 - Addition of `ciberedev.client.Client.on_ratelimit`
+
+**Bug Fixes**
+
+- None
