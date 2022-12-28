@@ -55,8 +55,7 @@
 <dt id="ciberedev.client.Client.latency"><code class="name">var <span class="ident">latency</span> : float</code></dt>
 <dd>
 <div class="desc"><p>The latency between the client and the api.</p>
-<p>This will be '0.0' until the first API call.
-This will be updated after every API call.</p></div>
+<p>This variable stores the result of the last time <code><a title="ciberedev.client.Client.ping" href="#ciberedev.client.Client.ping">Client.ping()</a></code> was called. By default it is <code>0.0</code></p></div>
 </dd>
 <dt id="ciberedev.client.Client.requests"><code class="name">var <span class="ident">requests</span> : int</code></dt>
 <dd>
@@ -175,6 +174,25 @@ the random words that have been generated</p></div>
 <dd>the endpoint the ratelimit was hit at. Ex: '/screenshot'</dd>
 </dl></div>
 </dd>
+<dt id="ciberedev.client.Client.ping"><code class="name flex">
+<span>async def <span class="ident">ping</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>Pings the api</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>the latency. Multiply by 1000 to convert to ms</dd>
+</dl></div>
+</dd>
 <dt id="ciberedev.client.Client.take_screenshot"><code class="name flex">
 <span>async def <span class="ident">take_screenshot</span></span>(<span>self, url: str, /, *, delay: int = 0) ‑> <a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></span>
 </code></dt>
@@ -233,6 +251,7 @@ the random words that have been generated</p></div>
 <li><code><a title="ciberedev.client.Client.is_closed" href="#ciberedev.client.Client.is_closed">is_closed</a></code></li>
 <li><code><a title="ciberedev.client.Client.latency" href="#ciberedev.client.Client.latency">latency</a></code></li>
 <li><code><a title="ciberedev.client.Client.on_ratelimit" href="#ciberedev.client.Client.on_ratelimit">on_ratelimit</a></code></li>
+<li><code><a title="ciberedev.client.Client.ping" href="#ciberedev.client.Client.ping">ping</a></code></li>
 <li><code><a title="ciberedev.client.Client.requests" href="#ciberedev.client.Client.requests">requests</a></code></li>
 <li><code><a title="ciberedev.client.Client.take_screenshot" href="#ciberedev.client.Client.take_screenshot">take_screenshot</a></code></li>
 </ul>

@@ -66,6 +66,11 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <li><code><a title="ciberedev.client.Client.take_screenshot" href="client.html#ciberedev.client.Client.take_screenshot">Client.take_screenshot()</a></code> now returns a <code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code> object, and <code>ciberedev.Screenshot</code> has been removed</li>
 <li>In the same update it was added, it's removed. <code>ciberedev.checkers</code> is removed in preparation for future api changes</li>
 </ul>
+<p><strong>Minor Changes</strong></p>
+<ul>
+<li>Added <code>minor changes</code> to update log</li>
+<li><code><a title="ciberedev.client.Client.latency" href="client.html#ciberedev.client.Client.latency">Client.latency</a></code> now only gets updated when <code><a title="ciberedev.client.Client.ping" href="client.html#ciberedev.client.Client.ping">Client.ping()</a></code> gets called</li>
+</ul>
 <p><strong>Additions</strong></p>
 <ul>
 <li><em>Added support for checkers endpoint at <code>ciberedev.checkers</code></em></li>
@@ -73,6 +78,7 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <li>Added <code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code></li>
 <li>Added support for <code>random/word</code> endpoint at <code><a title="ciberedev.client.Client.get_random_words" href="client.html#ciberedev.client.Client.get_random_words">Client.get_random_words()</a></code></li>
 <li>Added support for <code>image/ascii</code> endpoint at <code><a title="ciberedev.client.Client.convert_image_to_ascii" href="client.html#ciberedev.client.Client.convert_image_to_ascii">Client.convert_image_to_ascii()</a></code></li>
+<li>made <code>HTTPClient.ping</code> public via <code><a title="ciberedev.client.Client.ping" href="client.html#ciberedev.client.Client.ping">Client.ping()</a></code></li>
 </ul>
 <p><strong>Bug Fixes</strong></p>
 <ul>
@@ -82,7 +88,13 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 </ul>
 <h2 id="041">0.4.1</h2>
 <p><strong>Breaking Changes</strong></p>
-<p>None</p>
+<ul>
+<li>None</li>
+</ul>
+<p><strong>Minor Changes</strong></p>
+<ul>
+<li>None</li>
+</ul>
 <p><strong>Additions</strong></p>
 <ul>
 <li>CLI Commands such as <code>system-info</code> and <code>version</code></li>
@@ -97,9 +109,17 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <ul>
 <li><code>Client.search</code> got renamed to <code><a title="ciberedev.client.Client.get_search_results" href="client.html#ciberedev.client.Client.get_search_results">Client.get_search_results()</a></code></li>
 </ul>
+<p><strong>Minor Changes</strong></p>
+<ul>
+<li>None</li>
+</ul>
 <p><strong>Additions</strong></p>
 <ul>
 <li>Addition of <code><a title="ciberedev.client.Client.on_ratelimit" href="client.html#ciberedev.client.Client.on_ratelimit">Client.on_ratelimit()</a></code></li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+<li>None</li>
 </ul>
 </section>
 <section>
