@@ -133,10 +133,16 @@ class HTTPClient:
             __version__, sys.version_info, aiohttp.__version__
         )
 
-    async def ping(self) -> int:
+    async def ping(self) -> float:
         route = Route(method="GET", endpoint="https://api.cibere.dev/ping")
-        res = await self.request(route)
-        return res.status
+
+        before = time.perf_counter()
+        await self.request(route)
+        after = time.perf_counter()
+
+        latency = after - before
+        self._client._latency = latency
+        return latency
 
     async def request(self, route: Route) -> Response:
         if self._session is None:
@@ -160,16 +166,12 @@ class HTTPClient:
         LOGGER.debug("Request Query Params: %s", query_params)
 
         try:
-            before = time.perf_counter()
             res = await self._session.request(
                 route.method, url, headers=headers, ssl=False
             )
-            after = time.perf_counter()
             response = await Response.create(aiohttp_response=res)
         except ClientConnectionError:
             raise APIOffline(endpoint)
-
-        self._client._latency = after - before
 
         if res.status == 500:
             LOGGER.warning(
