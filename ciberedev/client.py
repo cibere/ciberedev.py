@@ -144,6 +144,10 @@ class Client:
 
         if not url.startswith("http"):
             url = f"http://{url}"
+        if delay > 20:
+            raise TypeError("Delay must be below 20")
+        if delay < 0:
+            raise TypeError("Delay can not be in the negatives")
 
         return await self._http.take_screenshot(url, delay)
 

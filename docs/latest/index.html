@@ -65,6 +65,7 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <ul>
 <li><code><a title="ciberedev.client.Client.take_screenshot" href="client.html#ciberedev.client.Client.take_screenshot">Client.take_screenshot()</a></code> now returns a <code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code> object, and <code>ciberedev.Screenshot</code> has been removed</li>
 <li>In the same update it was added, it's removed. <code>ciberedev.checkers</code> is removed in preparation for future api changes</li>
+<li><code><a title="ciberedev.client.Client.take_screenshot" href="client.html#ciberedev.client.Client.take_screenshot">Client.take_screenshot()</a></code>'s delay kwarg will now raise a TypeError if its above <code>20</code>, or if its negative</li>
 </ul>
 <p><strong>Minor Changes</strong></p>
 <ul>

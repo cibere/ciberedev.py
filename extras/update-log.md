@@ -6,6 +6,7 @@
 
 - `ciberedev.client.Client.take_screenshot` now returns a `ciberedev.file.File` object, and `ciberedev.Screenshot` has been removed
 - In the same update it was added, it's removed. `ciberedev.checkers` is removed in preparation for future api changes
+- `ciberedev.client.Client.take_screenshot`'s delay kwarg will now raise a TypeError if its above `20`, or if its negative
 
 **Minor Changes**
 
