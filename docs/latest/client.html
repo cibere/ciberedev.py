@@ -64,6 +64,34 @@
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="ciberedev.client.Client.add_text_to_image"><code class="name flex">
+<span>async def <span class="ident">add_text_to_image</span></span>(<span>self, *, image_url: str, text: str, text_color: Optional[tuple[int, int, int]] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>Adds text to a given image</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>image_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>the images url</dd>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>the text to be added</dd>
+<dt><strong><code>text_color</code></strong> :&ensp;<code>tuple[</code>int<code>, </code>int<code>, </code>int<code>]</code></dt>
+<dd>the color to be added to the text</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code></dt>
+<dd>A file with the new image</dd>
+</dl></div>
+</dd>
 <dt id="ciberedev.client.Client.close"><code class="name flex">
 <span>async def <span class="ident">close</span></span>(<span>self) ‑> None</span>
 </code></dt>
@@ -244,6 +272,7 @@ the random words that have been generated</p></div>
 <li>
 <h4><code><a title="ciberedev.client.Client" href="#ciberedev.client.Client">Client</a></code></h4>
 <ul class="">
+<li><code><a title="ciberedev.client.Client.add_text_to_image" href="#ciberedev.client.Client.add_text_to_image">add_text_to_image</a></code></li>
 <li><code><a title="ciberedev.client.Client.close" href="#ciberedev.client.Client.close">close</a></code></li>
 <li><code><a title="ciberedev.client.Client.convert_image_to_ascii" href="#ciberedev.client.Client.convert_image_to_ascii">convert_image_to_ascii</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_random_words" href="#ciberedev.client.Client.get_random_words">get_random_words</a></code></li>

@@ -233,6 +233,47 @@ class Client:
 
         return await self._http.convert_image_to_ascii(url, width)
 
+    async def add_text_to_image(
+        self,
+        *,
+        image_url: str,
+        text: str,
+        text_color: Optional[tuple[int, int, int]] = None,
+    ):
+        """|coro|
+
+        Adds text to a given image
+
+        Parameters
+        ----------
+        image_url: `str`
+            the images url
+        text: `str`
+            the text to be added
+        text_color: tuple[`int`, `int`, `int`]
+            the color to be added to the text
+
+        Raises
+        ----------
+        UnknownError
+            The api has returned an unknown error
+        APIOffline
+            I could not connect to the api
+
+        Returns
+        ----------
+        ciberedev.file.File
+            A file with the new image
+        """
+
+        color = text_color or (
+            255,
+            255,
+            255,
+        )
+
+        return await self._http.add_text_to_image(image_url, text, color)
+
     async def ping(self) -> float:
         """|coro|
 

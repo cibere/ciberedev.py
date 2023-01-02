@@ -7,7 +7,7 @@ import sys
 import time
 from asyncio import AbstractEventLoop
 from io import BytesIO
-from typing import TYPE_CHECKING, Literal, Optional
+from typing import TYPE_CHECKING, Any, Literal, Optional, Union
 from urllib.parse import urlencode
 
 import aiohttp
@@ -27,7 +27,7 @@ from .errors import (
 )
 from .file import File
 from .searching import SearchResult
-from .types.image import ImageToAscii
+from .types.image import AddImageText, ImageToAscii
 from .types.random import RandomWordData
 from .types.screenshot import ScreenshotData
 from .types.searching import GetSearchResultData, SearchResultData
@@ -74,8 +74,13 @@ class Headers(Parameters):
     pass
 
 
+class JSONData(Parameters):
+    def __setitem__(self, key: str, value: Union[str, dict, list]) -> None:
+        self._internal[key] = value
+
+
 class Route:
-    __slots__ = ["method", "endpoint", "headers", "query_params"]
+    __slots__ = ["method", "endpoint", "headers", "query_params", "data"]
 
     def __init__(
         self,
@@ -84,11 +89,13 @@ class Route:
         endpoint: str,
         headers: Optional[Headers] = None,
         query_params: Optional[QueryParams] = None,
+        data: Optional[JSONData] = None,
     ):
         self.method = method
         self.endpoint = endpoint
         self.headers = headers or Headers()
         self.query_params = query_params or QueryParams()
+        self.data = data or JSONData()
 
 
 class Response:
@@ -155,6 +162,7 @@ class HTTPClient:
         headers = route.headers.unpack()
         headers["User-Agent"] = self.user_agent
         query_params = route.query_params.unpack()
+        data = route.data.unpack()
         url = route.endpoint
         endpoint = f"/{route.method.split('/')[-1]}"
 
@@ -165,10 +173,15 @@ class HTTPClient:
         LOGGER.debug("Request Headers: %s", headers)
         LOGGER.debug("Request Query Params: %s", query_params)
 
+        args: dict[str, Any] = {"ssl": False}
+
+        if headers:
+            args["headers"] = headers
+        if data:
+            args["json"] = data
+
         try:
-            res = await self._session.request(
-                route.method, url, headers=headers, ssl=False
-            )
+            res = await self._session.request(route.method, url, **args)
             response = await Response.create(aiohttp_response=res)
         except ClientConnectionError:
             raise APIOffline(endpoint)
@@ -332,3 +345,43 @@ class HTTPClient:
             raise UnknownStatusCode(response.status)
 
         return data["msg"]
+
+    async def add_text_to_image(
+        self, url: str, text: str, color: tuple[int, int, int]
+    ) -> File:
+        if not re.match(URL_REGEX, url):
+            raise InvalidURL(url)
+        for value in color:
+            if value > 255:
+                raise TypeError("Invalid color given")
+
+        data = JSONData()
+        data["url"] = url
+        data["text"] = text
+        data["color"] = list(color)
+
+        route = Route(
+            method="GET",
+            endpoint="https://api.cibere.dev/image/add-text",
+            data=data,
+        )
+
+        response = await self.request(route)
+        if response.status == 200:
+            try:
+                data = ScreenshotData(
+                    link=response.json["link"], status_code=response.json["status_code"]
+                )
+            except KeyError:
+                raise UnknownDataReturned("/screenshot")
+        elif response.status == 400:
+            raise APIException(response.json["error"])
+        else:
+            raise UnknownStatusCode(response.status)
+
+        link = data["link"]
+        image_route = Route(method="GET", endpoint=link)
+        res = await self.request(image_route)
+        _bytes = BytesIO(await res.read())
+        file = File(raw_bytes=_bytes.read(), url=link)
+        return file

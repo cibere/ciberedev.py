@@ -1,5 +1,23 @@
 # Update Log
 
+## 0.4.3
+
+**Breaking Changes**
+
+None
+
+**Minor Changes**
+
+None
+
+**Additions**
+
+- added support for `image/add-text` endpoint via `client.add_text_to_image`
+
+**Bug Fixes**
+
+None
+
 ## 0.4.2
 
 **Breaking Changes**
