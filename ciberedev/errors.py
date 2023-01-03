@@ -5,7 +5,7 @@ __all__ = [
     "UnableToConnect",
     "APIOffline",
     "UnknownDataReturned",
-    "APIException",
+    "HTTPException",
     "UnknownStatusCode",
     "UnableToConvertToImage",
 ]
@@ -15,7 +15,7 @@ class CiberedevException(Exception):
     pass
 
 
-class APIException(CiberedevException):
+class HTTPException(CiberedevException):
     def __init__(self, error: str):
         """Creates an APIException error stinace
 
@@ -27,7 +27,7 @@ class APIException(CiberedevException):
         super().__init__(error)
 
 
-class UnknownStatusCode(APIException):
+class UnknownStatusCode(HTTPException):
     def __init__(self, code: int):
         """Creates an UnknownStatusCode error stinace
 
@@ -49,7 +49,7 @@ class UnknownStatusCode(APIException):
         super().__init__(f"API returned an unknown status code: '{self.code}'")
 
 
-class UnknownDataReturned(APIException):
+class UnknownDataReturned(HTTPException):
     def __init__(self, endpoint: str):
         """Creates an UnknownDataReturned error stinace
 
@@ -73,7 +73,7 @@ class UnknownDataReturned(APIException):
         )
 
 
-class APIOffline(APIException):
+class APIOffline(HTTPException):
     def __init__(self, endpoint: str):
         """Creates an APIOffline error instance.
 
@@ -95,7 +95,7 @@ class APIOffline(APIException):
         super().__init__(f"API is down. Aborting API request to '{endpoint}'")
 
 
-class ClientAlreadyClosed(APIException):
+class ClientAlreadyClosed(CiberedevException):
     def __init__(self):
         """Creates a ClientAlreadyClosed error instance.
 
@@ -128,7 +128,7 @@ class UnknownError(CiberedevException):
         super().__init__(f"An unknown error has occured: {error}")
 
 
-class InvalidURL(CiberedevException):
+class InvalidURL(HTTPException):
     def __init__(self, url: str):
         """Creates a InvalidURL error instance.
 
@@ -149,7 +149,7 @@ class InvalidURL(CiberedevException):
         super().__init__(f"Invalid URL Given: '{self.url}'")
 
 
-class UnableToConnect(CiberedevException):
+class UnableToConnect(HTTPException):
     def __init__(self, url: str):
         """Creates a UnableToConnect error instance.
 
@@ -170,7 +170,7 @@ class UnableToConnect(CiberedevException):
         super().__init__(f"Unable to Connect to '{self.url}'")
 
 
-class UnableToConvertToImage(CiberedevException):
+class UnableToConvertToImage(HTTPException):
     def __init__(self, url: str):
         """Creates a UnableToConvertToImage error instance.
 
