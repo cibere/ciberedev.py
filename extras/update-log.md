@@ -4,7 +4,7 @@
 
 **Breaking Changes**
 
-None
+- renamed `errors.APIException` to `ciberedev.errors.HTTPException`
 
 **Minor Changes**
 

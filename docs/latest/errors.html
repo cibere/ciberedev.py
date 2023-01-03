@@ -32,29 +32,6 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="ciberedev.errors.APIException"><code class="flex name class">
-<span>class <span class="ident">APIException</span></span>
-<span>(</span><span>error: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates an APIException error stinace</p>
-<p>This is raised when the api returns an error
-It is not recommended to raise this yourself</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></li>
-<li><a title="ciberedev.errors.ClientAlreadyClosed" href="#ciberedev.errors.ClientAlreadyClosed">ClientAlreadyClosed</a></li>
-<li><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></li>
-<li><a title="ciberedev.errors.UnknownStatusCode" href="#ciberedev.errors.UnknownStatusCode">UnknownStatusCode</a></li>
-</ul>
-</dd>
 <dt id="ciberedev.errors.APIOffline"><code class="flex name class">
 <span>class <span class="ident">APIOffline</span></span>
 <span>(</span><span>endpoint: str)</span>
@@ -76,7 +53,7 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
+<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -91,10 +68,34 @@ It is not recommended to raise this yourself</p>
 <p>It is not recommended to raise this yourself</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="ciberedev.errors.HTTPException"><code class="flex name class">
+<span>class <span class="ident">HTTPException</span></span>
+<span>(</span><span>error: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p>
+<p>Creates an APIException error stinace</p>
+<p>This is raised when the api returns an error
+It is not recommended to raise this yourself</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>ciberedev.errors.CiberedevException</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></li>
+<li><a title="ciberedev.errors.InvalidURL" href="#ciberedev.errors.InvalidURL">InvalidURL</a></li>
+<li><a title="ciberedev.errors.UnableToConnect" href="#ciberedev.errors.UnableToConnect">UnableToConnect</a></li>
+<li><a title="ciberedev.errors.UnableToConvertToImage" href="#ciberedev.errors.UnableToConvertToImage">UnableToConvertToImage</a></li>
+<li><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></li>
+<li><a title="ciberedev.errors.UnknownStatusCode" href="#ciberedev.errors.UnknownStatusCode">UnknownStatusCode</a></li>
 </ul>
 </dd>
 <dt id="ciberedev.errors.InvalidURL"><code class="flex name class">
@@ -117,6 +118,7 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -142,6 +144,7 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -167,6 +170,7 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -193,7 +197,7 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
+<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -245,7 +249,7 @@ It is not recommended to raise this yourself</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></li>
+<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -268,13 +272,13 @@ It is not recommended to raise this yourself</p>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="ciberedev.errors.APIException" href="#ciberedev.errors.APIException">APIException</a></code></h4>
-</li>
-<li>
 <h4><code><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></code></h4>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.ClientAlreadyClosed" href="#ciberedev.errors.ClientAlreadyClosed">ClientAlreadyClosed</a></code></h4>
+</li>
+<li>
+<h4><code><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.InvalidURL" href="#ciberedev.errors.InvalidURL">InvalidURL</a></code></h4>
