@@ -8,7 +8,7 @@ A basic wrapper cibere.dev
 """
 
 __description__ = "A basic wrapper cibere.dev"
-__version__ = "0.4.3"
+__version__ = "0.4.3a"
 
 from typing import Literal, NamedTuple
 
