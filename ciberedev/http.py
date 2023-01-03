@@ -17,8 +17,8 @@ from typing_extensions import Self
 
 from . import __version__
 from .errors import (
-    APIException,
     APIOffline,
+    HTTPException,
     InvalidURL,
     UnableToConnect,
     UnableToConvertToImage,
@@ -80,7 +80,7 @@ class JSONData(Parameters):
 
 
 class Route:
-    __slots__ = ["method", "endpoint", "headers", "query_params", "data"]
+    __slots__ = ["method", "endpoint", "headers", "query_params", "data", "error_index"]
 
     def __init__(
         self,
@@ -90,12 +90,14 @@ class Route:
         headers: Optional[Headers] = None,
         query_params: Optional[QueryParams] = None,
         data: Optional[JSONData] = None,
+        error_index: dict[str, Exception],
     ):
         self.method = method
         self.endpoint = endpoint
         self.headers = headers or Headers()
         self.query_params = query_params or QueryParams()
         self.data = data or JSONData()
+        self.error_index = error_index
 
 
 class Response:
@@ -141,7 +143,9 @@ class HTTPClient:
         )
 
     async def ping(self) -> float:
-        route = Route(method="GET", endpoint="https://api.cibere.dev/ping")
+        route = Route(
+            method="GET", endpoint="https://api.cibere.dev/ping", error_index={}
+        )
 
         before = time.perf_counter()
         await self.request(route)
@@ -199,8 +203,14 @@ class HTTPClient:
             return await self.request(route)
         elif res.status == 502:
             raise APIOffline(endpoint)
-        else:
+        elif res.status == 400:
+            er = response.json["error"]
+            error = route.error_index.get(er, HTTPException(er))
+            raise error
+        elif 300 > res.status >= 200:
             return response
+        else:
+            raise UnknownStatusCode(res.status)
 
     async def take_screenshot(self, url: str, delay: int) -> File:
         if not re.match(URL_REGEX, url) is not None:
@@ -213,28 +223,22 @@ class HTTPClient:
             method="POST",
             endpoint="https://api.cibere.dev/screenshot",
             query_params=query_params,
+            error_index={
+                "Invalid URL Given": InvalidURL(url),
+                "I was unable to connect to the website.": UnableToConnect(url),
+            },
         )
 
         response = await self.request(route)
-        if response.status == 200:
-            try:
-                data = ScreenshotData(
-                    link=response.json["link"], status_code=response.json["status_code"]
-                )
-            except KeyError:
-                raise UnknownDataReturned("/screenshot")
-        elif response.status == 400:
-            if response.json["error"] == "Invalid URL Given":
-                raise InvalidURL(url)
-            elif response.json["error"] == "I was unable to connect to the website.":
-                raise UnableToConnect(url)
-            else:
-                raise APIException(response.json["error"])
-        else:
-            raise UnknownStatusCode(response.status)
+        try:
+            data = ScreenshotData(
+                link=response.json["link"], status_code=response.json["status_code"]
+            )
+        except KeyError:
+            raise UnknownDataReturned("/screenshot")
 
         link = data["link"]
-        image_route = Route(method="GET", endpoint=link)
+        image_route = Route(method="GET", endpoint=link, error_index={})
         res = await self.request(image_route)
         _bytes = BytesIO(await res.read())
         file = File(raw_bytes=_bytes.read(), url=link)
@@ -248,29 +252,24 @@ class HTTPClient:
             method="GET",
             endpoint="https://api.cibere.dev/search",
             query_params=query_params,
+            error_index={
+                "Invalid 'amount' given, it must be an int": TypeError(
+                    "'amount' must be an int"
+                ),
+                "Invalid 'amount' given, can not be more than 10": TypeError(
+                    "'amount' must be => 10"
+                ),
+            },
         )
 
         response = await self.request(route)
-        if response.status == 200:
-            try:
-                data = GetSearchResultData(
-                    results=response.json["results"],
-                    status_code=response.json["status_code"],
-                )
-            except KeyError:
-                raise UnknownDataReturned("/search")
-        elif response.status == 400:
-            if response.json["error"] == "Invalid 'amount' given, it must be an int":
-                raise TypeError("'amount' must be an int")
-            elif (
-                response.json["error"]
-                == "Invalid 'amount' given, can not be more than 10"
-            ):
-                raise TypeError("'amount' must be => 10")
-            else:
-                raise APIException(response.json["error"])
-        else:
-            raise UnknownStatusCode(response.status)
+        try:
+            data = GetSearchResultData(
+                results=response.json["results"],
+                status_code=response.json["status_code"],
+            )
+        except KeyError:
+            raise UnknownDataReturned("/search")
 
         results = []
         raw_results = data["results"]
@@ -295,18 +294,16 @@ class HTTPClient:
             method="GET",
             endpoint="https://api.cibere.dev/random/word",
             query_params=query_params,
+            error_index={},
         )
         response = await self.request(route)
-        if response.status == 200:
-            try:
-                data = RandomWordData(
-                    words=response.json["words"],
-                    status_code=response.json["status_code"],
-                )
-            except KeyError:
-                raise UnknownDataReturned("/random/word")
-        else:
-            raise UnknownStatusCode(response.status)
+        try:
+            data = RandomWordData(
+                words=response.json["words"],
+                status_code=response.json["status_code"],
+            )
+        except KeyError:
+            raise UnknownDataReturned("/random/word")
 
         return data["words"]
 
@@ -322,28 +319,20 @@ class HTTPClient:
             method="GET",
             endpoint="https://api.cibere.dev/image/ascii",
             query_params=query_params,
+            error_index={
+                "Invalid width given": TypeError("Invalid width given"),
+                "Invalid URL Given": InvalidURL(url),
+                "Could not convert to image": UnableToConnect(url),
+            },
         )
         response = await self.request(route)
-        if response.status == 200:
-            try:
-                data = ImageToAscii(
-                    msg=response.json["msg"],
-                    status_code=response.json["status_code"],
-                )
-            except KeyError:
-                raise UnknownDataReturned("/image/ascii")
-        elif response.status == 400:
-            if response.json["error"] == "Invalid width given":
-                raise TypeError(response.json["error"])
-            elif response.json["error"] == "Invalid URL Given":
-                raise InvalidURL(url)
-            elif response.json["error"] == "Could not convert to image":
-                raise UnableToConvertToImage(url)
-            else:
-                raise APIException(response.json["error"])
-        else:
-            raise UnknownStatusCode(response.status)
-
+        try:
+            data = ImageToAscii(
+                msg=response.json["msg"],
+                status_code=response.json["status_code"],
+            )
+        except KeyError:
+            raise UnknownDataReturned("/image/ascii")
         return data["msg"]
 
     async def add_text_to_image(
@@ -364,23 +353,19 @@ class HTTPClient:
             method="GET",
             endpoint="https://api.cibere.dev/image/add-text",
             data=data,
+            error_index={},
         )
 
         response = await self.request(route)
-        if response.status == 200:
-            try:
-                data = ScreenshotData(
-                    link=response.json["link"], status_code=response.json["status_code"]
-                )
-            except KeyError:
-                raise UnknownDataReturned("/screenshot")
-        elif response.status == 400:
-            raise APIException(response.json["error"])
-        else:
-            raise UnknownStatusCode(response.status)
+        try:
+            data = ScreenshotData(
+                link=response.json["link"], status_code=response.json["status_code"]
+            )
+        except KeyError:
+            raise UnknownDataReturned("/screenshot")
 
         link = data["link"]
-        image_route = Route(method="GET", endpoint=link)
+        image_route = Route(method="GET", endpoint=link, error_index={})
         res = await self.request(image_route)
         _bytes = BytesIO(await res.read())
         file = File(raw_bytes=_bytes.read(), url=link)
