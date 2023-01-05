@@ -89,6 +89,8 @@ class HTTPClient:
         self.user_agent = user_agent.format(
             __version__, sys.version_info, aiohttp.__version__
         )
+        self.requests = 0
+        self.latency = None
 
     async def ping(self) -> float:
         route = Route(method="GET", endpoint="https://api.cibere.dev/ping")
