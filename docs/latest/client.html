@@ -52,10 +52,10 @@
 </dl></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="ciberedev.client.Client.latency"><code class="name">var <span class="ident">latency</span> : float</code></dt>
+<dt id="ciberedev.client.Client.latency"><code class="name">var <span class="ident">latency</span> : Optional[float]</code></dt>
 <dd>
 <div class="desc"><p>The latency between the client and the api.</p>
-<p>This variable stores the result of the last time <code><a title="ciberedev.client.Client.ping" href="#ciberedev.client.Client.ping">Client.ping()</a></code> was called. By default it is <code>0.0</code></p></div>
+<p>This variable stores the result of the last time <code><a title="ciberedev.client.Client.ping" href="#ciberedev.client.Client.ping">Client.ping()</a></code> was called. By default it is <code>None</code></p></div>
 </dd>
 <dt id="ciberedev.client.Client.requests"><code class="name">var <span class="ident">requests</span> : int</code></dt>
 <dd>
@@ -65,7 +65,7 @@
 <h3>Methods</h3>
 <dl>
 <dt id="ciberedev.client.Client.add_text_to_image"><code class="name flex">
-<span>async def <span class="ident">add_text_to_image</span></span>(<span>self, *, image_url: str, text: str, text_color: Optional[tuple[int, int, int]] = None)</span>
+<span>async def <span class="ident">add_text_to_image</span></span>(<span>self, *, image_url: str, text: str, text_color: Optional[tuple[int, int, int]] = None) ‑> <a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>|coro|</p>

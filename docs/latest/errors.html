@@ -91,89 +91,8 @@ It is not recommended to raise this yourself</p></div>
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="ciberedev.errors.APIOffline" href="#ciberedev.errors.APIOffline">APIOffline</a></li>
-<li><a title="ciberedev.errors.InvalidURL" href="#ciberedev.errors.InvalidURL">InvalidURL</a></li>
-<li><a title="ciberedev.errors.UnableToConnect" href="#ciberedev.errors.UnableToConnect">UnableToConnect</a></li>
-<li><a title="ciberedev.errors.UnableToConvertToImage" href="#ciberedev.errors.UnableToConvertToImage">UnableToConvertToImage</a></li>
 <li><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></li>
 <li><a title="ciberedev.errors.UnknownStatusCode" href="#ciberedev.errors.UnknownStatusCode">UnknownStatusCode</a></li>
-</ul>
-</dd>
-<dt id="ciberedev.errors.InvalidURL"><code class="flex name class">
-<span>class <span class="ident">InvalidURL</span></span>
-<span>(</span><span>url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a InvalidURL error instance.</p>
-<p>It is not recommended to raise this yourself</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>the url that is invalid</dd>
-</dl>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>the url that is invalid</dd>
-</dl></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="ciberedev.errors.UnableToConnect"><code class="flex name class">
-<span>class <span class="ident">UnableToConnect</span></span>
-<span>(</span><span>url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a UnableToConnect error instance.</p>
-<p>It is not recommended to raise this yourself</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>The url that the API is unable to connect to</dd>
-</dl>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>The url that the API is unable to connect to</dd>
-</dl></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="ciberedev.errors.UnableToConvertToImage"><code class="flex name class">
-<span>class <span class="ident">UnableToConvertToImage</span></span>
-<span>(</span><span>url: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a UnableToConvertToImage error instance.</p>
-<p>It is not recommended to raise this yourself</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>The url that the API is unable to convert into an image</dd>
-</dl>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
-<dd>The url that the API is unable to convert into an image</dd>
-</dl></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
 </ul>
 </dd>
 <dt id="ciberedev.errors.UnknownDataReturned"><code class="flex name class">
@@ -198,31 +117,6 @@ It is not recommended to raise this yourself</p>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></li>
-<li>ciberedev.errors.CiberedevException</li>
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="ciberedev.errors.UnknownError"><code class="flex name class">
-<span>class <span class="ident">UnknownError</span></span>
-<span>(</span><span>error: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p>
-<p>Creates a UnknownError error instance.</p>
-<p>It is not recommended to raise this yourself</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>error</code></strong> :&ensp;<code>str</code></dt>
-<dd>The unknown error that occured</dd>
-</dl>
-<h2 id="attributes">Attributes</h2>
-<dl>
-<dt><strong><code>error</code></strong> :&ensp;<code>str</code></dt>
-<dd>The unknown error that occured</dd>
-</dl></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
 <li>ciberedev.errors.CiberedevException</li>
 <li>builtins.Exception</li>
 <li>builtins.BaseException</li>
@@ -281,19 +175,7 @@ It is not recommended to raise this yourself</p>
 <h4><code><a title="ciberedev.errors.HTTPException" href="#ciberedev.errors.HTTPException">HTTPException</a></code></h4>
 </li>
 <li>
-<h4><code><a title="ciberedev.errors.InvalidURL" href="#ciberedev.errors.InvalidURL">InvalidURL</a></code></h4>
-</li>
-<li>
-<h4><code><a title="ciberedev.errors.UnableToConnect" href="#ciberedev.errors.UnableToConnect">UnableToConnect</a></code></h4>
-</li>
-<li>
-<h4><code><a title="ciberedev.errors.UnableToConvertToImage" href="#ciberedev.errors.UnableToConvertToImage">UnableToConvertToImage</a></code></h4>
-</li>
-<li>
 <h4><code><a title="ciberedev.errors.UnknownDataReturned" href="#ciberedev.errors.UnknownDataReturned">UnknownDataReturned</a></code></h4>
-</li>
-<li>
-<h4><code><a title="ciberedev.errors.UnknownError" href="#ciberedev.errors.UnknownError">UnknownError</a></code></h4>
 </li>
 <li>
 <h4><code><a title="ciberedev.errors.UnknownStatusCode" href="#ciberedev.errors.UnknownStatusCode">UnknownStatusCode</a></code></h4>

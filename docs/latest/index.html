@@ -64,9 +64,12 @@ The examples can be <a href="https://github.com/cibere/ciberedev.py/tree/main/ex
 <p><strong>Breaking Changes</strong></p>
 <ul>
 <li>renamed <code>errors.APIException</code> to <code><a title="ciberedev.errors.HTTPException" href="errors.html#ciberedev.errors.HTTPException">HTTPException</a></code></li>
+<li>Removed <code>errors.UnknownError</code>, <code>errors.InvalidURL</code>, <code>errors.UnableToConnect</code>, and <code>UnableToConvertToImage</code>. All of those will now raise <code><a title="ciberedev.errors.HTTPException" href="errors.html#ciberedev.errors.HTTPException">HTTPException</a></code> instead</li>
 </ul>
 <p><strong>Minor Changes</strong></p>
-<p>None</p>
+<ul>
+<li><code><a title="ciberedev.client.Client.latency" href="client.html#ciberedev.client.Client.latency">Client.latency</a></code> will now return <code>None</code> instead of <code>0.0</code> if <code><a title="ciberedev.client.Client.ping" href="client.html#ciberedev.client.Client.ping">Client.ping()</a></code> has not been called yet</li>
+</ul>
 <p><strong>Additions</strong></p>
 <ul>
 <li>added support for <code>image/add-text</code> endpoint via <code>client.add_text_to_image</code></li>
