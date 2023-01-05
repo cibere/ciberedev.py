@@ -1,4 +1,5 @@
 import logging
+import re
 from typing import Optional
 
 from aiohttp import ClientSession
@@ -10,7 +11,16 @@ from .http import HTTPClient
 from .searching import SearchResult
 
 __all__ = ["Client"]
-LOGGER = logging.getLogger("ciberedev")
+
+LOGGER = logging.getLogger(__name__)
+URL_REGEX = re.compile(
+    r"^(?:http|ftp)s?://"
+    r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"
+    r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+    r"(?::\d+)?"
+    r"(?:/?|[/?]\S+)$",
+    re.IGNORECASE,
+)
 
 
 class Client:
@@ -148,8 +158,15 @@ class Client:
             raise TypeError("Delay must be below 20")
         if delay < 0:
             raise TypeError("Delay can not be in the negatives")
+        if not re.match(URL_REGEX, url):
+            raise TypeError("Invalid URL Given")
 
-        return await self._http.take_screenshot(url, delay)
+        data = await self._http.take_screenshot(url, delay)
+        link = data["link"]
+        fp = await self._http.get_image_from_url(link)
+
+        file = File(raw_bytes=fp, url=link)
+        return file
 
     async def get_search_results(
         self, query: str, /, *, amount: int = 5
@@ -178,7 +195,14 @@ class Client:
             A list of your search results
         """
 
-        return await self._http.get_search_results(query, amount)
+        data = await self._http.get_search_results(query, amount)
+
+        final = []
+        for raw_result in data["results"]:
+            result = SearchResult(data=raw_result)
+            final.append(result)
+
+        return final
 
     async def get_random_words(self, amount: int, /) -> list[str]:
         """|coro|
@@ -203,7 +227,8 @@ class Client:
             the random words that have been generated
         """
 
-        return await self._http.get_random_words(amount)
+        data = await self._http.get_random_words(amount)
+        return data["words"]
 
     async def convert_image_to_ascii(
         self, url: str, /, *, width: Optional[int] = None
@@ -231,7 +256,12 @@ class Client:
         str
             the ascii art"""
 
-        return await self._http.convert_image_to_ascii(url, width)
+        if not re.match(URL_REGEX, url):
+            raise TypeError("Invalid URL Given")
+
+        data = await self._http.convert_image_to_ascii(url, width)
+        art = data["msg"]
+        return art
 
     async def add_text_to_image(
         self,
@@ -239,7 +269,7 @@ class Client:
         image_url: str,
         text: str,
         text_color: Optional[tuple[int, int, int]] = None,
-    ):
+    ) -> File:
         """|coro|
 
         Adds text to a given image
@@ -271,8 +301,18 @@ class Client:
             255,
             255,
         )
+        if not re.match(URL_REGEX, image_url):
+            raise TypeError("Invalid URL Given")
+        for value in color:
+            if value > 255:
+                raise TypeError("Invalid color given")
 
-        return await self._http.add_text_to_image(image_url, text, color)
+        data = await self._http.add_text_to_image(image_url, text, color)
+        url = data["link"]
+        fp = await self._http.get_image_from_url(url)
+
+        file = File(raw_bytes=fp, url=url)
+        return file
 
     async def ping(self) -> float:
         """|coro|
