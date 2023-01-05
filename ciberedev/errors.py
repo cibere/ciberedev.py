@@ -1,13 +1,9 @@
 __all__ = [
     "ClientAlreadyClosed",
-    "UnknownError",
-    "InvalidURL",
-    "UnableToConnect",
     "APIOffline",
     "UnknownDataReturned",
     "HTTPException",
     "UnknownStatusCode",
-    "UnableToConvertToImage",
 ]
 
 
@@ -105,87 +101,3 @@ class ClientAlreadyClosed(CiberedevException):
         super().__init__(
             "Client has not been started. You can start it with 'client.run' or 'client.start'"
         )
-
-
-class UnknownError(CiberedevException):
-    def __init__(self, error: str):
-        """Creates a UnknownError error instance.
-
-        It is not recommended to raise this yourself
-
-        Parameters
-        ----------
-        error: `str`
-            The unknown error that occured
-
-        Attributes
-        ----------
-        error: `str`
-            The unknown error that occured
-        """
-
-        self.error = error
-        super().__init__(f"An unknown error has occured: {error}")
-
-
-class InvalidURL(HTTPException):
-    def __init__(self, url: str):
-        """Creates a InvalidURL error instance.
-
-        It is not recommended to raise this yourself
-
-        Parameters
-        ----------
-        url: `str`
-            the url that is invalid
-
-        Attributes
-        ----------
-        url: `str`
-            the url that is invalid
-        """
-
-        self.url: str = url
-        super().__init__(f"Invalid URL Given: '{self.url}'")
-
-
-class UnableToConnect(HTTPException):
-    def __init__(self, url: str):
-        """Creates a UnableToConnect error instance.
-
-        It is not recommended to raise this yourself
-
-        Parameters
-        ----------
-        url: `str`
-            The url that the API is unable to connect to
-
-        Attributes
-        ----------
-        url: `str`
-            The url that the API is unable to connect to
-        """
-
-        self.url: str = url
-        super().__init__(f"Unable to Connect to '{self.url}'")
-
-
-class UnableToConvertToImage(HTTPException):
-    def __init__(self, url: str):
-        """Creates a UnableToConvertToImage error instance.
-
-        It is not recommended to raise this yourself
-
-        Parameters
-        ----------
-        url: `str`
-            The url that the API is unable to convert into an image
-
-        Attributes
-        ----------
-        url: `str`
-            The url that the API is unable to convert into an image
-        """
-
-        self.url = url
-        super().__init__(f"The API is unable to convert '{self.url}' into an image")
