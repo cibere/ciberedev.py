@@ -26,10 +26,8 @@ URL_REGEX = re.compile(
 class Client:
     _http: HTTPClient
     _started: bool
-    _requests: int
-    _latency: float
 
-    __slots__ = ["_http", "_started", "_requests", "_latency"]
+    __slots__ = ["_http", "_started"]
 
     def __init__(self, *, session: Optional[ClientSession] = None):
         """Lets you create a client instance
@@ -49,23 +47,21 @@ class Client:
 
         self._http = HTTPClient(session=session, client=self)
         self._started = True
-        self._requests = 0
-        self._latency = 0.0
 
     @property
-    def latency(self) -> float:
+    def latency(self) -> Optional[float]:
         """The latency between the client and the api.
 
         This variable stores the result of the last time `ciberedev.client.Client.ping` was called. By default it is `0.0`
         """
 
-        return self._latency
+        return self._http.latency
 
     @property
     def requests(self) -> int:
         """The amount of requests sent to the api during the programs lifetime"""
 
-        return self._requests
+        return self._http.requests
 
     def is_closed(self) -> bool:
         """Returns a bool depending on if the client has been closed or not
