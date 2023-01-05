@@ -157,7 +157,7 @@ class HTTPClient:
         if self._loop is None:
             self._loop = asyncio.get_running_loop()
 
-        res = await self._session.get(url)
+        res = await self._session.get(url, ssl=False)
         if res.status == 200:
             return await res.read()
         else:
