@@ -52,7 +52,7 @@ class Client:
     def latency(self) -> Optional[float]:
         """The latency between the client and the api.
 
-        This variable stores the result of the last time `ciberedev.client.Client.ping` was called. By default it is `0.0`
+        This variable stores the result of the last time `ciberedev.client.Client.ping` was called. By default it is `None`
         """
 
         return self._http.latency
