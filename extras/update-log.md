@@ -5,10 +5,11 @@
 **Breaking Changes**
 
 - renamed `errors.APIException` to `ciberedev.errors.HTTPException`
+- Removed `errors.UnknownError`, `errors.InvalidURL`, `errors.UnableToConnect`, and `UnableToConvertToImage`. All of those will now raise `ciberedev.errors.HTTPException` instead
 
 **Minor Changes**
 
-None
+- `ciberedev.client.Client.latency` will now return `None` instead of `0.0` if `ciberedev.client.Client.ping` has not been called yet
 
 **Additions**
 
