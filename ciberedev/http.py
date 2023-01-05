@@ -76,8 +76,10 @@ class HTTPClient:
     _session: Optional[ClientSession]
     _client: Client
     _loop: Optional[AbstractEventLoop]
+    latency: Optional[float]
+    requests: int
 
-    __slots__ = ["_session", "_client", "_loop", "user_agent"]
+    __slots__ = ["_session", "_client", "_loop", "user_agent", "latency", "requests"]
 
     def __init__(self, *, session: Optional[ClientSession], client: Client):
         self._session = session
@@ -96,7 +98,7 @@ class HTTPClient:
         after = time.perf_counter()
 
         latency = after - before
-        self._client._latency = latency
+        self.latency = latency
         return latency
 
     async def request(self, route: Route, **kwargs) -> Any:
@@ -105,7 +107,7 @@ class HTTPClient:
         if self._loop is None:
             self._loop = asyncio.get_running_loop()
 
-        self._client._requests += 1
+        self.requests += 1
 
         headers = kwargs.pop("headers", {})
         headers["User-Agent"] = self.user_agent
