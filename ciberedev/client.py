@@ -1,14 +1,18 @@
+from __future__ import annotations
+
 import logging
 import re
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from aiohttp import ClientSession
-from typing_extensions import Self
 
 from .errors import ClientAlreadyClosed
 from .file import File
 from .http import HTTPClient
 from .searching import SearchResult
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 __all__ = ["Client"]
 

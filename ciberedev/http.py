@@ -3,27 +3,21 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-import re
 import sys
 import time
 from asyncio import AbstractEventLoop
-from io import BytesIO
 from typing import TYPE_CHECKING, Any, Coroutine, Literal, Optional, TypeVar, Union
-from urllib.parse import urlencode
 
 import aiohttp
-from aiohttp import ClientResponse, ClientSession
+from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientConnectionError
-from typing_extensions import Self
 
 from . import __version__
-from .errors import APIOffline, HTTPException, UnknownDataReturned, UnknownStatusCode
-from .file import File
-from .searching import SearchResult
+from .errors import APIOffline, HTTPException, UnknownStatusCode
 from .types.image import AddImageText, ImageToAscii
 from .types.random import RandomWordData
 from .types.screenshot import ScreenshotData
-from .types.searching import GetSearchResultData, SearchResultData
+from .types.searching import GetSearchResultData
 
 if TYPE_CHECKING:
     from .client import Client
