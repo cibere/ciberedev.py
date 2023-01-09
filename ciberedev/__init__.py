@@ -12,10 +12,10 @@ __version__ = "0.4.3a"
 
 from typing import Literal, NamedTuple
 
-from .client import Client
+from .client import *
 from .errors import *
-from .file import File
-from .searching import SearchResult
+from .file import *
+from .searching import *
 
 
 class VersionInfo(NamedTuple):
