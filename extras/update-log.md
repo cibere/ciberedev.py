@@ -10,6 +10,7 @@
 **Minor Changes**
 
 - `ciberedev.client.Client.latency` will now return `None` instead of `0.0` if `ciberedev.client.Client.ping` has not been called yet
+- removed `typing_extensions` as a dependency
 
 **Additions**
 
