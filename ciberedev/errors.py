@@ -4,6 +4,7 @@ __all__ = [
     "UnknownDataReturned",
     "HTTPException",
     "UnknownStatusCode",
+    "InternalServerError",
 ]
 
 
@@ -101,3 +102,11 @@ class ClientAlreadyClosed(CiberedevException):
         super().__init__(
             "Client has not been started. You can start it with 'client.run' or 'client.start'"
         )
+
+
+class InternalServerError(CiberedevException):
+    def __init__(self):
+        """Creates a InternalServerError error instance
+
+        It is not recommended to raise this yourself"""
+        super().__init__("We have run out of attempts, aborting request")

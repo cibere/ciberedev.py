@@ -13,7 +13,7 @@ from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientConnectionError
 
 from . import __version__
-from .errors import APIOffline, HTTPException, UnknownStatusCode
+from .errors import APIOffline, HTTPException, InternalServerError, UnknownStatusCode
 from .types.image import AddImageText, ImageToAscii
 from .types.random import RandomWordData
 from .types.screenshot import ScreenshotData
@@ -144,6 +144,8 @@ class HTTPClient:
                 raise HTTPException(error)
             else:
                 raise UnknownStatusCode(res.status)
+
+        raise InternalServerError()
 
     async def get_image_from_url(self, url: str) -> bytes:
         if self._session is None:
