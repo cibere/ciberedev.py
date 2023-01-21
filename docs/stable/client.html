@@ -34,7 +34,7 @@
 <dl>
 <dt id="ciberedev.client.Client"><code class="flex name class">
 <span>class <span class="ident">Client</span></span>
-<span>(</span><span>*, session: Optional[aiohttp.client.ClientSession] = None)</span>
+<span>(</span><span>*, session: Optional[ClientSession] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Lets you create a client instance</p>
@@ -52,11 +52,10 @@
 </dl></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="ciberedev.client.Client.latency"><code class="name">var <span class="ident">latency</span> : float</code></dt>
+<dt id="ciberedev.client.Client.latency"><code class="name">var <span class="ident">latency</span> : Optional[float]</code></dt>
 <dd>
 <div class="desc"><p>The latency between the client and the api.</p>
-<p>This will be '0.0' until the first API call.
-This will be updated after every API call.</p></div>
+<p>This variable stores the result of the last time <code><a title="ciberedev.client.Client.ping" href="#ciberedev.client.Client.ping">Client.ping()</a></code> was called. By default it is <code>None</code></p></div>
 </dd>
 <dt id="ciberedev.client.Client.requests"><code class="name">var <span class="ident">requests</span> : int</code></dt>
 <dd>
@@ -65,6 +64,34 @@ This will be updated after every API call.</p></div>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="ciberedev.client.Client.add_text_to_image"><code class="name flex">
+<span>async def <span class="ident">add_text_to_image</span></span>(<span>self, *, image_url: str, text: str, text_color: Optional[tuple[int, int, int]] = None) ‑> <a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>Adds text to a given image</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>image_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>the images url</dd>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>the text to be added</dd>
+<dt><strong><code>text_color</code></strong> :&ensp;<code>tuple[</code>int<code>, </code>int<code>, </code>int<code>]</code></dt>
+<dd>the color to be added to the text</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code></dt>
+<dd>A file with the new image</dd>
+</dl></div>
+</dd>
 <dt id="ciberedev.client.Client.close"><code class="name flex">
 <span>async def <span class="ident">close</span></span>(<span>self) ‑> None</span>
 </code></dt>
@@ -75,6 +102,32 @@ This will be updated after every API call.</p></div>
 <dl>
 <dt><code>ClientAlreadyClosed</code></dt>
 <dd>This is raised when you already closed the client</dd>
+</dl></div>
+</dd>
+<dt id="ciberedev.client.Client.convert_image_to_ascii"><code class="name flex">
+<span>async def <span class="ident">convert_image_to_ascii</span></span>(<span>self, url: str, /, *, width: Optional[int] = None) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>Converts the given image to ascii art</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>the images url</dd>
+<dt><strong><code>width</code></strong> :&ensp;<code>Optional[</code>int<code>]</code></dt>
+<dd>the ascii arts width</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>the ascii art</dd>
 </dl></div>
 </dd>
 <dt id="ciberedev.client.Client.get_random_words"><code class="name flex">
@@ -125,6 +178,56 @@ the random words that have been generated</p></div>
 <dd>A list of your search results</dd>
 </dl></div>
 </dd>
+<dt id="ciberedev.client.Client.image_laugh"><code class="name flex">
+<span>async def <span class="ident">image_laugh</span></span>(<span>self, fp: Union[str, bytes], /, *, style: Optional[Literal[1, 2]] = None) ‑> <a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>makes an image that laughs at the given image</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>fp</code></strong> :&ensp;<code>Union[str, bytes]</code></dt>
+<dd>the url or bytes of the image</dd>
+<dt><strong><code>style</code></strong> :&ensp;<code>Literal[1, 2]</code></dt>
+<dd>the style of laugh</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code></dt>
+<dd>A file with the new image</dd>
+</dl></div>
+</dd>
+<dt id="ciberedev.client.Client.invert_image"><code class="name flex">
+<span>async def <span class="ident">invert_image</span></span>(<span>self, fp: Union[str, bytes], /) ‑> <a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>makes an image that laughs at the given image</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>fp</code></strong> :&ensp;<code>Union[str, bytes]</code></dt>
+<dd>the url or bytes of the image</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code></dt>
+<dd>A file with the new image</dd>
+</dl></div>
+</dd>
 <dt id="ciberedev.client.Client.is_closed"><code class="name flex">
 <span>def <span class="ident">is_closed</span></span>(<span>self) ‑> bool</span>
 </code></dt>
@@ -147,6 +250,25 @@ the random words that have been generated</p></div>
 <dl>
 <dt><strong><code>endpoint</code></strong> :&ensp;<code>str</code></dt>
 <dd>the endpoint the ratelimit was hit at. Ex: '/screenshot'</dd>
+</dl></div>
+</dd>
+<dt id="ciberedev.client.Client.ping"><code class="name flex">
+<span>async def <span class="ident">ping</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>Pings the api</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>the latency. Multiply by 1000 to convert to ms</dd>
 </dl></div>
 </dd>
 <dt id="ciberedev.client.Client.take_screenshot"><code class="name flex">
@@ -199,13 +321,18 @@ the random words that have been generated</p></div>
 <ul>
 <li>
 <h4><code><a title="ciberedev.client.Client" href="#ciberedev.client.Client">Client</a></code></h4>
-<ul class="two-column">
+<ul class="">
+<li><code><a title="ciberedev.client.Client.add_text_to_image" href="#ciberedev.client.Client.add_text_to_image">add_text_to_image</a></code></li>
 <li><code><a title="ciberedev.client.Client.close" href="#ciberedev.client.Client.close">close</a></code></li>
+<li><code><a title="ciberedev.client.Client.convert_image_to_ascii" href="#ciberedev.client.Client.convert_image_to_ascii">convert_image_to_ascii</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_random_words" href="#ciberedev.client.Client.get_random_words">get_random_words</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_search_results" href="#ciberedev.client.Client.get_search_results">get_search_results</a></code></li>
+<li><code><a title="ciberedev.client.Client.image_laugh" href="#ciberedev.client.Client.image_laugh">image_laugh</a></code></li>
+<li><code><a title="ciberedev.client.Client.invert_image" href="#ciberedev.client.Client.invert_image">invert_image</a></code></li>
 <li><code><a title="ciberedev.client.Client.is_closed" href="#ciberedev.client.Client.is_closed">is_closed</a></code></li>
 <li><code><a title="ciberedev.client.Client.latency" href="#ciberedev.client.Client.latency">latency</a></code></li>
 <li><code><a title="ciberedev.client.Client.on_ratelimit" href="#ciberedev.client.Client.on_ratelimit">on_ratelimit</a></code></li>
+<li><code><a title="ciberedev.client.Client.ping" href="#ciberedev.client.Client.ping">ping</a></code></li>
 <li><code><a title="ciberedev.client.Client.requests" href="#ciberedev.client.Client.requests">requests</a></code></li>
 <li><code><a title="ciberedev.client.Client.take_screenshot" href="#ciberedev.client.Client.take_screenshot">take_screenshot</a></code></li>
 </ul>
