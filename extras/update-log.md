@@ -1,6 +1,6 @@
 # Update Log
 
-## 0.4.3
+## 0.5.1
 
 **Breaking Changes**
 
@@ -17,10 +17,15 @@
 - added support for `image/add-text` endpoint via `client.add_text_to_image`
 - `ciberedev.errors.InternalServerError`
 - `ciberedev.client.Client.image_laugh`
+- `ciberedev.client.Client.invert_image`
 
 **Bug Fixes**
 
 None
+
+## 0.5.0
+
+Somehow pypi skipped to 0.5.0 on accident, and update log got messed up. So I'm not actually sure what changes were made in 5.0. Though I'm changing github from 0.4.3 to 0.5.1, and pushing it to pypi.
 
 ## 0.4.2
 
