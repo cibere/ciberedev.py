@@ -358,7 +358,7 @@ class Client:
     async def invert_image(self, fp: Union[str, bytes], /) -> File:
         """|coro|
 
-        makes an image that laughs at the given image
+        inverts an image
 
         Parameters
         ----------
@@ -385,7 +385,7 @@ class Client:
         else:
             kwargs["url"] = fp
 
-        data = await self._http.image_laugh(**kwargs)
+        data = await self._http.invert_image(**kwargs)
         url = data["link"]
         fp = await self._http.get_image_from_url(url)
 
