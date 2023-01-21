@@ -16,6 +16,7 @@
 
 - added support for `image/add-text` endpoint via `client.add_text_to_image`
 - `ciberedev.errors.InternalServerError`
+- `ciberedev.client.Client.image_laugh`
 
 **Bug Fixes**
 

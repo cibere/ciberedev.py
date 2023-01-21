@@ -178,6 +178,32 @@ the random words that have been generated</p></div>
 <dd>A list of your search results</dd>
 </dl></div>
 </dd>
+<dt id="ciberedev.client.Client.image_laugh"><code class="name flex">
+<span>async def <span class="ident">image_laugh</span></span>(<span>self, fp: Union[str, bytes], /, *, style: Optional[Literal[1, 2]] = None) ‑> <a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>|coro|</p>
+<p>makes an image that laughs at the given image</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>fp</code></strong> :&ensp;<code>Union[str, bytes]</code></dt>
+<dd>the url or bytes of the image</dd>
+<dt><strong><code>style</code></strong> :&ensp;<code>Literal[1, 2]</code></dt>
+<dd>the style of laugh</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>UnknownError</code></dt>
+<dd>The api has returned an unknown error</dd>
+<dt><code>APIOffline</code></dt>
+<dd>I could not connect to the api</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="ciberedev.file.File" href="file.html#ciberedev.file.File">File</a></code></dt>
+<dd>A file with the new image</dd>
+</dl></div>
+</dd>
 <dt id="ciberedev.client.Client.is_closed"><code class="name flex">
 <span>def <span class="ident">is_closed</span></span>(<span>self) ‑> bool</span>
 </code></dt>
@@ -277,6 +303,7 @@ the random words that have been generated</p></div>
 <li><code><a title="ciberedev.client.Client.convert_image_to_ascii" href="#ciberedev.client.Client.convert_image_to_ascii">convert_image_to_ascii</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_random_words" href="#ciberedev.client.Client.get_random_words">get_random_words</a></code></li>
 <li><code><a title="ciberedev.client.Client.get_search_results" href="#ciberedev.client.Client.get_search_results">get_search_results</a></code></li>
+<li><code><a title="ciberedev.client.Client.image_laugh" href="#ciberedev.client.Client.image_laugh">image_laugh</a></code></li>
 <li><code><a title="ciberedev.client.Client.is_closed" href="#ciberedev.client.Client.is_closed">is_closed</a></code></li>
 <li><code><a title="ciberedev.client.Client.latency" href="#ciberedev.client.Client.latency">latency</a></code></li>
 <li><code><a title="ciberedev.client.Client.on_ratelimit" href="#ciberedev.client.Client.on_ratelimit">on_ratelimit</a></code></li>

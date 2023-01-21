@@ -14,7 +14,9 @@ from aiohttp.client_exceptions import ClientConnectionError
 
 from . import __version__
 from .errors import APIOffline, HTTPException, InternalServerError, UnknownStatusCode
-from .types.image import AddImageText, ImageToAscii
+from .types.image import AddImageText as AddImageTextPayload
+from .types.image import ImageToAscii as ImageToAsciiPayload
+from .types.image import Laugh as LaughPayload
 from .types.random import RandomWordData
 from .types.screenshot import ScreenshotData
 from .types.searching import GetSearchResultData
@@ -190,7 +192,7 @@ class HTTPClient:
 
     def convert_image_to_ascii(
         self, url: str, width: Optional[int] = None
-    ) -> Response[ImageToAscii]:
+    ) -> Response[ImageToAsciiPayload]:
         args = {"url": url}
         if width:
             args["width"] = str(width)
@@ -203,7 +205,7 @@ class HTTPClient:
 
     def add_text_to_image(
         self, url: str, text: str, color: tuple[int, int, int]
-    ) -> Response[AddImageText]:
+    ) -> Response[AddImageTextPayload]:
         data = {"url": url, "text": text, "color": list(color)}
 
         route = Route(
@@ -212,3 +214,19 @@ class HTTPClient:
         )
 
         return self.request(route)
+
+    def image_laugh(
+        self,
+        url: Optional[str] = None,
+        bytes_: Optional[bytes] = None,
+        style: Literal[1, 2] = 2,
+    ) -> Response[LaughPayload]:
+        data: dict[str, Any] = {"style": style}
+
+        if url:
+            data["url"] = url
+        if bytes_:
+            data["bytes"] = bytes_
+
+        route = Route(method="GET", endpoint="https://api.cibere.dev/image/laugh")
+        return self.request(route, json=data)

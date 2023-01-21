@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Literal, Optional, Union
 
 from aiohttp import ClientSession
 
@@ -308,6 +308,47 @@ class Client:
                 raise TypeError("Invalid color given")
 
         data = await self._http.add_text_to_image(image_url, text, color)
+        url = data["link"]
+        fp = await self._http.get_image_from_url(url)
+
+        file = File(raw_bytes=fp, url=url)
+        return file
+
+    async def image_laugh(
+        self, fp: Union[str, bytes], /, *, style: Optional[Literal[1, 2]] = None
+    ) -> File:
+        """|coro|
+
+        makes an image that laughs at the given image
+
+        Parameters
+        ----------
+        fp : `Union[str, bytes]`
+            the url or bytes of the image
+        style : `Literal[1, 2]`
+            the style of laugh
+
+        Raises
+        ----------
+        UnknownError
+            The api has returned an unknown error
+        APIOffline
+            I could not connect to the api
+
+        Returns
+        ----------
+        ciberedev.file.File
+            A file with the new image
+        """
+
+        kwargs: dict[str, Any] = {"style": style or 2}
+
+        if isinstance(fp, bytes):
+            kwargs["bytes"] = fp
+        else:
+            kwargs["url"] = fp
+
+        data = await self._http.image_laugh(**kwargs)
         url = data["link"]
         fp = await self._http.get_image_from_url(url)
 
