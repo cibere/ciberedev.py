@@ -230,3 +230,16 @@ class HTTPClient:
 
         route = Route(method="GET", endpoint="https://api.cibere.dev/image/laugh")
         return self.request(route, json=data)
+
+    def invert_image(
+        self, url: Optional[str] = None, bytes_: Optional[bytes] = None
+    ) -> Response[LaughPayload]:
+        data: dict[str, Any] = {}
+
+        if url:
+            data["url"] = url
+        if bytes_:
+            data["bytes"] = bytes_
+
+        route = Route(method="GET", endpoint="https://api.cibere.dev/image/invert")
+        return self.request(route, json=data)

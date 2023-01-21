@@ -355,6 +355,43 @@ class Client:
         file = File(raw_bytes=fp, url=url)
         return file
 
+    async def invert_image(self, fp: Union[str, bytes], /) -> File:
+        """|coro|
+
+        makes an image that laughs at the given image
+
+        Parameters
+        ----------
+        fp : `Union[str, bytes]`
+            the url or bytes of the image
+
+        Raises
+        ----------
+        UnknownError
+            The api has returned an unknown error
+        APIOffline
+            I could not connect to the api
+
+        Returns
+        ----------
+        ciberedev.file.File
+            A file with the new image
+        """
+
+        kwargs: dict[str, Any] = {}
+
+        if isinstance(fp, bytes):
+            kwargs["bytes"] = fp
+        else:
+            kwargs["url"] = fp
+
+        data = await self._http.image_laugh(**kwargs)
+        url = data["link"]
+        fp = await self._http.get_image_from_url(url)
+
+        file = File(raw_bytes=fp, url=url)
+        return file
+
     async def ping(self) -> float:
         """|coro|
 
