@@ -1,5 +1,11 @@
 # Update Log
 
+## 0.5.2
+
+**Minor Changes**
+
+- `ciberedev.client.Client.invert_image` works now
+
 ## 0.5.1
 
 **Breaking Changes**
